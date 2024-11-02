@@ -97,7 +97,10 @@ export class LoginComponent {
       },
     });
   }
+  ingresoAnonimo(){
+    this.router.navigateByUrl('home');
 
+  }
   handleQuickAccess(email: string, password: string) {
     this.errorMessage = '';
     this.form.controls['email'].setValue(email);

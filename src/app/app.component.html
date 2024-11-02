@@ -4,23 +4,26 @@
 
 <ion-app>
   <ion-footer>
-    <ion-toolbar color="primary" >
+    <ion-toolbar *ngIf="this.auth.currentUser?.email!=undefined" >
       <ion-buttons class="navigationBar" >
-        <ion-button color="light" [routerLink]="'/'" routerDirection="root">
+        <ion-button [routerLink]="'/'" routerDirection="root">
           <ion-icon name="home"></ion-icon>
         </ion-button>
-        <ion-button color="light" [routerLink]="'/login'" routerDirection="root">
+        <ion-button [routerLink]="'/login'" routerDirection="root">
           <ion-icon name="person-circle-outline"></ion-icon>
         </ion-button>
-        <ion-button color="light" [routerLink]="'/alta'" routerDirection="root">
+        <ion-button  [routerLink]="'/alta'" routerDirection="root">
           <ion-icon name="add-circle-outline"></ion-icon>
         </ion-button>
-        <ion-button color="light" [routerLink]="'/escanear'" routerDirection="root">
+        <ion-button [routerLink]="'/escanear'" routerDirection="root">
           <ion-icon name="qr-code-outline"></ion-icon>
         </ion-button>
+        <ion-button  (click)="logout()">
+          <ion-icon name="log-out-outline"></ion-icon>
+        </ion-button>
       </ion-buttons>
-      
-      <!-- <ion-buttons slot="end">
+<!--       
+      <ion-buttons slot="end">
         <ion-button color="light" (click)="logout()">
           <ion-icon name="log-out-outline"></ion-icon>
         </ion-button>

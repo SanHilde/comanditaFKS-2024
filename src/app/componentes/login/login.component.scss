@@ -3,6 +3,7 @@
   padding: 40px;
   border-radius: 15px;
   margin: 20px;
+  // height: 90vh;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -20,7 +21,7 @@ ion-title {
 
 .text-access {
   font-size: 30px;
-  margin: 40px 0;
+  margin: 25px 0;
   color: #d9d9d9;
 }
 
@@ -34,8 +35,8 @@ ion-title {
   background-color: #8d99ae;
   color: black;
   border-radius: 10px;
-  padding: 20px;
-  font-size: 30px;
+  padding: 10px;
+  font-size: 20px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s;
 
@@ -43,6 +44,9 @@ ion-title {
     background-color: #6c757d;
     transform: scale(1.05);
   }
+}
+img{
+  height: 85px;
 }
 
 form {
@@ -53,7 +57,7 @@ form {
 
   ion-input {
     color: #d9d9d9;
-    font-size: 30px;
+    font-size: 22px;
 
     &:focus {
       border-color: #003566;

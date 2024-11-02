@@ -7,3 +7,7 @@ ion-icon{
     align-items: center;
     justify-content: space-evenly;
 }
+ion-toolbar {
+    --background: var(--color-detalles);
+    --color: black;
+}

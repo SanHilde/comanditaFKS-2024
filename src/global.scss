@@ -40,16 +40,75 @@
     margin:0px;
     box-sizing: border-box;
     font-family: Poppins, sans-serif;
-    // --ion-background-color:white;
+    --ion-background-color: #764134;
   }
 
 
 :root {
-    //   --ion-color-primary: #d4b483;
-    //   --ion-color-primary-rgb: 36, 49, 67;
-    //   --ion-color-primary-contrast: #000000;
-    //   --ion-color-primary-contrast-rgb: 0, 0, 0;
-    //   --ion-color-primary-shade: #927f63;
-    //   --ion-color-primary-tint: #cba06c;
+  // --ion-color-primary: var(--color-principal);
+  //   --ion-color-primary-rgb: 36, 49, 67;
+  //   --ion-color-primary-contrast: #000000;
+  //   --ion-color-primary-contrast-rgb: 0, 0, 0;
+  //   --ion-color-primary-shade: #927f63;
+  //   --ion-color-primary-tint: #cba06c;
+  --color-detalles: #764134;
+  --color-principal: #2A1A1F;
+  --color-principal-claro: #6a424d;
+  --color-fondo: black;
+  --color-letra: #d9d9d9;
 
+}
+
+.botonPrincipal {
+  background-color: var(--color-principal);
+  color: var(--color-letra);
+  border: none;
+  font-size: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s;
+  border-radius: 40px;
+  padding: 25px 35px;
+  margin-top: 30px;
+  width: 80vw;
+  text-transform: uppercase;
+
+  &:hover {
+    transform: scale(1.05);
+    border: var(--color-principal-claro) solid;
+  }
+}
+
+.btnImagen {
+  background-color: var(--color-principal-claro);
+  color: black;
+  border-radius: 10px;
+  padding: 20px;
+  font-size: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s;
+
+  &:hover {
+    background-color: var(--color-principal);
+    transform: scale(1.05);
+  }
+}
+
+.container {
+  background-color: var(--color-fondo);
+  padding: 20px;
+  border-radius: 15px;
+  margin: 20px;
+  height: auto;
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.iconos{
+  // --ion-color-primary: var(--color-principal);
+  --background: var(--color-principal);
+  --color: var(--color-letra);
 }

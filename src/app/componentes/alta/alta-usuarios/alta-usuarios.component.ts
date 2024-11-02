@@ -21,7 +21,7 @@ export class AltaUsuariosComponent  implements OnInit {
   loader = false;
   imagenSubida:any=false;
   tipos: string[] = [];
-  @Input() tipoTraido="Anónimo";
+  @Input() tipoTraido="Dueño";
 
   constructor(private formBuilder: FormBuilder,private fotosService: FotoService,private cdr: ChangeDetectorRef, public auth: Auth,
     private newAuth: Auth, private datosService:DatosServiceService) { 
