@@ -2,7 +2,10 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
+import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+import { AuthService } from 'src/app/services/auth.service';
 import { DatosServiceService } from 'src/app/services/datos/datos-service.service';
 import { FotoService } from 'src/app/services/foto/foto.service';
 import { confirmarCalveValidator } from 'src/app/validadores/clave.validator';
@@ -12,7 +15,7 @@ import { isNumberValidator } from 'src/app/validadores/numero.validator';
   selector: 'app-alta-usuarios',
   templateUrl: './alta-usuarios.component.html',
   styleUrls: ['./alta-usuarios.component.scss'],
-  imports:[ CommonModule, ReactiveFormsModule, IonicModule],
+  imports:[ CommonModule, ReactiveFormsModule, IonicModule,NgxSpinnerModule],
   standalone:true
 })
 export class AltaUsuariosComponent  implements OnInit {
@@ -21,10 +24,12 @@ export class AltaUsuariosComponent  implements OnInit {
   loader = false;
   imagenSubida:any=false;
   tipos: string[] = [];
-  @Input() tipoTraido="Dueño";
+  errorMessage="";
+  succesMessage="";
+  @Input() tipoTraido="Cliente";
 
   constructor(private formBuilder: FormBuilder,private fotosService: FotoService,private cdr: ChangeDetectorRef, public auth: Auth,
-    private newAuth: Auth, private datosService:DatosServiceService) { 
+    private newAuth: Auth, private datosService:DatosServiceService,public spinner: NgxSpinnerService, private router: Router, public authService: AuthService) { 
     this.formulario = this.formBuilder.group({
       nombre: ['', [Validators.pattern('^[a-zA-Z ]+$'), Validators.required]],
       apellido: ['', [Validators.pattern('^[a-zA-Z ]+$'), Validators.required]],
@@ -67,6 +72,7 @@ export class AltaUsuariosComponent  implements OnInit {
 
   async guardarDatos(){
     if (this.formulario.valid) {
+      this.spinner.show();
       this.formulario.markAllAsTouched();
       this.formulario.markAsPristine();
       this.isSubmitting = true;
@@ -81,6 +87,12 @@ export class AltaUsuariosComponent  implements OnInit {
         }else{
           urlFotoSubida = await this.datosService.subirImagenAsync("Fotos de perfil anonimas", `${this.nombre?.value}-FotoDePerfil`, this.imagenSubida.fotoCamara);
           await this.datosService.guardarDatos("usuariosAnonimos", this.ajustarDatos(urlFotoSubida));
+          this.authService.usuarioLogeado={
+            nombre:this.nombre?.value,
+            foto: urlFotoSubida,
+            tipoUsuario: "Anónimo"
+          }
+          this.router.navigateByUrl('home');
 
         }    
         // if (nuevoUsuario.user || this.tipoTraido=="Anónimo") 
@@ -88,15 +100,18 @@ export class AltaUsuariosComponent  implements OnInit {
           // urlFotoSubida = await this.datosService.subirImagenAsync("Fotos de perfil", `${this.dni?.value}-FotoDePerfil`, this.imagenSubida.fotoCamara);
           this.formulario.reset();
           this.imagenSubida=false;
-          console.log("Subida exitosa");
+          this.spinner.hide();
+          this.succesMessage=("Usuario creado exitosamente");
+          
         // }
       }  catch (error) {
+        this.spinner.hide();
         this.motivoMail(error);       
       } finally {
         this.isSubmitting = false;
       }
     } else {
-      console.log("Error, formulario incompleto");
+      this.errorMessage="Error, formulario incompleto";
     }
 
 
@@ -104,9 +119,11 @@ export class AltaUsuariosComponent  implements OnInit {
   ajustarDatos(url: string) {
     const formData = { ...this.formulario.value };
     const keysToRemove = ["repiteClave"];
+    formData.aprobado = true;
     
     if (this.tipoTraido === "Cliente") {
       keysToRemove.push("cuil");
+      formData.aprobado = false;
     }
   
     if (this.tipoTraido === "Anónimo") {
@@ -117,7 +134,6 @@ export class AltaUsuariosComponent  implements OnInit {
       });
     } else {
       keysToRemove.forEach(key => delete formData[key]);
-      formData.aprobado = false;
     }
   
     formData.foto = url;
@@ -187,7 +203,8 @@ export class AltaUsuariosComponent  implements OnInit {
           texto = 'Hubo un error, no se pudo proceder.';
       }
     }
-    console.log(texto);
+    // console.log(texto);
+    this.errorMessage=texto;
     // this.alertas.autoCloseAlert(texto, 3000);
   }
 

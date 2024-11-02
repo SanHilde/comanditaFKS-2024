@@ -1,3 +1,10 @@
 <p>
     Bienvenido {{auth.currentUser?.email}} a mi aplicación! 
 </p>
+<p>
+    Tipo de usuario: {{authService.usuarioLogeado.tipoUsuario}}
+</p>
+<p>
+    Nombre: {{authService.usuarioLogeado.nombre}}
+</p>
+<img src="{{authService.usuarioLogeado.foto}}" alt="Foto de perfil">

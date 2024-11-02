@@ -56,4 +56,8 @@ export const authErrors = [
     code: 'auth/wrong-password',
     message: 'Usuario y/o contraseña erronea',
   },
+  {
+    code: 'no validado',
+    message: 'Usuario no validado por dueño/supervisor',
+  },
 ];

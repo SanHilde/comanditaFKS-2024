@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 import { Observable, from, map, of, switchMap } from 'rxjs';
 import { Firestore } from '@angular/fire/firestore';
 import { User } from '../types/user.type';
+import { DatosServiceService } from './datos/datos-service.service';
+import { FirebaseError } from '@angular/fire/app';
 
 @Injectable({
   providedIn: 'root',
@@ -18,20 +20,54 @@ export class AuthService {
   firestore = inject(Firestore);
   firebaseAuth = inject(Auth);
 
-  userCollectionName = 'users';
+  public tipoUsuario="";
+  public verificado=false;
+  // public datosTraidos:Observable<any[]>;
+  public datosTraidos : any = [];
+  public usuarioLogeado:any=[];
+
+  userCollectionName = 'usuarios';
   historyCollectionName = 'loginHistory';
-  constructor(private router: Router) {}
+  constructor(private router: Router, private datosService: DatosServiceService) {
+    this.obtenerUsuarios();
+  }
+
+  async obtenerUsuarios(){
+    this.datosTraidos= await this.datosService.ObtenerDatosAsync("usuarios");
+    if(this.firebaseAuth.currentUser?.email){
+      this.buscarUsuario(this.firebaseAuth.currentUser?.email);
+    }
+  }
+
+  buscarUsuario(email:string){
+    const usuarioEncontrado = this.datosTraidos.find((usuario: any) => 
+      usuario.correo === email
+    );
+    if(usuarioEncontrado.aprobado==false){
+      throw new FirebaseError ("no validado",'Usuario no validado por dueño/supervisor');
+    }
+    if (usuarioEncontrado) {
+      this.usuarioLogeado = usuarioEncontrado;
+      this.verificado = this.usuarioLogeado.aprobado;
+      this.tipoUsuario = this.usuarioLogeado.tipoUsuario;
+    } 
+  }
 
   login(email: string, password: string) {
     const promise = signInWithEmailAndPassword(
       this.firebaseAuth,
       email,
       password
-    ).then(() => {});
+    ).then(() => {
+      this.buscarUsuario(email);
+    });
     return from(promise);
   }
 
   logout() {
+     this.tipoUsuario="";
+     this.verificado=false;
+     this.usuarioLogeado=[];
     this.firebaseAuth.signOut().then(() => this.router.navigate(['login']));
   }
 
@@ -50,7 +86,7 @@ export class AuthService {
   }
 
   getUserByEmail(email: string): Observable<User | undefined> {
-    const usersRef = collection(this.firestore, 'users');
+    const usersRef = collection(this.firestore, 'usuarios');
     const q = query(usersRef, where('email', '==', email));
 
     return new Observable<User | undefined>((observer) => {

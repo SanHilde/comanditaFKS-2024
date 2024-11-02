@@ -1,0 +1,14 @@
+<div class="container ">
+  <h1>Lista de clientes</h1>
+    <div *ngFor="let item of datosTraidos" class="card" (click)="seleccionarFila(item)">
+      <img *ngIf="item['foto']" [src]="item['foto']" [alt]="item['nombre']" class="imgTabla">
+      <div>
+        <h2 *ngIf="item['nombre']" class="titulo w100">{{ item['nombre']}} {{ item['apellido']}}</h2>
+        <div class="fila">
+          <p>Aprobado: </p>
+          <ion-toggle aria-label="Success toggle" color="success" [checked]="item['aprobado']" (ionChange)="toggleChanged($event, item)"></ion-toggle>
+        </div>
+      </div>
+    </div>
+    <p *ngIf="datosTraidos.length === 0">No hay datos para mostrar</p>
+  </div>
