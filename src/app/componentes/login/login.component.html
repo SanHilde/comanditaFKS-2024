@@ -5,7 +5,7 @@
   <p style="color: white; font-size: 40px;">Cargando...</p>
 </ngx-spinner>
 <ion-content>
-  <div class="container">
+  <div class="container" *ngIf="formularioAnonimo==false">
     <ion-title>Inicio de sesión</ion-title>
 
     <!-- <h2 class="text-access">Acceso rápido</h2> -->
@@ -79,6 +79,7 @@
 
       <!-- <button id="button" type="submit">Iniciar sesión</button> -->
       <button class="botonPrincipal" type="submit">Iniciar sesión</button>
+      <button class="botonPrincipal" (click)=crearAnonimo()>Iniciar anónimo</button>
 
     </form>
   </div>
@@ -93,4 +94,6 @@
       position="bottom"
     ></ion-toast>
   </div>
+  <app-alta-usuarios  *ngIf="formularioAnonimo==true" tipoTraido="Anónimo"></app-alta-usuarios>
+  <button class="botonPrincipal botonAnonimo" *ngIf="formularioAnonimo==true" (click)=crearAnonimo()>Iniciar normalmente</button>
 </ion-content>

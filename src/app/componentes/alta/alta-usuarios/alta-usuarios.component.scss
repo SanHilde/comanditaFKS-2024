@@ -64,6 +64,7 @@ form{
 h1{
     width: 100%;
     text-align: center  ;
+    text-transform: uppercase;
 }
 ion-select, ion-item {
     --background: rgba(0, 0, 0, 0);
@@ -75,4 +76,7 @@ ion-input,ion-button,ion-text,ion-select,button{
   ion-input, ion-select{
     width: 38vw;
     margin-right: 10px;
+  }
+  .text {
+    font-size: 20px;
   }

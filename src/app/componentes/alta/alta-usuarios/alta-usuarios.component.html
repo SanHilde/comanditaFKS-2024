@@ -84,4 +84,32 @@
      <button class="botonPrincipal" (click)="guardarDatos()" [disabled]="isSubmitting">Crear {{tipoTraido}}</button>
     </div>
    </form>
+   <div *ngIf="errorMessage.length > 0">
+    <ion-toast
+      class="text"
+      color="danger"
+      [duration]="5000"
+      (didDismiss)="errorMessage = ''"
+      isOpen="errorMessage.length > 0"
+      [message]="errorMessage"
+      position="bottom"
+    ></ion-toast>
+  </div>
+  <div *ngIf="succesMessage.length > 0">
+    <ion-toast
+      class="text"
+      color="success"
+      [duration]="5000"
+      (didDismiss)="succesMessage = ''"
+      isOpen="succesMessage.length > 0"
+      [message]="succesMessage"
+      position="bottom"
+    ></ion-toast>
+  </div>
  </div>
+ <ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  template="<img src='./../../../assets/logoConFondo.png' alt='logo' />"
+>
+  <p style="color: white; font-size: 40px;">Cargando...</p>
+</ngx-spinner>

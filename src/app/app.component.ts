@@ -5,6 +5,7 @@ import { SplashScreen } from '@capacitor/splash-screen';
 import { Router } from '@angular/router';
 import {NavigationBar} from '@capgo/capacitor-navigation-bar'
 import { Auth } from '@angular/fire/auth';
+import { AuthService } from './services/auth.service';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { Auth } from '@angular/fire/auth';
 export class AppComponent {
   bandera= false;
   log:any=null;
-  constructor(private menu: MenuController, public auth: Auth,private platform: Platform, private navCtrl: NavController, private router: Router) {
+  constructor(private menu: MenuController, public auth: Auth,private platform: Platform, private navCtrl: NavController, private router: Router, public authService: AuthService) {
     this.initializeApp();
   }
   isCurrentRoute(route: string): boolean {
@@ -25,20 +26,20 @@ export class AppComponent {
   initializeApp() {
   this.platform.ready().then(() => {
     SplashScreen.hide();
-    //StatusBar.setBackgroundColor({color: '#d4b483'});
-    //NavigationBar.setNavigationBarColor({ color: '#d4b483' }); //PERSONALIZA EL COLOR DE LA BARRA
+    StatusBar.setBackgroundColor({color: '#764134'});
+    NavigationBar.setNavigationBarColor({ color: '#764134' }); //PERSONALIZA EL COLOR DE LA BARRA
     
     
     this.cargarDatosIniciales().then(() => {
       // Cuando la app esté lista, navega a la pantalla principal
-      // this.navCtrl.navigateRoot('');
       
     });
   });
 }
     logout(){
-      this.auth.signOut();
-      this.router.navigate(['/login']);
+      // this.auth.signOut();
+      // this.router.navigate(['/login']);
+      this.authService.logout();
     }
     async cargarDatosIniciales() {
       // Simular una carga de datos, sustituir con tu lógica real

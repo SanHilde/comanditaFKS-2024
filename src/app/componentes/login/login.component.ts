@@ -20,6 +20,7 @@ import { authErrors } from 'src/app/services/auth.errors';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { NgxSpinnerService, NgxSpinnerModule } from 'ngx-spinner';
+import { AltaUsuariosComponent } from '../alta/alta-usuarios/alta-usuarios.component';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -36,6 +37,7 @@ import { NgxSpinnerService, NgxSpinnerModule } from 'ngx-spinner';
     CommonModule,
     ReactiveFormsModule,
     NgxSpinnerModule,
+    AltaUsuariosComponent
   ],
 })
 export class LoginComponent {
@@ -44,7 +46,7 @@ export class LoginComponent {
     password: ['', [Validators.required]],
   });
   errorMessage: string = '';
-
+  formularioAnonimo=false;
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -97,9 +99,18 @@ export class LoginComponent {
       },
     });
   }
+  crearAnonimo(){
+    this.formularioAnonimo=!this.formularioAnonimo;
+  }
+
   ingresoAnonimo(){
     this.router.navigateByUrl('home');
-
+    this.authService.usuarioLogeado={
+      tipoUsuario:"Anónimo",
+      nombre:"Juan",
+      foto: 'https://firebasestorage.googleapis.com/v0/b/comanda-597db.appspot.com/o/Fotos%20de%20perfil%20anonimas%2FJuan-FotoDePerfil?alt=media&token=e1f51d01-225d-41b8-8f2e-54dfb308daaa'
+    }
+    console.log(this.authService.usuarioLogeado)
   }
   handleQuickAccess(email: string, password: string) {
     this.errorMessage = '';

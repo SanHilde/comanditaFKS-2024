@@ -1,0 +1,75 @@
+img{
+    height: 100px;
+    border-radius: 20px;
+    margin: 10px;
+}
+.container{
+    justify-content: flex-start;
+}
+
+.card{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 95%;
+    background-color: var(--color-principal);
+    border-radius: 20px;
+    padding: 10px;
+    margin: 10px;
+    box-shadow: 0px 4px 12px var(--color-detalles), 
+                0px 2px 6px var(--color-detalles);
+    border-radius: 8px;
+    transition: box-shadow 0.3s ease;
+    }
+    
+.card:hover {
+        box-shadow: 0px 6px 18px var(--color-principal-claro), 
+                    0px 4px 8px var(--color-principal-claro);
+}
+h1{ 
+    color: var(--color-detalles);
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+h2{
+    text-transform: capitalize;
+
+  }
+
+.fila{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 10px;
+    height: 50px;
+}
+p{
+    margin-right: 5px;
+}
+ion-toggle {
+    padding: 12px;
+
+    --track-background: #ddd;
+    --track-background-checked: #ddd;
+
+    --handle-background: #eb7769;
+    --handle-background-checked: #95c34e;
+
+    --handle-width: 30px;
+    --handle-height: 30px;
+    --handle-max-height: auto;
+    --handle-spacing: 2px;
+
+    --handle-border-radius: 15px;
+    --handle-box-shadow: none;
+  }
+
+  ion-toggle::part(track) {
+    height: 34px;
+    width: 60px;
+    border-radius: 17px;
+
+    /* Required for iOS handle to overflow the height of the track */
+    overflow: visible;
+  }
