@@ -1,0 +1,108 @@
+
+/* Core CSS required for Ionic components to work properly */
+@import "@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import '@ionic/angular/css/display.css';
+
+/* Optional CSS utils that can be commented out */
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+
+
+@font-face {
+  font-family: 'Game';
+  
+  src: url(../../assets/fonts/Gameplay.ttf);
+}
+
+
+ion-button{
+  text-transform: capitalize;
+}
+
+
+@-webkit-keyframes float {
+    0% {
+      transform: translatey(0px);
+    }
+  
+    50% {
+      transform: translatey(-10px);
+    }
+  
+    100% {
+      transform: translatey(0px);
+    }
+  }
+  
+  @keyframes float {
+    0% {
+      transform: translatey(0px);
+    }
+  
+    50% {
+      transform: translatey(-10px);
+    }
+  
+    100% {
+      transform: translatey(0px);
+    }
+  }
+
+  .wrapper{
+    height: 100vh;
+    background: linear-gradient(to bottom, #0c89ff, #92edff)
+  }
+  
+  .d-flex-center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .background{
+    background: url(../../assets/images/bg-flappy.jpeg) no-repeat;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .text{
+    font-family: 'Game';
+    text-align: center;
+    height: 70vh;
+    animation: float 2s ease-in-out infinite;
+    font-size: 2em;
+    color: white;
+  
+    .subtext{
+      font-size: 19px;
+      padding-bottom: 10px;
+    }
+  }
+  
+  .score{
+    font-family: 'Game';
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 30%;
+    left: 50%;
+    font-size: 2em;
+    color: white;
+  }
+  
+  .bird-logo{
+   width: 70px;
+  }
+  
+  
+  
+  
+  
+  

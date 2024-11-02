@@ -1,0 +1,70 @@
+<ion-content>
+  <div class="d-flex-center wrapper"  (click)=" jump()">
+    <div class="background" [ngStyle]="{ 
+      'background-size': container_width + 'px ' + container_height + 'px',
+      'width': container_width + 'px',
+      'height': container_height + 'px'
+    }">
+    <!-- juego sin iniciar -->
+      <div *ngIf="!gameStarted" class="d-flex-center text">
+        <section>
+          <!-- bird logo  -->
+          <img class="bird-logo" src="../../assets/images/bird.gif" alt="">
+
+          <div *ngIf="!gameOver">  <!-- Cambia ngIf por *ngIf aquí -->
+            <div class="subtext">
+              juego K
+            </div>
+            Flappy Bird
+          </div>
+
+          <!-- juego finalizado -->
+          <div *ngIf="gameOver">  
+            <div class="subtext">
+              juego K
+            </div>
+              Puntaje: {{score}}
+          </div>
+          <!--COmenzar juego -->
+          <ion-button  (click)="startGame()" color="red" node="ios" shape="round" >
+            {{!gameOver ? 'Juega' : 'Volver a jugar'}}
+            <ion-icon slot="end" name="play"></ion-icon>
+          </ion-button>
+          <!--activar y desactivar sonido -->
+          <ion-button color="succes" node="ios"  (click)=" playMusic()">
+            <ion-icon  [name]="musicActive ? 'volume-mute' : 'volume-high'"
+            
+            ></ion-icon>
+          </ion-button>
+
+        </section>
+      </div>
+       <!--juego iniciado -->
+       <section *ngIf="gameStarted">
+        <div class="score">{{score}} consigue 10 puntos y gana</div>
+          <!--obstaculo de arriba -->
+        <app-obstacle
+        [height]="obstacle_height"
+          [width]="obstacle_width"
+          [left]="obstacle_position"
+          [top]="0"
+          [rotation]="180">
+        ></app-obstacle>
+        <!--pajaro -->
+        <pp-bird
+          [height]="bird_height"
+          [width]="bird_width"
+          [top]="bird_position">
+        </pp-bird>
+        <!--obstaculo abajo -->
+        <app-obstacle
+        [height]="container_height - obstacle_gap - obstacle_height"
+          [width]="obstacle_width"
+          [left]="obstacle_position"
+          [top]="container_height - (obstacle_height +(container_height - obstacle_gap - obstacle_height))"
+          [rotation]="0">
+        ></app-obstacle>
+      </section>      
+    </div>
+  </div>
+</ion-content>
