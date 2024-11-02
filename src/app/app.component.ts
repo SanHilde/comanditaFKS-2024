@@ -14,6 +14,7 @@ import { Auth } from '@angular/fire/auth';
 })
 export class AppComponent {
   bandera= false;
+  log:any=null;
   constructor(private menu: MenuController, public auth: Auth,private platform: Platform, private navCtrl: NavController, private router: Router) {
     this.initializeApp();
   }
@@ -34,19 +35,20 @@ export class AppComponent {
       
     });
   });
-  
 }
-
+    logout(){
+      this.auth.signOut();
+      this.router.navigate(['/login']);
+    }
     async cargarDatosIniciales() {
       // Simular una carga de datos, sustituir con tu lógica real
       return new Promise((resolve) => {
         setTimeout(() => {
           resolve(true);
-          // this.log=this.auth.currentUser?.email
-          // console.log(this.log)
-          // if(this.log==undefined){
-            // this.router.navigate(['/login']);
-          //}
+          this.log=this.auth.currentUser?.email
+          if(this.log==undefined){
+            this.router.navigate(['/login']);
+          }
           setTimeout(() => {     
             this.bandera=true;
           },1000);

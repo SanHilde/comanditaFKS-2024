@@ -1,6 +1,6 @@
 
 <!-- nombre, apellido, DNI y foto. -->
- <div class="conteiner">
+ <div class="container">
    <form [formGroup]="formulario" (ngSubmit)="guardarDatos()">
     <h1>Alta {{tipoTraido}}</h1>
     <!-- <h2>cuenta acutual {{this.auth.currentUser?.email}}</h2> -->
@@ -32,8 +32,8 @@
       <div class="fotoPerfil">
         <img *ngIf="imagenSubida" [src]="imagenSubida.foto" alt="foto perdida">
         <ion-icon *ngIf="!imagenSubida" name="person-circle-outline" class="sinFoto"></ion-icon>
-        <ion-fab-button (click)="sacarFoto()" class="botonCamara">
-          <ion-icon name="camera"></ion-icon>
+        <ion-fab-button (click)="sacarFoto()" class="iconos botonCamara">
+          <ion-icon  name="camera"></ion-icon>
         </ion-fab-button>
       </div>
     </div>
@@ -79,9 +79,9 @@
       </div>
       
     </div>
-    <div class="filas">
-      <ion-button  *ngIf="tipoTraido != 'Anónimo'" (click)="escanearDatos()"><ion-icon name="qr-code-outline"></ion-icon>DNI</ion-button>
-     <ion-button (click)="guardarDatos()" [disabled]="isSubmitting">Crear {{tipoTraido}}</ion-button>
+    <div>
+      <button class="botonPrincipal" *ngIf="tipoTraido != 'Anónimo'" (click)="escanearDatos()"><ion-icon name="qr-code-outline"></ion-icon>DNI</button>
+     <button class="botonPrincipal" (click)="guardarDatos()" [disabled]="isSubmitting">Crear {{tipoTraido}}</button>
     </div>
    </form>
  </div>
