@@ -8,9 +8,10 @@ El enfoque va a estar dado por los usuarios de un RESTAURANTE, el cual apunta to
 
 ## Asignacion de tareas
 
-| **Primer entrega: Inicio de Proyecto**         hasta 2/11/2024                                                         |
-|------------|-----------------------------------------------------------|------------|-------------|----------------|-------------------------|-------------------------|
+ **Primer entrega: Inicio de Proyecto**         hasta 2/11/2024                                                         
+
 | **N°**     | **Tareas**                                                | **Prioridad** | **Nombre**   | **Estado**     | **Fecha de finalización** | **Notas**               |
+|------------|-----------------------------------------------------------|------------|-------------|----------------|-------------------------|-------------------------|
 | 1          | Crear la estructura básica del proyecto                   | P0          | Santiago     | **Completada** | 26/10/2024               |                         |
 | 2          | Crear la página de inicio de sesión                       | P0          | Fabiola      | **Completada** | 27/10/2024               |                         |
 | 3          | Crear icono                                               | P0          | Kervin       | **Completada** | 27/10/2024               |                         |
