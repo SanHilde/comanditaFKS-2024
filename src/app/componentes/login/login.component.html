@@ -1,57 +1,53 @@
 <ngx-spinner
-  bdColor="rgba(0, 0, 0, 0.8)"
+  bdColor="rgba(0, 0, 0, 08)"
   template="<img src='./../../../assets/logoConFondo.png' alt='logo' />"
 >
-  <p style="color: white; font-size: 40px;">Cargando...</p>
+  <p style="color: white; font-size: 40px">Cargando...</p>
 </ngx-spinner>
 <ion-content>
-  <div class="container" *ngIf="formularioAnonimo==false">
+  <div class="container" *ngIf="formularioAnonimo === false">
     <ion-title>Inicio de sesión</ion-title>
 
-    <!-- <h2 class="text-access">Acceso rápido</h2> -->
     <div class="buttons-container">
       <button
         class="btnImagen"
         (click)="handleQuickAccess('duenio@gmail.com', '123456')"
       >
         <!-- Dueño -->
-         <img src="./../../../assets/pics/duenio.png" alt="Dueño">
+        <img src="./../../../assets/pics/duenio.png" alt="Dueño" />
       </button>
       <button
         class="btnImagen"
         (click)="handleQuickAccess('supervisor@gmail.com', '123456')"
       >
         <!-- Supervisor -->
-        <img src="./../../../assets/pics/supervisor.png" alt="Supervisor">
+        <img src="./../../../assets/pics/supervisor.png" alt="Supervisor" />
       </button>
       <button
         class="btnImagen"
         (click)="handleQuickAccess('fernando@gmail.com', '123456')"
       >
         <!-- Cliente -->
-        <img src="./../../../assets/pics/cliente.png" alt="Cliente">
+        <img src="./../../../assets/pics/cliente.png" alt="Cliente" />
       </button>
       <button
         class="btnImagen"
         (click)="handleQuickAccess('cocinero@gmail.com', '123456')"
       >
         <!-- Cocinero -->
-        <img src="./../../../assets/pics/cocinero.png" alt="Cocinero">
+        <img src="./../../../assets/pics/cocinero.png" alt="Cocinero" />
       </button>
       <button
         class="btnImagen"
         (click)="handleQuickAccess('mozo@gmail.com', '123456')"
       >
         <!-- Mozo -->
-        <img src="./../../../assets/pics/mozo.png" alt="Mozo">
+        <img src="./../../../assets/pics/mozo.png" alt="Mozo" />
       </button>
-      <button
-      class="btnImagen"
-      (click)="ingresoAnonimo()"
-    >
-      <!-- Anónimo -->
-      <img src="./../../../assets/pics/anonimo.png" alt="Anónimo">
-    </button>
+      <button class="btnImagen" (click)="ingresoAnonimo()">
+        <!-- Anónimo -->
+        <img src="./../../../assets/pics/anonimo.png" alt="Anónimo" />
+      </button>
     </div>
 
     <form [formGroup]="form" (ngSubmit)="handleSubmit()">
@@ -77,10 +73,10 @@
         <ion-input-password-toggle slot="end"></ion-input-password-toggle>
       </ion-input>
 
-      <!-- <button id="button" type="submit">Iniciar sesión</button> -->
-      <button class="botonPrincipal" type="submit">Iniciar sesión</button>
-      <button class="botonPrincipal" (click)=crearAnonimo()>Iniciar anónimo</button>
-
+      <button class="botonPrincipal marginTop" type="submit">Iniciar sesión</button>
+      <button class="botonPrincipal marginTop" (click)="crearAnonimo()">
+        Iniciar anónimo
+      </button>
     </form>
   </div>
   <div *ngIf="errorMessage.length > 0">
@@ -94,6 +90,15 @@
       position="bottom"
     ></ion-toast>
   </div>
-  <app-alta-usuarios  *ngIf="formularioAnonimo==true" tipoTraido="Anónimo"></app-alta-usuarios>
-  <button class="botonPrincipal botonAnonimo" *ngIf="formularioAnonimo==true" (click)=crearAnonimo()>Iniciar normalmente</button>
+  <app-alta-usuarios
+    *ngIf="formularioAnonimo === true"
+    tipoTraido="Anónimo"
+  ></app-alta-usuarios>
+  <button
+    class="botonPrincipal botonAnonimo"
+    *ngIf="formularioAnonimo === true"
+    (click)="crearAnonimo()"
+  >
+    Iniciar normalmente
+  </button>
 </ion-content>

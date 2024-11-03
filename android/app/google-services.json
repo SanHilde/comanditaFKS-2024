@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "183486359819",
+    "project_id": "comanda-597db",
+    "storage_bucket": "comanda-597db.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:183486359819:android:390f6aab42e7dc17a05a0e",
+        "android_client_info": {
+          "package_name": "io.ionic.starter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASiRSYTezGIRsm6ggUPSnkJqUrJKpCkcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

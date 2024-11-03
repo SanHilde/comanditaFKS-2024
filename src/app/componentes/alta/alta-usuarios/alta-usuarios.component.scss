@@ -1,82 +1,117 @@
-.fotoPerfil{
-    // height: 40vh;
-    aspect-ratio: 1/1;
+.fotoPerfil {
+  aspect-ratio: 1/1;
+  position: relative;
+  height: 160px;
+  img {
+    min-width: 35vw;
     width: 35vw;
-    position: relative;
-}
-.sinFoto{
-    font-size: 35vw;
-}
-.botonCamara{
-    position: absolute;
-    bottom: 10px;  /* Ajusta el margen desde abajo */
-    right: 10px;    /* Ajusta el margen desde la izquierda */
-}
-.primerBloque{
-    display: flex;
-    flex-direction: row; 
-    align-items: flex-start;
-    justify-content: space-between;
-    margin: 0;
-}
-.primerMitad{
-    width: 35vw;
-    display: flex;
-    flex-direction: column; 
-    align-items: flex-start;
-    justify-content: center;
-}
-.filas{
-    display: flex;
-    flex-direction: row; 
-    align-items: flex-start;
-    justify-content: space-evenly;
-    margin-bottom: 15px;
+    height: 35vw;
+    object-fit: cover;
+  }
 }
 
-.textoError{
-    width: 40vw;
-    display: flex;
-    flex-direction: column; 
-    align-items: flex-start;
-    justify-content: center;
+.sinFoto {
+  font-size: 35vw;
 }
 
-form{
-    // width: 100%;
-    // height: 100%;
-    display: flex;
-    flex-direction: column;
-    // background-color: rgb(109, 109, 109);
-    // padding: 15px;
-    // overflow: auto;
+.botonCamara {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
 
+.primerBloque {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 30px;
 }
-.conteiner{
-    padding-top: 20px;
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
+
+.ultimoBloque {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 30px;
 }
-h1{
-    width: 100%;
-    text-align: center  ;
-    text-transform: uppercase;
+
+.ultimoBloqueConMasDatos {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 30px;
 }
-ion-select, ion-item {
-    --background: rgba(0, 0, 0, 0);
-    // margin-bottom: 15px;
-  }
-ion-input,ion-button,ion-text,ion-select,button{
-    margin-top: 10px;
-  }
-  ion-input, ion-select{
-    width: 38vw;
-    margin-right: 10px;
-  }
-  .text {
-    font-size: 20px;
-  }
+
+.primerMitad {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 10px;
+}
+
+.textoError {
+  width: 40vw;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Permite que el formulario ocupe espacio disponible */
+  overflow-y: auto;
+}
+
+.contenedor {
+  padding-top: 20px;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+h1 {
+  text-align: center;
+  font-size: 40px;
+}
+
+ion-select,
+ion-item {
+  --background: rgba(0, 0, 0, 0);
+}
+ion-input,
+ion-button,
+ion-text,
+ion-select,
+button {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+ion-input,
+ion-select {
+  width: 38vw;
+  margin-right: 10px;
+  font-size: 30px;
+}
+
+ion-input,
+ion-select {
+  height: 90px;
+  width: auto;
+}
+
+.text {
+  font-size: 20px;
+}
+
+.qr-icon {
+  font-size: 30px;
+  margin-right: 15px;
+}

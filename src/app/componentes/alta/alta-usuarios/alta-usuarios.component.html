@@ -1,90 +1,226 @@
+<div class="container">
+  <ng-container *ngIf="tipoTraido !== 'Anónimo'; else otroTitulo">
+    <h1>
+      Alta {{ tipoTraido === "Dueño" ? "Dueño o supervisor" : tipoTraido }}
+    </h1>
+  </ng-container>
 
-<!-- nombre, apellido, DNI y foto. -->
- <div class="container">
-   <form [formGroup]="formulario" (ngSubmit)="guardarDatos()">
-    <h1>Alta {{tipoTraido}}</h1>
-    <!-- <h2>cuenta acutual {{this.auth.currentUser?.email}}</h2> -->
+  <ng-template #otroTitulo>
+    <h1>Complete los datos para entrar como Anónimo</h1>
+    <ion-toast
+      color="primary"
+      message="Los datos ingresados no te crean una cuenta como cliente"
+    ></ion-toast>
+  </ng-template>
+
+  <form [formGroup]="formulario" (ngSubmit)="guardarDatos()">
     <div class="primerBloque">
-      <div class="primerMitad" *ngIf="tipoTraido!='Anónimo'">
-        <ion-input label="Nombre" label-placement="floating" fill="outline" placeholder="Ingrese nombre" formControlName="nombre"></ion-input>
-        <ion-text color="danger" *ngIf="formulario.controls['nombre'].invalid && formulario.controls['nombre'].touched">
+      <div class="primerMitad">
+        <ion-input
+          label="Nombre"
+          label-placement="floating"
+          fill="outline"
+          placeholder="Ingrese nombre"
+          formControlName="nombre"
+        ></ion-input>
+        <ion-text
+          color="danger"
+          *ngIf="
+            formulario.controls['nombre'].invalid &&
+            formulario.controls['nombre'].touched
+          "
+        >
           Ingrese nombre, sin símbolos ni números.
         </ion-text>
-        <ion-input label="Apellido" label-placement="floating" fill="outline" placeholder="Ingrese apellido" formControlName="apellido"></ion-input>
-        <ion-text color="danger" *ngIf="formulario.controls['apellido'].invalid && formulario.controls['apellido'].touched">
+        <ion-input
+          *ngIf="tipoTraido !== 'Anónimo'"
+          label="Apellido"
+          label-placement="floating"
+          fill="outline"
+          placeholder="Ingrese apellido"
+          formControlName="apellido"
+        ></ion-input>
+        <ion-text
+          color="danger"
+          *ngIf="
+            formulario.controls['apellido'].invalid &&
+            formulario.controls['apellido'].touched
+          "
+        >
           Ingrese apellido, sin símbolos ni números.
-        </ion-text>
-        <ion-input label="Dni" label-placement="floating" fill="outline" placeholder="Ingrese dni" formControlName="dni"></ion-input>
-        <ion-text color="danger" *ngIf="formulario.controls['dni'].invalid && formulario.controls['dni'].touched">
-          Debe ingresar un número mayor a 8 dígitos.
-        </ion-text>
-        <ion-input label="Correo" label-placement="floating" fill="outline" placeholder="Ingrese correo" formControlName="correo"></ion-input>
-        <ion-text color="danger" *ngIf="formulario.controls['correo'].invalid && formulario.controls['correo'].touched">
-          El correo es inválido.
-        </ion-text>
-      </div>
-      <div class="primerMitad" *ngIf="tipoTraido=='Anónimo'">
-        <ion-input label="Nombre" label-placement="floating" fill="outline" placeholder="Ingrese nombre" formControlName="nombre"></ion-input>
-        <ion-text color="danger" *ngIf="formulario.controls['nombre'].invalid && formulario.controls['nombre'].touched">
-          Ingrese nombre, sin símbolos ni números.
         </ion-text>
       </div>
       <div class="fotoPerfil">
-        <img *ngIf="imagenSubida" [src]="imagenSubida.foto" alt="foto perdida">
-        <ion-icon *ngIf="!imagenSubida" name="person-circle-outline" class="sinFoto"></ion-icon>
+        <img
+          *ngIf="imagenSubida"
+          [src]="imagenSubida.foto"
+          alt="foto perdida"
+        />
+        <ion-icon
+          *ngIf="!imagenSubida"
+          name="person-circle-outline"
+          class="sinFoto"
+        ></ion-icon>
         <ion-fab-button (click)="sacarFoto()" class="iconos botonCamara">
-          <ion-icon  name="camera"></ion-icon>
+          <ion-icon name="camera"></ion-icon>
         </ion-fab-button>
       </div>
     </div>
-    
-    <div class="filas" *ngIf="tipoTraido!='Anónimo'">
-      <div class="textoError">
-        <ion-input label="Clave" label-placement="floating" fill="outline" placeholder="Ingrese clave" formControlName="clave" type="password"></ion-input>
-        <ion-text color="danger" *ngIf="formulario.controls['clave'].invalid && formulario.controls['clave'].touched">
-          La clave debe ser mayor a 6 digítos.
+
+    <div *ngIf="tipoTraido !== 'Anónimo'" class="ultimoBloque">
+      <div>
+        <ion-input
+          label="Dni"
+          label-placement="floating"
+          fill="outline"
+          placeholder="Ingrese dni"
+          formControlName="dni"
+        ></ion-input>
+        <ion-text
+          color="danger"
+          *ngIf="
+            formulario.controls['dni'].invalid &&
+            formulario.controls['dni'].touched
+          "
+        >
+          Debe ingresar un número mayor a 8 dígitos.
         </ion-text>
       </div>
-      <div class="textoError">
-        <ion-input label="Repita clave" label-placement="floating" fill="outline" placeholder="Ingrese clave" formControlName="repiteClave" type="password"></ion-input>
-        <ion-text color="danger" *ngIf="formulario.controls['repiteClave'].invalid && formulario.controls['repiteClave'].touched">
+      <div>
+        <ion-input
+          label="Correo"
+          label-placement="floating"
+          fill="outline"
+          placeholder="Ingrese correo"
+          formControlName="correo"
+        ></ion-input>
+        <ion-text
+          color="danger"
+          *ngIf="
+            formulario.controls['correo'].invalid &&
+            formulario.controls['correo'].touched
+          "
+        >
+          El correo es inválido.
+        </ion-text>
+      </div>
+      <div>
+        <ion-input
+          label="Clave"
+          label-placement="floating"
+          fill="outline"
+          placeholder="Ingrese clave"
+          formControlName="clave"
+          type="password"
+        ></ion-input>
+        <ion-text
+          color="danger"
+          *ngIf="
+            formulario.controls['clave'].invalid &&
+            formulario.controls['clave'].touched
+          "
+        >
+          La clave debe ser mayor a 6 dígitos.
+        </ion-text>
+      </div>
+      <div>
+        <ion-input
+          label="Repita clave"
+          label-placement="floating"
+          fill="outline"
+          placeholder="Ingrese clave"
+          formControlName="repiteClave"
+          type="password"
+        ></ion-input>
+        <ion-text
+          color="danger"
+          *ngIf="
+            formulario.controls['repiteClave'].invalid &&
+            formulario.controls['repiteClave'].touched
+          "
+        >
           Las claves no coinciden.
         </ion-text>
       </div>
     </div>
-    <div class="filas" *ngIf="tipoTraido != 'Anónimo' && tipoTraido != 'Cliente'">
-      <div class="textoError">
-        <ion-input label="Cuil" label-placement="floating" fill="outline" placeholder="Ingrese cuil" formControlName="cuil"></ion-input>
-        <ion-text color="danger" *ngIf="formulario.controls['cuil'].invalid && formulario.controls['cuil'].touched">
+
+    <div
+      *ngIf="tipoTraido !== 'Anónimo' && tipoTraido !== 'Cliente'"
+      class="ultimoBloqueConMasDatos"
+    >
+      <div>
+        <ion-input
+          label="Cuil"
+          label-placement="floating"
+          fill="outline"
+          placeholder="Ingrese cuil"
+          formControlName="cuil"
+        ></ion-input>
+        <ion-text
+          color="danger"
+          *ngIf="
+            formulario.controls['cuil'].invalid &&
+            formulario.controls['cuil'].touched
+          "
+        >
           Debe ingresar un número mayor a 11 dígitos.
         </ion-text>
       </div>
-      
-      <div class="textoError">
-        <!-- <ion-item > -->
-          <ion-select 
-            formControlName="tipoUsuario" 
-            label="Tipo de usuario" 
-            placeholder="Elija el tipo de usuario"
-            label-placement="floating" fill="outline"
-            >
-            <ion-select-option *ngFor="let tipo of tipos" [value]="tipo">
-              {{ tipo }}
-            </ion-select-option>
-          </ion-select>
-        <!-- </ion-item>        -->
-        <ion-text color="danger" *ngIf="formulario.controls['tipoUsuario'].invalid && formulario.controls['tipoUsuario'].touched">
+
+      <div>
+        <ion-select
+          formControlName="tipoUsuario"
+          label="Tipo de usuario"
+          placeholder="Elija el tipo de usuario"
+          label-placement="floating"
+          fill="outline"
+        >
+          <ion-select-option *ngFor="let tipo of tipos" [value]="tipo">
+            {{ tipo }}
+          </ion-select-option>
+        </ion-select>
+        <ion-text
+          color="danger"
+          *ngIf="
+            formulario.controls['tipoUsuario'].invalid &&
+            formulario.controls['tipoUsuario'].touched
+          "
+        >
           Debe seleccionar un tipo de usuario.
         </ion-text>
       </div>
-      
     </div>
-    <div>
-      <button class="botonPrincipal" *ngIf="tipoTraido != 'Anónimo'" (click)="escanearDatos()"><ion-icon name="qr-code-outline"></ion-icon>DNI</button>
-     <button class="botonPrincipal" (click)="guardarDatos()" [disabled]="isSubmitting">Crear {{tipoTraido}}</button>
+
+    <h2 *ngIf="tipoTraido === 'Anónimo'">
+      <ion-icon
+        color="primary"
+        name="information-circle-outline"
+        size="large"
+      ></ion-icon>
+      Ingresarás como anónimo pero es necesario que elijas una foto de perfil y
+      un nombre para diferenciarte de otros clientes
+    </h2>
+
+    <div id="buttons">
+      <button
+        class="botonPrincipal"
+        *ngIf="tipoTraido !== 'Anónimo'"
+        (click)="escanearDatos()"
+      >
+        <ion-icon class="qr-icon" name="qr-code-outline"></ion-icon> Escanear
+        DNI
+      </button>
+      <button
+        class="botonPrincipal"
+        (click)="guardarDatos()"
+        [disabled]="isSubmitting"
+      >
+        Crear {{ tipoTraido }}
+      </button>
     </div>
-   </form>
-   <div *ngIf="errorMessage.length > 0">
+  </form>
+
+  <div *ngIf="errorMessage.length > 0">
     <ion-toast
       class="text"
       color="danger"
@@ -106,10 +242,11 @@
       position="bottom"
     ></ion-toast>
   </div>
- </div>
- <ngx-spinner
+</div>
+
+<ngx-spinner
   bdColor="rgba(0, 0, 0, 0.8)"
   template="<img src='./../../../assets/logoConFondo.png' alt='logo' />"
 >
-  <p style="color: white; font-size: 40px;">Cargando...</p>
+  <p style="color: white; font-size: 40px">Cargando...</p>
 </ngx-spinner>

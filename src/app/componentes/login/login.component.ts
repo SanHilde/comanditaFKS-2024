@@ -46,7 +46,7 @@ export class LoginComponent {
     password: ['', [Validators.required]],
   });
   errorMessage: string = '';
-  formularioAnonimo=false;
+  formularioAnonimo: boolean = false;
   constructor(
     private fb: FormBuilder,
     private router: Router,
