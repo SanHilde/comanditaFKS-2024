@@ -21,7 +21,7 @@ export class ListaClientesComponent  implements OnInit {
   ngOnInit() {
     this.datosService.ObtenerDatos("usuarios").subscribe((listaUsuarios: any) => {
       this.datosTraidos = listaUsuarios
-        .filter((usuario: any) => usuario.tipoUsuario === "Cliente")
+        .filter((usuario: any) => usuario.tipoUsuario === "Cliente" && usuario.aprobado=="pendiente")
         .sort((a: any, b: any) => {
           // Primero ordena por aprobación
           if (a.aprobado !== b.aprobado) {
@@ -37,13 +37,21 @@ export class ListaClientesComponent  implements OnInit {
   seleccionarFila(item: any): void {
     // this.itemSeleccionado.emit(item);
   }
-  async toggleChanged(event: any,item: any) {
-    const isChecked = event.detail.checked;
-    item.aprobado=isChecked;
-    try {
-      await this.datosService.modificarDatoAsync(item.id, "usuarios", item );
-    } catch (error) {
-      console.error('Error al actualizar el item en la base de datos:', error);
-    }
+  // async toggleChanged(event: any,item: any) {
+  //   const isChecked = event.detail.checked;
+  //   item.aprobado=isChecked;
+  //   try {
+  //     await this.datosService.modificarDatoAsync(item.id, "usuarios", item );
+  //   } catch (error) {
+  //     console.error('Error al actualizar el item en la base de datos:', error);
+  //   }
+  // }
+  async aprobacion(orden:string, item:any){
+    item.aprobado=orden;
+      try {
+        await this.datosService.modificarDatoAsync(item.id, "usuarios", item );
+      } catch (error) {
+        console.error('Error al actualizar el item en la base de datos:', error);
+      }
   }
 }

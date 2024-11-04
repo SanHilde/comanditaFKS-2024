@@ -60,4 +60,8 @@ export const authErrors = [
     code: 'no validado',
     message: 'Usuario no validado por dueño/supervisor',
   },
+  {
+    code: 'rechazado',
+    message: 'Usuario rechazado por dueño/supervisor',
+  },
 ];

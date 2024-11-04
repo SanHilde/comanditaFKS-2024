@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { Router } from '@angular/router';
@@ -100,5 +100,23 @@ export class AppComponent {
         }, 1000);
       }, 3000); // Simulación de carga de datos
     });
+  }
+  showList = false; // Variable para controlar la visibilidad de la lista
+
+  toggleList(event: MouseEvent) {
+    event.stopPropagation(); // Evita que el clic en el botón cierre la lista
+    this.showList = !this.showList; // Cambia la visibilidad de la lista
+  }
+
+  selectOption(option: string) {
+    this.router.navigate(['/altaUsuarios', option]);
+    this.showList = false; // Cierra la lista al seleccionar una opción
+  }
+
+  @HostListener('document:click', ['$event'])
+  handleClickOutside(event: MouseEvent) {
+    if (this.showList) {
+      this.showList = false; // Cierra la lista si se hace clic fuera
+    }
   }
 }

@@ -21,6 +21,7 @@ export class AuthService {
   firebaseAuth = inject(Auth);
 
   public tipoUsuario="";
+  public accionActual="";
   public verificado=false;
   // public datosTraidos:Observable<any[]>;
   public datosTraidos : any = [];
@@ -32,19 +33,25 @@ export class AuthService {
     this.obtenerUsuarios();
   }
 
-  async obtenerUsuarios(){
-    this.datosTraidos= await this.datosService.ObtenerDatosAsync("usuarios");
-    if(this.firebaseAuth.currentUser?.email){
-      this.buscarUsuario(this.firebaseAuth.currentUser?.email);
-    }
+  obtenerUsuarios(){
+      this.datosService.ObtenerDatos("usuarios").subscribe((listaUsuarios:any)=>{
+        this.datosTraidos=listaUsuarios
+        if(this.firebaseAuth.currentUser?.email){
+          this.buscarUsuario(this.firebaseAuth.currentUser?.email);
+        }
+    });
   }
 
   buscarUsuario(email:string){
     const usuarioEncontrado = this.datosTraidos.find((usuario: any) => 
       usuario.correo === email
     );
-    if(usuarioEncontrado.aprobado==false){
+    if(usuarioEncontrado.aprobado=="pendiente"){
       throw new FirebaseError ("no validado",'Usuario no validado por dueño/supervisor');
+    } else{
+      if(usuarioEncontrado.aprobado=="rechazado"){
+        throw new FirebaseError ("rechazado",'Usuario rechazado por dueño/supervisor');
+      } 
     }
     if (usuarioEncontrado) {
       this.usuarioLogeado = usuarioEncontrado;

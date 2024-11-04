@@ -1,0 +1,24 @@
+.container{
+    justify-content: flex-start;
+}
+h1,h2,p{
+    text-align: center;
+}
+p{
+    margin-top: 10px;
+}
+h1{
+    text-transform: uppercase;
+    color: var(--color-detalles);
+}
+.botonScan{
+    height: 100%;
+    // font-size: 200px;
+    // min-height: ;
+}
+.iconScan{
+    height: 80%; /* Ajusta el icono al 80% del tamaño del botón */
+    font-size: 100%;
+    width: 80%;
+    min-height: 30px;
+}

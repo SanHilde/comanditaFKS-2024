@@ -25,5 +25,17 @@ export class HomeComponent  implements OnInit {
       // this.router.navigate(['/login']);
     }
   }
+  escanear(){
+    if( this.authService.accionActual=="PROPINA" || this.authService.accionActual==""){
+      this.authService.accionActual="INGRESO"
+    } else{
+      if( this.authService.accionActual=="INGRESO" ){
+        this.authService.accionActual="MESA"
+      } else{
+        this.authService.accionActual="PROPINA"
+      }
+
+    }
+  }
 
 }

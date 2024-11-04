@@ -10,7 +10,7 @@ const routes: Routes = [
   { path: 'login', loadComponent: () => import('./componentes/login/login.component').then(m=>m.LoginComponent)},
   { path: 'home', loadComponent: () => import('./componentes/home/home.component').then(m=>m.HomeComponent)},
   { path: 'listaClientes', loadComponent: () => import('./componentes/listaClientes/lista-clientes.component').then(m=>m.ListaClientesComponent)},
-  { path: 'alta', loadComponent: () => import('./componentes/alta/alta-usuarios/alta-usuarios.component').then(m=>m.AltaUsuariosComponent)},
+  { path: 'altaUsuarios/:tipoUsuario', loadComponent: () => import('./componentes/alta/alta-usuarios/alta-usuarios.component').then(m=>m.AltaUsuariosComponent)},
   {
     path: 'play-k',
     loadComponent: () => import('./play-k/play-k.page').then(m => m.PlayKPage)
