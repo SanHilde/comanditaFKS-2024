@@ -10,4 +10,36 @@ ion-icon{
 ion-toolbar {
     --background: var(--color-detalles);
     --color: black;
+    // --height: 30px;
 }
+ion-button{
+    min-width: 40px;
+}
+.custom-list {
+    width: auto; /* Ajusta el ancho automático según el contenido */
+    max-width: 320px; /* Máximo ancho de la lista */
+    margin: 0 auto; /* Centra horizontalmente */
+    position: absolute; /* Para posicionarla sobre otros elementos */
+    bottom: 56px; /* Ajusta según la altura del footer */
+    left: 50%; /* Para centrar horizontalmente */
+    transform: translateX(-50%); /* Centra con transform */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Sombra del box */
+    background-color: var(--color-principal); /* Color de fondo de la lista */
+    z-index: 10; /* Asegúrate de que esté encima de otros elementos */
+  }
+  
+  .custom-list ion-item {
+    --ion-item-background: transparent; /* Fondo transparente para los items */
+    --ion-item-border-color: transparent; /* Elimina el borde */
+    --color:white
+  }
+  
+  .custom-list ion-item:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* Color de fondo al pasar el mouse */
+  }
+  h3{
+    width: 100%;
+    text-align: center;
+  }
+  

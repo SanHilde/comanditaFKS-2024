@@ -159,12 +159,12 @@ export class AltaUsuariosComponent implements OnInit {
   }
   ajustarDatos(url: string) {
     const formData = { ...this.formulario.value };
-    const keysToRemove = ['repiteClave'];
-    formData.aprobado = true;
-
-    if (this.tipoTraido === 'Cliente') {
-      keysToRemove.push('cuil');
-      formData.aprobado = false;
+    const keysToRemove = ["repiteClave"];
+    formData.aprobado = "aprobado";
+    
+    if (this.tipoTraido === "Cliente") {
+      keysToRemove.push("cuil");
+      formData.aprobado = "pendiente";
     }
 
     if (this.tipoTraido === 'Anónimo') {
