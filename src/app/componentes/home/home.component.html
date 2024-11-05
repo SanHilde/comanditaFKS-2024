@@ -3,8 +3,8 @@
         ¡Bienvenido {{authService.usuarioLogeado.nombre}} a La Comandita FKS! 
     </h1>
     <!-- <h2>Escanea los QR habilitar funciones!</h2> -->
+    <button *ngIf="authService.tipoUsuario=='Cliente' || authService.tipoUsuario=='Anónimo' || authService.tipoUsuario=='Maître'" class="botonPrincipal botonScan" (click)="escanear()"><ion-icon name="qr-code-outline" class="iconScan"></ion-icon></button>
     <div *ngIf="authService.tipoUsuario=='Cliente' || authService.tipoUsuario=='Anónimo'" >
-        <button class="botonPrincipal botonScan" (click)="escanear()"><ion-icon name="qr-code-outline" class="iconScan"></ion-icon></button>
         <p *ngIf="authService.accionActual==''">Para iniciar el proceso, escanea el QR de la entrada</p>
         <p *ngIf="authService.accionActual=='INGRESO'">Antes que nada, solicitá una mesa! Mientras esperás, podés ver referencias de nuestro local!</p>
         <h2 *ngIf="authService.accionActual=='INGRESO' || authService.accionActual=='MESA'">Seleccione qué desea hacer</h2>
@@ -26,7 +26,6 @@
         <p *ngIf="authService.accionActual=='MESA'">Escanea el código QR de propina y da la propina según la atención!</p>      
     </div>
     <div  *ngIf="authService.tipoUsuario=='Maître'">
-        <button class="botonPrincipal botonScan" (click)="escanear()"><ion-icon name="qr-code-outline" class="iconScan"></ion-icon></button>
         <button *ngIf="authService.accionActual=='MESA'" class="botonPrincipal">Disponibilidad de mesa</button>
         <button *ngIf="authService.accionActual=='MESA'" class="botonPrincipal">Relacionar mesa a cliente</button>
     </div>

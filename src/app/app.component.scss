@@ -42,9 +42,16 @@ ion-button{
   .custom-list ion-item:hover {
     background-color: rgba(0, 0, 0, 0.1); /* Color de fondo al pasar el mouse */
   }
+  h2{
+    font-weight: bold;
+    font-size: 15px;
+    width: 80vw;
+    text-align: center;
+  }
   h3{
     width: 100%;
     text-align: center;
+    color: white;
     // margin: 0px ;
   }
   .fotoPerfil{
@@ -52,4 +59,10 @@ ion-button{
     border-radius: 25px;
     border: 2px solid black;
     margin-left: 20px;
+  }
+  .header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
   }

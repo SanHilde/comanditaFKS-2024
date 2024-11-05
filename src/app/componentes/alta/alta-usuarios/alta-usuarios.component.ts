@@ -252,9 +252,9 @@ export class AltaUsuariosComponent implements OnInit {
   async escanearDatos() {
     let codigoLeido;
     let traduccion;
-    codigoLeido= await this.scanService.scan()
+    // codigoLeido= await this.scanService.scan()
     traduccion = await this.qrService.leerQr()
-    this.succesMessage = traduccion;
+    // this.succesMessage = traduccion;
     
   }
 

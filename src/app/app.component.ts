@@ -75,7 +75,7 @@ export class AppComponent {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      SplashScreen.hide();
+      // SplashScreen.hide();
       StatusBar.setBackgroundColor({ color: '#764134' });
       NavigationBar.setNavigationBarColor({ color: '#764134' }); //PERSONALIZA EL COLOR DE LA BARRA
       this.cargarDatosIniciales(); // Cuando la app esté lista, navega a la pantalla principal
@@ -94,8 +94,11 @@ export class AppComponent {
         this.log = this.auth.currentUser?.email;
         if (this.log == undefined) {
           this.router.navigate(['/login']);
+        } else{
+          this.router.navigate(['/home']);
         }
         setTimeout(() => {
+          SplashScreen.hide();
           this.bandera = true;
         }, 1000);
       }, 3000); // Simulación de carga de datos
