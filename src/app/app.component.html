@@ -4,9 +4,11 @@
 
 <ion-app>
   <ion-header>
-    <ion-toolbar *ngIf="this.authService.usuarioLogeado.length != 0">
+    <ion-toolbar class="header" *ngIf="this.authService.usuarioLogeado.length != 0">
       <ion-title>{{authService.usuarioLogeado.nombre}} - {{authService.usuarioLogeado.tipoUsuario}} </ion-title>
-      <img src="{{authService.usuarioLogeado.foto}}" alt="Foto de perfil" class="fotoPerfil">
+      <ion-buttons slot="end">
+        <img src="{{authService.usuarioLogeado.foto}}" alt="Foto de perfil" class="fotoPerfil">
+      </ion-buttons>
     </ion-toolbar>
   </ion-header>
   <ion-footer>

@@ -105,6 +105,9 @@ ion-input,
 ion-select {
   height: 90px;
   width: auto;
+  --color:white;
+  --placeholder-color:white;
+  color:white;
 }
 
 .text {
@@ -114,4 +117,13 @@ ion-select {
 .qr-icon {
   font-size: 30px;
   margin-right: 15px;
+}
+
+#buttons {
+  margin-top: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }

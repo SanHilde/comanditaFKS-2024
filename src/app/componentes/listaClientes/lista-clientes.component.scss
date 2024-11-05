@@ -1,11 +1,20 @@
 img{
-    height: 100px;
+    // height: 100px;
     border-radius: 20px;
-    margin: 10px;
+    // margin: 10px;
+    width: 40%;
 }
+.bloque{
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
 .container{
     justify-content: flex-start;
-
+    
 }
 .cardLista{
 
@@ -23,8 +32,9 @@ img{
 .card{
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
-    width: 80%;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 90%;
     margin-top: 20px;
     background-color: var(--color-detalles);
     border-radius: 20px;
@@ -37,8 +47,8 @@ img{
     }
     
 .card:hover {
-        box-shadow: 0px 6px 18px var(--color-principal-claro), 
-                    0px 4px 8px var(--color-principal-claro);
+        box-shadow: 0px 6px 18px white, 
+                    0px 4px 8px white;
 }
 h1{ 
     color: var(--color-detalles);
@@ -57,11 +67,14 @@ h2{
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-top: 10px;
+    justify-content: space-between;
+    // margin-top: 10px;
     height: 50px;
+    width: 100%;
 }
 p{
-    margin-right: 5px;
+    margin: 5px;
+    color: white;
 }
 ion-toggle {
     padding: 12px;
@@ -95,5 +108,6 @@ ion-icon{
 ion-fab-button{
     height: 40px;
     width: 40px;
-    margin: 10px;
+    // margin: 10px;
+    
 }

@@ -56,8 +56,7 @@ El enfoque va a estar dado por los usuarios de un RESTAURANTE, el cual apunta to
 
 ### **Diseño de QR**
 - **Subtitulo**: descripcion.
-| **ATENCIÓN**     | **INGRESO**                                                | **MESA1** | **MESA2**   | **PROPINA**     | 
-| ![ATENCIÓN](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/qrs/ATENCION.png)   | ![INGRESO](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/qrs/INGRESO.png)                                            | ![MESA1](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/qrs/MESA1.png) | ![MESA2](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/qrs/MESA2.png)   | ![PROPINA](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/qrs/PROPINA.png)   |
+![QRS](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Qrs.JPG)
 
 ### **Diseño de Productos**
 - **Subtitulo**: descripcion.
