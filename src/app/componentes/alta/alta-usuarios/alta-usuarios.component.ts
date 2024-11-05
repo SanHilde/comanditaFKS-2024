@@ -7,12 +7,14 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from 'src/app/services/auth.service';
 import { DatosServiceService } from 'src/app/services/datos/datos-service.service';
 import { FotoService } from 'src/app/services/foto/foto.service';
+import { FotosService } from 'src/app/services/fotos.service';
+import { QrService } from 'src/app/services/qr.service';
 import { confirmarCalveValidator } from 'src/app/validadores/clave.validator';
 import { isNumberValidator } from 'src/app/validadores/numero.validator';
 
@@ -31,7 +33,8 @@ export class AltaUsuariosComponent implements OnInit {
   tipos: string[] = [];
   errorMessage = '';
   succesMessage = '';
-  @Input() tipoTraido = 'Cliente';
+  // @Input() tipoTraido = 'Cliente';
+  tipoTraido: string | null = 'Cliente';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -42,7 +45,10 @@ export class AltaUsuariosComponent implements OnInit {
     private datosService: DatosServiceService,
     public spinner: NgxSpinnerService,
     private router: Router,
-    public authService: AuthService
+    public authService: AuthService,
+    private route: ActivatedRoute,
+    private qrService: QrService,
+    private scanService: FotosService
   ) {
     this.formulario = this.formBuilder.group(
       {
@@ -76,6 +82,10 @@ export class AltaUsuariosComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.tipoTraido);
+    this.route.paramMap.subscribe(params => {
+      this.tipoTraido = params.get('tipoUsuario');
+    });
     if (this.tipoTraido == 'Dueño' || this.tipoTraido == 'Supervisor') {
       this.tipos = ['Dueño', 'Supervisor'];
     } else {
@@ -239,7 +249,14 @@ export class AltaUsuariosComponent implements OnInit {
     this.errorMessage = texto;
   }
 
-  escanearDatos() {}
+  async escanearDatos() {
+    let codigoLeido;
+    let traduccion;
+    codigoLeido= await this.scanService.scan()
+    traduccion = await this.qrService.leerQr()
+    this.succesMessage = traduccion;
+    
+  }
 
   get nombre() {
     return this.formulario.get('nombre');

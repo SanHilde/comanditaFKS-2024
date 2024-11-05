@@ -40,7 +40,7 @@
   margin: 0px;
   box-sizing: border-box;
   font-family: Poppins, sans-serif;
-  --ion-background-color: #764134;
+  --ion-background-color: #b26444;
 }
 
 :root {
@@ -60,7 +60,7 @@
   transition: background-color 0.3s ease, transform 0.2s;
   border-radius: 40px;
   padding: 25px 35px;
-  width: 80vw;
+  width: 75vw;
 
   &:hover {
     transform: scale(1.05);
@@ -89,7 +89,7 @@
   border-radius: 15px;
   margin: 20px;
   height: auto;
-  min-height: 90vh;
+  min-height: 83vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
