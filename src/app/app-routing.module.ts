@@ -11,10 +11,10 @@ const routes: Routes = [
   { path: 'home', loadComponent: () => import('./componentes/home/home.component').then(m=>m.HomeComponent)},
   { path: 'listaClientes', loadComponent: () => import('./componentes/listaClientes/lista-clientes.component').then(m=>m.ListaClientesComponent)},
   { path: 'altaUsuarios/:tipoUsuario', loadComponent: () => import('./componentes/alta/alta-usuarios/alta-usuarios.component').then(m=>m.AltaUsuariosComponent)},
-  {
-    path: 'play-k',
-    loadComponent: () => import('./play-k/play-k.page').then(m => m.PlayKPage)
-  },
+  // {
+  //   path: 'play-k',
+  //   loadComponent: () => import('./play-k/play-k.page').then(m => m.PlayKPage)
+  // },
   { path: 'custom-splash', component: SplashScreenComponent },
   {
     path: 'encuesta-empleado',

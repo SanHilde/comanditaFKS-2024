@@ -15,21 +15,19 @@ export class ListaClientesComponent  implements OnInit {
 
   @Output() itemSeleccionado = new EventEmitter<any>();
   datosTraidos: any[] = [];
+  listas = ['pendientes', 'rechazados', 'aprobados']
+  pendientes = [];
+  rechazados = [];
+  aprobados = [];
+
 
   constructor(private datosService: DatosServiceService) { }
 
   ngOnInit() {
     this.datosService.ObtenerDatos("usuarios").subscribe((listaUsuarios: any) => {
-      this.datosTraidos = listaUsuarios
-        .filter((usuario: any) => usuario.tipoUsuario === "Cliente" && usuario.aprobado=="pendiente")
-        .sort((a: any, b: any) => {
-          // Primero ordena por aprobación
-          if (a.aprobado !== b.aprobado) {
-            return Number(a.aprobado) - Number(b.aprobado);
-          }
-          // Si tienen el mismo estado de aprobación, ordena por nombre
-          return a.nombre.localeCompare(b.nombre);
-        });
+      this.pendientes = listaUsuarios.filter((usuario: any) => usuario.tipoUsuario === "Cliente" && usuario.aprobado=="pendiente");
+      this.rechazados = listaUsuarios.filter((usuario: any) => usuario.tipoUsuario === "Cliente" && usuario.aprobado=="rechazado");
+      this.aprobados = listaUsuarios.filter((usuario: any) => usuario.tipoUsuario === "Cliente" && usuario.aprobado=="aprobado");
     });
   }
   

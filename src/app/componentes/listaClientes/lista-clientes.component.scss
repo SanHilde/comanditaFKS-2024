@@ -5,19 +5,33 @@ img{
 }
 .container{
     justify-content: flex-start;
+
+}
+.cardLista{
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 95%;
+    margin-top: 40px;
+    background-color: var(--color-principal);
+    padding-bottom: 20px;
+    border-radius: 25px;
 }
 
 .card{
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    width: 95%;
-    background-color: var(--color-principal);
+    width: 80%;
+    margin-top: 20px;
+    background-color: var(--color-detalles);
     border-radius: 20px;
     padding: 10px;
-    margin: 10px;
-    box-shadow: 0px 4px 12px var(--color-detalles), 
-                0px 2px 6px var(--color-detalles);
+
+    box-shadow: 0px 4px 12px var(--color-fondo), 
+                0px 2px 6px var(--color-fondo);
     border-radius: 8px;
     transition: box-shadow 0.3s ease;
     }

@@ -3,6 +3,12 @@
 </ion-app> -->
 
 <ion-app>
+  <ion-header>
+    <ion-toolbar *ngIf="this.authService.usuarioLogeado.length != 0">
+      <ion-title>{{authService.usuarioLogeado.nombre}} - {{authService.usuarioLogeado.tipoUsuario}} </ion-title>
+      <img src="{{authService.usuarioLogeado.foto}}" alt="Foto de perfil" class="fotoPerfil">
+    </ion-toolbar>
+  </ion-header>
   <ion-footer>
     <ion-toolbar *ngIf="this.authService.usuarioLogeado.length != 0">
       <!-- <ion-toolbar *ngIf="this.auth.currentUser?.email!=undefined" > -->
