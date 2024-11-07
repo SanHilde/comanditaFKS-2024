@@ -12,8 +12,8 @@
       message="Los datos ingresados no te crean una cuenta como cliente"
     ></ion-toast>
   </ng-template>
-
-  <form [formGroup]="formulario" (ngSubmit)="guardarDatos()">
+  <!-- (ngSubmit)="guardarDatos()" -->
+  <form [formGroup]="formulario" >
     <div class="primerBloque">
       <div class="primerMitad">
         <ion-input
@@ -217,9 +217,10 @@
       >
         Crear {{ tipoTraido }}
       </button>
+  <button *ngIf="this.authService.usuarioLogeado.length == 0" class="botonPrincipal" (click)="volverLogin()">Volver al inicio</button>
+
     </div>
   </form>
-
   <div *ngIf="errorMessage.length > 0">
     <ion-toast
       class="text"
@@ -248,5 +249,5 @@
   bdColor="rgba(0, 0, 0, 0.8)"
   template="<img src='./../../../assets/logoConFondo.png' alt='logo' />"
 >
-  <p style="color: white; font-size: 40px">Cargando...</p>
+  <!-- <p style="color: white; font-size: 40px">Cargando...</p> -->
 </ngx-spinner>

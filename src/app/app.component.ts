@@ -75,7 +75,7 @@ export class AppComponent {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      // SplashScreen.hide();
+      SplashScreen.hide();
       StatusBar.setBackgroundColor({ color: '#764134' });
       NavigationBar.setNavigationBarColor({ color: '#764134' }); //PERSONALIZA EL COLOR DE LA BARRA
       this.cargarDatosIniciales(); // Cuando la app esté lista, navega a la pantalla principal

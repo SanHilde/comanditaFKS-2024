@@ -46,7 +46,7 @@ export class LoginComponent {
     password: ['', [Validators.required]],
   });
   errorMessage: string = '';
-  formularioAnonimo: boolean = false;
+  registrarse: boolean = false;
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -54,7 +54,7 @@ export class LoginComponent {
     public spinner: NgxSpinnerService
   ) {}
 
-  handleSubmit() {
+  iniciarSesion() {
     this.spinner.show();
 
     if (this.form.invalid) {
@@ -99,8 +99,17 @@ export class LoginComponent {
       },
     });
   }
-  crearAnonimo(){
-    this.formularioAnonimo=!this.formularioAnonimo;
+  quererRegistrarse(){
+    this.registrarse=true;
+    // this.formularioAnonimo=!this.formularioAnonimo;
+  }
+  rutearCliente(option:string){
+    this.registrarse=false;
+    this.router.navigate(['/altaUsuarios', option]);
+  }
+  rutearAnonimo(option:string){
+    this.registrarse=false;
+    this.router.navigate(['/altaUsuarios', option]);
   }
 
   ingresoAnonimo(){
@@ -110,7 +119,7 @@ export class LoginComponent {
       nombre:"Juan",
       foto: 'https://firebasestorage.googleapis.com/v0/b/comanda-597db.appspot.com/o/Fotos%20de%20perfil%20anonimas%2FJuan-FotoDePerfil?alt=media&token=e1f51d01-225d-41b8-8f2e-54dfb308daaa'
     }
-    console.log(this.authService.usuarioLogeado)
+    this.authService.tipoUsuario="Anónimo";
   }
   handleQuickAccess(email: string, password: string) {
     this.errorMessage = '';

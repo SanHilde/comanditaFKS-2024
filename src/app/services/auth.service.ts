@@ -3,6 +3,7 @@ import {
   Auth,
   authState,
   signInWithEmailAndPassword,
+  signOut,
 } from '@angular/fire/auth';
 import { collection, getDocs, query, where } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
@@ -47,9 +48,11 @@ export class AuthService {
       usuario.correo === email
     );
     if(usuarioEncontrado.aprobado=="pendiente"){
+        this.firebaseAuth.signOut();
       throw new FirebaseError ("no validado",'Usuario no validado por dueño/supervisor');
     } else{
       if(usuarioEncontrado.aprobado=="rechazado"){
+        this.firebaseAuth.signOut();
         throw new FirebaseError ("rechazado",'Usuario rechazado por dueño/supervisor');
       } 
     }

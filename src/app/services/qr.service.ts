@@ -129,8 +129,13 @@ export class QrService {
       const dni = parseInt(infoDNI[4]);
       const apellido = infoDNI[1];
       const nombres = infoDNI[2];
-      console.log(`DNI Nuevo - Nombre: ${nombres}, Apellido: ${apellido}, DNI: ${dni}`);
-      alert(`DNI Nuevo - Nombre: ${nombres}, Apellido: ${apellido}, DNI: ${dni}`);
+      // console.log(`DNI Nuevo - Nombre: ${nombres}, Apellido: ${apellido}, DNI: ${dni}`);
+      // alert(`DNI Nuevo - Nombre: ${nombres}, Apellido: ${apellido}, DNI: ${dni}`);
+      let persona={
+        dni:dni,
+        apellido:apellido,
+        nombre:nombres
+      }
     }
   }
 
@@ -141,8 +146,14 @@ export class QrService {
       const dni = parseInt(infoDNI[1]);
       const apellido = infoDNI[4];
       const nombres = infoDNI[5];
-      console.log(`DNI Antiguo - Nombre: ${nombres}, Apellido: ${apellido}, DNI: ${dni}`);
-      alert(`DNI Nuevo - Nombre: ${nombres}, Apellido: ${apellido}, DNI: ${dni}`);
+      let persona={
+        dni:dni,
+        apellido:apellido,
+        nombre:nombres
+      }
+
+      // console.log(`DNI Antiguo - Nombre: ${nombres}, Apellido: ${apellido}, DNI: ${dni}`);
+      // alert(`DNI Nuevo - Nombre: ${nombres}, Apellido: ${apellido}, DNI: ${dni}`);
     }
   }
 
