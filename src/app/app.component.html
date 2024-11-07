@@ -42,7 +42,7 @@
   </ion-content>
   <ion-list *ngIf="showList" class="custom-list">
     <h3 class="list-title">Alta de Usuario</h3>
-    <ion-item *ngIf="authService.tipoUsuario=='Maître'" (click)="selectOption('Clientes')">Clientes</ion-item>
+    <ion-item *ngIf="authService.tipoUsuario=='Maître'" (click)="selectOption('Cliente')">Cliente</ion-item>
     <ion-item *ngIf="
     this.authService.tipoUsuario == 'Dueño' ||
     this.authService.tipoUsuario == 'Supervisor'

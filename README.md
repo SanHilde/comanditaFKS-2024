@@ -56,7 +56,7 @@ El enfoque va a estar dado por los usuarios de un RESTAURANTE, el cual apunta to
 
 ### **Diseño de QR**
 - **Subtitulo**: descripcion.
-![QRS](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Qrs.JPG)
+![QRS](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Qrs.jpg)
 
 ### **Diseño de Productos**
 - **Subtitulo**: descripcion.
