@@ -1,39 +1,52 @@
 <div class="container">
-    <h1>
-        ¡Bienvenido {{authService.usuarioLogeado.nombre}} a La Comandita FKS! 
-    </h1>
-    <!-- <h2>Escanea los QR habilitar funciones!</h2> -->
-    <button *ngIf="authService.tipoUsuario=='Cliente' || authService.tipoUsuario=='Anónimo' || authService.tipoUsuario=='Maître'" class="botonPrincipal botonScan" (click)="escanear()"><ion-icon name="qr-code-outline" class="iconScan"></ion-icon></button>
-    <div *ngIf="authService.tipoUsuario=='Cliente' || authService.tipoUsuario=='Anónimo'" class="listaColumna" >
-        <p *ngIf="authService.accionActual==''">Para iniciar el proceso, escanea el QR de la entrada</p>
-        <p *ngIf="authService.accionActual=='INGRESO'">Antes que nada, solicitá una mesa! Mientras esperás, podés ver referencias de nuestro local!</p>
-        <h2 *ngIf="authService.accionActual=='INGRESO' || authService.accionActual=='MESA'">Seleccione qué desea hacer</h2>
-        <h2 *ngIf="authService.accionActual=='PROPINA'">Seleccione qué propina desea dar</h2>
-        <button *ngIf="authService.accionActual=='INGRESO'" class="botonPrincipal">Ingresar a lista de espera</button>
-        <button *ngIf="authService.accionActual=='INGRESO'" class="botonPrincipal">Encuestas de clientes</button>
-        <button *ngIf="authService.accionActual=='MESA'" class="botonPrincipal">Menú</button>
-        <button *ngIf="authService.accionActual=='MESA'" class="botonPrincipal">Pedir</button>
-        <button *ngIf="authService.accionActual=='MESA'" class="botonPrincipal">Hablar con el mozo</button>
-        <button *ngIf="authService.accionActual=='MESA'" class="botonPrincipal">Estado del pedido</button>
-        <button *ngIf="authService.accionActual=='MESA'" class="botonPrincipal">Completar encuesta</button>
-        <button *ngIf="authService.accionActual=='MESA'" class="botonPrincipal">Juegos</button>
-        <button *ngIf="authService.accionActual=='PROPINA'" class="botonPrincipal">Excelente (20%)</button>
-        <button *ngIf="authService.accionActual=='PROPINA'" class="botonPrincipal">Muy bueno (15%)</button>
-        <button *ngIf="authService.accionActual=='PROPINA'" class="botonPrincipal">Bueno (10%)</button>
-        <button *ngIf="authService.accionActual=='PROPINA'" class="botonPrincipal">Regular (15%)</button>
-        <button *ngIf="authService.accionActual=='PROPINA'" class="botonPrincipal">Malo (0%)</button>
-        <p *ngIf="authService.accionActual=='INGRESO'">Si te notificaron que tenés disponible la mesa, escanea el código QR de ésta para ordenar</p>
-        <p *ngIf="authService.accionActual=='MESA'">Escanea el código QR de propina y da la propina según la atención!</p>      
-    </div>
-    <div  *ngIf="authService.tipoUsuario=='Maître'" class="listaColumna" >
-        <button *ngIf="authService.accionActual=='MESA'" class="botonPrincipal">Disponibilidad de mesa</button>
-        <button *ngIf="authService.accionActual=='MESA'" class="botonPrincipal">Relacionar mesa a cliente</button>
-    </div>
-    <!-- <p>
-        Tipo de usuario: {{authService.tipoUsuario}}
-    </p> -->
-    <!-- <p>
-        Nombre: {{authService.nombre}}
-    </p> -->
-    <!-- <img src="{{authService.foto}}" alt="Foto de perfil"> -->
+  <h1>
+    ¡Bienvenido {{ authService.usuarioLogeado.nombre }} a La Comandita FKS!
+  </h1>
+  <!-- Ingreso de Clientes y Anonimos: Cuando escanea el qr los redirigue a la pagina de ingreso -->
+  <ng-container
+    *ngIf="['Cliente', 'Anónimo'].includes(authService.tipoUsuario)"
+  >
+    <h2>Para iniciar el proceso, escanea el QR de la entrada</h2>
+    <button
+      id="escanerIngreso"
+      class="botonPrincipal botonScan"
+      (click)="escanearQr()"
+    >
+      <ion-icon name="qr-code-outline" class="iconScan"></ion-icon>
+    </button>
+  </ng-container>
+
+  <div
+    *ngIf="
+      authService.tipoUsuario === 'Cliente' ||
+      authService.tipoUsuario === 'Anónimo'
+    "
+    class="listaColumna"
+  >
+    <!-- MESA -->
+    <ng-container *ngIf="authService.accionActual === 'MESA'">
+      <button class="botonPrincipal">Menú</button>
+      <button class="botonPrincipal">Pedir</button>
+      <button class="botonPrincipal">Hablar con el mozo</button>
+      <button class="botonPrincipal">Estado del pedido</button>
+      <button class="botonPrincipal">Completar encuesta</button>
+      <button class="botonPrincipal">Juegos</button>
+      <p>Escanea el código QR de propina y da la propina según la atención!</p>
+
+      <div *ngIf="authService.tipoUsuario === 'Maître'" class="listaColumna">
+        <button class="botonPrincipal">Disponibilidad de mesa</button>
+        <button class="botonPrincipal">Relacionar mesa a cliente</button>
+      </div>
+    </ng-container>
+
+    <!-- PROPINA -->
+    <ng-container *ngIf="authService.accionActual === 'PROPINA'">
+      <h2>Seleccione qué propina desea dar</h2>
+      <button class="botonPrincipal">Excelente (20%)</button>
+      <button class="botonPrincipal">Muy bueno (15%)</button>
+      <button class="botonPrincipal">Bueno (10%)</button>
+      <button class="botonPrincipal">Regular (15%)</button>
+      <button class="botonPrincipal">Malo (0%)</button>
+    </ng-container>
+  </div>
 </div>

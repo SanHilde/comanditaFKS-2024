@@ -5,12 +5,42 @@ import { SplashScreenComponent } from './componentes/splash-screen/splash-screen
 const routes: Routes = [
   {
     path: '',
-    loadComponent: () => import('./componentes/home/home.component').then(m => m.HomeComponent),
+    loadComponent: () =>
+      import('./componentes/home/home.component').then((m) => m.HomeComponent),
   },
-  { path: 'login', loadComponent: () => import('./componentes/login/login.component').then(m=>m.LoginComponent)},
-  { path: 'home', loadComponent: () => import('./componentes/home/home.component').then(m=>m.HomeComponent)},
-  { path: 'listaClientes', loadComponent: () => import('./componentes/listaClientes/lista-clientes.component').then(m=>m.ListaClientesComponent)},
-  { path: 'altaUsuarios/:tipoUsuario', loadComponent: () => import('./componentes/alta/alta-usuarios/alta-usuarios.component').then(m=>m.AltaUsuariosComponent)},
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('./componentes/login/login.component').then(
+        (m) => m.LoginComponent
+      ),
+  },
+  {
+    path: 'home',
+    loadComponent: () =>
+      import('./componentes/home/home.component').then((m) => m.HomeComponent),
+  },
+  {
+    path: 'ingreso',
+    loadComponent: () =>
+      import('./componentes/ingreso/ingreso.component').then(
+        (m) => m.IngresoComponent
+      ),
+  },
+  {
+    path: 'listaClientes',
+    loadComponent: () =>
+      import('./componentes/listaClientes/lista-clientes.component').then(
+        (m) => m.ListaClientesComponent
+      ),
+  },
+  {
+    path: 'altaUsuarios/:tipoUsuario',
+    loadComponent: () =>
+      import('./componentes/alta/alta-usuarios/alta-usuarios.component').then(
+        (m) => m.AltaUsuariosComponent
+      ),
+  },
   // {
   //   path: 'play-k',
   //   loadComponent: () => import('./play-k/play-k.page').then(m => m.PlayKPage)
@@ -18,17 +48,21 @@ const routes: Routes = [
   { path: 'custom-splash', component: SplashScreenComponent },
   {
     path: 'encuesta-empleado',
-    loadChildren: () => import('./encuesta-empleado/encuesta-empleado.module').then(m => m.EncuestaEmpleadoPageModule)
+    loadChildren: () =>
+      import('./encuesta-empleado/encuesta-empleado.module').then(
+        (m) => m.EncuestaEmpleadoPageModule
+      ),
   },
   {
     path: 'alta-mesa',
-    loadChildren: () => import('./alta-mesa/alta-mesa.module').then(m => m.AltaMesaPageModule)
+    loadChildren: () =>
+      import('./alta-mesa/alta-mesa.module').then((m) => m.AltaMesaPageModule),
   },
 ];
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

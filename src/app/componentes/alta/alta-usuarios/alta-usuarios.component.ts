@@ -83,7 +83,7 @@ export class AltaUsuariosComponent implements OnInit {
 
   ngOnInit() {
     console.log(this.tipoTraido);
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params) => {
       this.tipoTraido = params.get('tipoUsuario');
     });
     if (this.tipoTraido == 'Dueño' || this.tipoTraido == 'Supervisor') {
@@ -133,7 +133,7 @@ export class AltaUsuariosComponent implements OnInit {
             'usuarios',
             this.ajustarDatos(urlFotoSubida)
           );
-          if(this.authService.usuarioLogeado.length==0){
+          if(this.authService.usuarioLogeado !== undefined){
             this.router.navigateByUrl('/login');
           }
         } else {
@@ -147,9 +147,11 @@ export class AltaUsuariosComponent implements OnInit {
             this.ajustarDatos(urlFotoSubida)
           );
           this.authService.usuarioLogeado = {
+            id: 'Usuario Anónimo',
             nombre: this.nombre?.value,
             foto: urlFotoSubida,
             tipoUsuario: 'Anónimo',
+            aprobado: 'anónimo',
           };
           this.authService.tipoUsuario="Anónimo";
           
@@ -176,12 +178,12 @@ export class AltaUsuariosComponent implements OnInit {
 
   ajustarDatos(url: string) {
     const formData = { ...this.formulario.value };
-    const keysToRemove = ["repiteClave"];
-    formData.aprobado = "aprobado";
-    
-    if (this.tipoTraido === "Cliente") {
-      keysToRemove.push("cuil");
-      formData.aprobado = "pendiente";
+    const keysToRemove = ['repiteClave'];
+    formData.aprobado = 'aprobado';
+
+    if (this.tipoTraido === 'Cliente') {
+      keysToRemove.push('cuil');
+      formData.aprobado = 'pendiente';
     }
 
     if (this.tipoTraido === 'Anónimo') {
@@ -263,7 +265,7 @@ export class AltaUsuariosComponent implements OnInit {
     // let codigoLeido;
     let traduccion;
     // codigoLeido= await this.scanService.scan()
-    traduccion = await this.qrService.leerQr()
+    traduccion = await this.qrService.leerQr();
     // this.succesMessage = traduccion;
     this.parsearDatosDesdeString(traduccion);
     

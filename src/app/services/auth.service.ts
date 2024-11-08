@@ -3,16 +3,15 @@ import {
   Auth,
   authState,
   signInWithEmailAndPassword,
-  signOut,
 } from '@angular/fire/auth';
 import { collection, getDocs, query, where } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 
 import { Observable, from, map, of, switchMap } from 'rxjs';
 import { Firestore } from '@angular/fire/firestore';
-import { User } from '../types/user.type';
 import { DatosServiceService } from './datos/datos-service.service';
 import { FirebaseError } from '@angular/fire/app';
+import { UsuarioInterface } from '../interfaces/usuario.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -21,46 +20,57 @@ export class AuthService {
   firestore = inject(Firestore);
   firebaseAuth = inject(Auth);
 
-  public tipoUsuario="";
-  public accionActual="";
-  public verificado=false;
+  public tipoUsuario = 'Anónimo'; // de defecto va a ser Anónimo
+  public accionActual = 'INGRESO';
+  public verificado = false;
   // public datosTraidos:Observable<any[]>;
-  public datosTraidos : any = [];
-  public usuarioLogeado:any=[];
+  public datosTraidos: any = [];
+  public usuarioLogeado: UsuarioInterface | undefined;
 
   userCollectionName = 'usuarios';
   historyCollectionName = 'loginHistory';
-  constructor(private router: Router, private datosService: DatosServiceService) {
+  constructor(
+    private router: Router,
+    private datosService: DatosServiceService
+  ) {
     this.obtenerUsuarios();
   }
 
-  obtenerUsuarios(){
-      this.datosService.ObtenerDatos("usuarios").subscribe((listaUsuarios:any)=>{
-        this.datosTraidos=listaUsuarios
-        if(this.firebaseAuth.currentUser?.email){
+  obtenerUsuarios() {
+    this.datosService
+      .ObtenerDatos('usuarios')
+      .subscribe((listaUsuarios: UsuarioInterface[]) => {
+        this.datosTraidos = listaUsuarios;
+        if (this.firebaseAuth.currentUser?.email) {
           this.buscarUsuario(this.firebaseAuth.currentUser?.email);
         }
-    });
+      });
   }
 
-  buscarUsuario(email:string){
-    const usuarioEncontrado = this.datosTraidos.find((usuario: any) => 
-      usuario.correo === email
-    );
-    if(usuarioEncontrado.aprobado=="pendiente"){
-        this.firebaseAuth.signOut();
-      throw new FirebaseError ("no validado",'Usuario no validado por dueño/supervisor');
-    } else{
-      if(usuarioEncontrado.aprobado=="rechazado"){
-        this.firebaseAuth.signOut();
-        throw new FirebaseError ("rechazado",'Usuario rechazado por dueño/supervisor');
-      } 
+  buscarUsuario(email: string) {
+    const usuarioEncontrado: UsuarioInterface | undefined =
+      this.datosTraidos.find(
+        (usuario: UsuarioInterface) => usuario.correo === email
+      );
+    if (!usuarioEncontrado) return undefined;
+    if (usuarioEncontrado.aprobado == 'pendiente') {
+      throw new FirebaseError(
+        'no validado',
+        'Usuario no validado por dueño/supervisor'
+      );
+    } else {
+      if (usuarioEncontrado.aprobado == 'rechazado') {
+        throw new FirebaseError(
+          'rechazado',
+          'Usuario rechazado por dueño/supervisor'
+        );
+      }
     }
     if (usuarioEncontrado) {
       this.usuarioLogeado = usuarioEncontrado;
-      this.verificado = this.usuarioLogeado.aprobado;
+      this.verificado = this.usuarioLogeado.aprobado === 'aprobado';
       this.tipoUsuario = this.usuarioLogeado.tipoUsuario;
-    } 
+    }
   }
 
   login(email: string, password: string) {
@@ -75,13 +85,13 @@ export class AuthService {
   }
 
   logout() {
-     this.tipoUsuario="";
-     this.verificado=false;
-     this.usuarioLogeado=[];
+    this.tipoUsuario = '';
+    this.verificado = false;
+    this.usuarioLogeado = undefined;
     this.firebaseAuth.signOut().then(() => this.router.navigate(['login']));
   }
 
-  getCurrentUser(): Observable<User | undefined> {
+  getCurrentUser(): Observable<UsuarioInterface | undefined> {
     return authState(this.firebaseAuth).pipe(
       switchMap((user) => {
         if (user) {
@@ -95,15 +105,15 @@ export class AuthService {
     );
   }
 
-  getUserByEmail(email: string): Observable<User | undefined> {
+  getUserByEmail(email: string): Observable<UsuarioInterface | undefined> {
     const usersRef = collection(this.firestore, 'usuarios');
-    const q = query(usersRef, where('email', '==', email));
+    const q = query(usersRef, where('correo', '==', email));
 
-    return new Observable<User | undefined>((observer) => {
+    return new Observable<UsuarioInterface | undefined>((observer) => {
       getDocs(q)
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
-            const data = doc.data() as User;
+            const data = doc.data() as UsuarioInterface;
             const userData = { ...data, id: doc.id };
             observer.next(userData);
           });

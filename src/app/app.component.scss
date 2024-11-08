@@ -1,70 +1,77 @@
-ion-icon{
-    font-size: 35px;
+ion-title {
+  font-size: 30px;
 }
-.navigationBar{
-    display: flex;
-    flex-direction: row; 
-    align-items: center;
-    justify-content: space-evenly;
-}
-ion-toolbar {
-    --background: var(--color-detalles);
-    --color: black;
-    // --height: 30px;
-}
-ion-button{
-    min-width: 40px;
-}
-.custom-list {
-    width: 200px; /* Ajusta el ancho automático según el contenido */
-    // max-width: 350px; /* Máximo ancho de la lista */
-    margin: 0 auto; /* Centra horizontalmente */
-    position: absolute; /* Para posicionarla sobre otros elementos */
-    bottom: 56px; /* Ajusta según la altura del footer */
-    left: 50%; /* Para centrar horizontalmente */
-    transform: translateX(-50%); /* Centra con transform */
-    border-radius: 10px; /* Bordes redondeados */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Sombra del box */
-    background-color: var(--color-principal); /* Color de fondo de la lista */
-    z-index: 10; /* Asegúrate de que esté encima de otros elementos */
-    display: flex;
-    flex-direction: column; 
-    align-items: flex-start;
 
-  }
-  
-  .custom-list ion-item {
-    --ion-item-background: transparent; /* Fondo transparente para los items */
-    --ion-item-border-color: transparent; /* Elimina el borde */
-    --color:white
-  }
-  
-  .custom-list ion-item:hover {
-    background-color: rgba(0, 0, 0, 0.1); /* Color de fondo al pasar el mouse */
-  }
-  h2{
-    font-weight: bold;
-    font-size: 15px;
-    width: 80vw;
-    text-align: center;
-  }
-  h3{
-    width: 100%;
-    text-align: center;
-    color: white;
-    // margin: 0px ;
-  }
-  .fotoPerfil{
-    height: 50px;
-    width: 50px;
-    object-fit: contain;
-    border-radius: 25px;
-    border: 2px solid black;
-    margin-right: 20px;
-  }
-  .header{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-end;
-  }
+ion-icon {
+  font-size: 35px;
+}
+
+.navigationBar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+ion-toolbar {
+  --background: var(--color-detalles);
+  --color: black;
+}
+
+ion-button {
+  min-width: 40px;
+}
+
+.custom-list {
+  width: 200px; /* Ajusta el ancho automático según el contenido */
+  // max-width: 350px; /* Máximo ancho de la lista */
+  margin: 0 auto; /* Centra horizontalmente */
+  position: absolute; /* Para posicionarla sobre otros elementos */
+  bottom: 56px; /* Ajusta según la altura del footer */
+  left: 50%; /* Para centrar horizontalmente */
+  transform: translateX(-50%); /* Centra con transform */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Sombra del box */
+  background-color: var(--color-principal); /* Color de fondo de la lista */
+  z-index: 10; /* Asegúrate de que esté encima de otros elementos */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.custom-list ion-item {
+  --ion-item-background: transparent; /* Fondo transparente para los items */
+  --ion-item-border-color: transparent; /* Elimina el borde */
+  --color: white;
+}
+
+.custom-list ion-item:hover {
+  background-color: rgba(0, 0, 0, 0.1); /* Color de fondo al pasar el mouse */
+}
+
+h2 {
+  font-weight: bold;
+  font-size: 15px;
+  width: 80vw;
+  text-align: center;
+}
+
+h3 {
+  width: 100%;
+  text-align: center;
+  color: white;
+}
+
+.fotoPerfil {
+  height: 70px;
+  margin: 10px;
+  border-radius: 25px;
+  border: 2px solid black;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+}

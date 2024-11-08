@@ -1,0 +1,44 @@
+<div class="container">
+  <h1>¡Bienvenido!</h1>
+  <h2 *ngIf="estaEnListaDeEspera">Esperando a que le asignen una mesa...</h2>
+
+  <div class="button-container">
+    <!-- Ingreso a la lista de espera -->
+    <button
+      *ngIf="!estaEnListaDeEspera"
+      class="botonPrincipal button"
+      (click)="handleListaDeEspera(true)"
+    >
+      <ion-icon name="alarm-outline" size="large"></ion-icon>
+      Ingresar a la lista de espera
+    </button>
+
+    <button
+      *ngIf="estaEnListaDeEspera"
+      class="botonPrincipal button"
+      (click)="handleListaDeEspera(false)"
+    >
+      <ion-icon name="walk-outline" size="large"></ion-icon>
+      Abandonar la lista de espera
+    </button>
+
+    <!-- ENCUESTAS -->
+    <!-- Si es Cliente, pueden ver y completar encuestas -->
+    <button
+      *ngIf="authService.tipoUsuario !== 'Anónimo' && estaEnListaDeEspera"
+      class="botonPrincipal button"
+      (click)="irACompletarEncuestas()"
+    >
+      <ion-icon name="clipboard-outline" size="large"></ion-icon>
+      Completar una encuesta
+    </button>
+    <!-- Si es anónimo, solo puede ver resultados -->
+    <button
+      class="botonPrincipal button"
+      (click)="irAResultadosDeLasEncuestas()"
+    >
+      <ion-icon name="stats-chart-outline" size="large"></ion-icon>
+      Ver resultados de encuestas previas
+    </button>
+  </div>
+</div>

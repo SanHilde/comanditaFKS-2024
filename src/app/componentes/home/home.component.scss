@@ -1,33 +1,36 @@
-.container{
-    justify-content: flex-start;
+.container {
+  justify-content: flex-start;
 }
-h1,h2,p{
-    text-align: center;
-    color:white;
-    margin-top: 10px;
-
+h1,
+h2,
+p {
+  text-align: center;
+  font-size: 30px;
+  color: white;
 }
-h1{
-    text-transform: uppercase;
-    color: var(--color-detalles);
+p {
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
-.botonScan{
-    height: 100%;
-    // font-size: 200px;
-    // min-height: ;
+h1 {
+  text-transform: uppercase;
+  font-size: 35px;
+  color: #b26444;
 }
-.iconScan{
-    height: 80%; /* Ajusta el icono al 80% del tamaño del botón */
-    font-size: 100%;
-    width: 80%;
-    min-height: 30px;
+.botonScan {
+  height: 100%;
 }
-button{
-    margin-top: 10px;
+.iconScan {
+  height: 100%;
+  width: 80%;
+  min-height: 30px;
 }
-.listaColumna{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+button {
+  margin-top: 10px;
+}
+.listaColumna {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
