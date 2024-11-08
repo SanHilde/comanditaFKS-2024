@@ -100,11 +100,10 @@ export class QrService {
   buscarAccion(tipo: string, id: string) {
     switch (tipo) {
       case tipoQr.Producto:
-        // Redirige a la pagina de ingreso
-        this.router.navigate(['/ingreso']);
         break;
       case tipoQr.Ingreso:
-        alert('Resolver ingreso');
+        // Redirige a la pagina de ingreso
+        this.router.navigate(['/ingreso']);
         break;
       case tipoQr.EncuestasAnt:
         // Navegación para encuestas antiguas
@@ -135,11 +134,11 @@ export class QrService {
       const nombres = infoDNI[2];
       // console.log(`DNI Nuevo - Nombre: ${nombres}, Apellido: ${apellido}, DNI: ${dni}`);
       // alert(`DNI Nuevo - Nombre: ${nombres}, Apellido: ${apellido}, DNI: ${dni}`);
-      let persona={
-        dni:dni,
-        apellido:apellido,
-        nombre:nombres
-      }
+      let persona = {
+        dni: dni,
+        apellido: apellido,
+        nombre: nombres,
+      };
     }
   }
 
@@ -150,11 +149,11 @@ export class QrService {
       const dni = parseInt(infoDNI[1]);
       const apellido = infoDNI[4];
       const nombres = infoDNI[5];
-      let persona={
-        dni:dni,
-        apellido:apellido,
-        nombre:nombres
-      }
+      let persona = {
+        dni: dni,
+        apellido: apellido,
+        nombre: nombres,
+      };
 
       // console.log(`DNI Antiguo - Nombre: ${nombres}, Apellido: ${apellido}, DNI: ${dni}`);
       // alert(`DNI Nuevo - Nombre: ${nombres}, Apellido: ${apellido}, DNI: ${dni}`);
