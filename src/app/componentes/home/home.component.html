@@ -4,7 +4,9 @@
   </h1>
   <!-- Ingreso de Clientes y Anonimos: Cuando escanea el qr los redirigue a la pagina de ingreso -->
   <ng-container
-    *ngIf="['Cliente', 'Anónimo'].includes(authService.tipoUsuario)"
+    *ngIf="
+      ['Cliente', 'Anónimo', 'Sin asignar'].includes(authService.tipoUsuario)
+    "
   >
     <!-- INGRESO -->
     <ng-container *ngIf="authService.accionActual === 'INGRESO'">
@@ -42,7 +44,7 @@
 
   <!-- MAITRE -->
   <div *ngIf="authService.tipoUsuario === 'Maître'" class="listaColumna">
+    <button class="botonPrincipal">Asignar mesa a cliente</button>
     <button class="botonPrincipal">Disponibilidad de mesa</button>
-    <button class="botonPrincipal">Relacionar mesa a cliente</button>
   </div>
 </div>

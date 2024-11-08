@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { ListaDeEsperaService } from 'src/app/services/lista-de-espera.service';
 import { NgxSpinnerService, NgxSpinnerModule } from 'ngx-spinner';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-ingreso',
@@ -43,16 +44,43 @@ export class IngresoComponent implements OnInit {
     );
   }
 
-  handleListaDeEspera(estado: boolean) {
+  async handleListaDeEspera(estado: boolean) {
     this.spinner.show();
     if (estado) {
-      this.listaDeEsperaService.agregarAListaDeEspera();
+      const cantidadDePersonas = await this.pedirCantidadPersonas();
+      if (cantidadDePersonas)
+        this.listaDeEsperaService.agregarAListaDeEspera(cantidadDePersonas);
     } else {
       this.listaDeEsperaService.sacarDeListaDeEspera();
     }
     this.listaDeEsperaService.obtenerListaDeEsperaCliente();
     this.revisarSiEstaEnLaLista();
     this.spinner.hide();
+  }
+
+  async pedirCantidadPersonas(): Promise<number | null> {
+    const { value, isConfirmed } = await Swal.fire({
+      title: 'Cantidad de personas',
+      text: 'Ingresa la cantidad de personas para la mesa',
+      input: 'number', // Tipo de input
+      inputPlaceholder: 'Ejemplo: 4',
+      showCancelButton: true,
+      confirmButtonText: 'Aceptar',
+      cancelButtonText: 'Cancelar',
+      heightAuto: false,
+      inputValidator: (value: string | number) => {
+        const valor = typeof value === 'number' ? value : Number(value);
+        if (!valor || isNaN(valor) || valor < 1 || valor > 6) {
+          return 'Por favor, ingresa un número válido. No pueden ser mas de 6 personas';
+        }
+        return '';
+      },
+    });
+    if (isConfirmed && value) {
+      return parseInt(value, 10);
+    }
+
+    return null;
   }
 
   irACompletarEncuestas() {
