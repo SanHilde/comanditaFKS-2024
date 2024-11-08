@@ -10,6 +10,7 @@ import {
   query,
   where,
 } from '@angular/fire/firestore';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -21,22 +22,16 @@ export class ListaDeEsperaService {
   constructor(
     public authService: AuthService,
     private datosServices: DatosServiceService
-  ) {
-    this.obtenerListaDeEsperaCliente();
-  }
+  ) {}
 
-  obtenerListaDeEsperaCliente() {
-    this.datosServices
-      .ObtenerDatos(this.nombreDeColeccion)
-      .subscribe((data: ListaDeEsperaInterface[]) => {
-        console.log(data, 'dataa');
-
-        this.listaDeEsperaDelCliente = data.filter(
+  obtenerListaDeEsperaCliente(): Observable<ListaDeEsperaInterface[]> {
+    return this.datosServices.ObtenerDatos(this.nombreDeColeccion).pipe(
+      map((data: ListaDeEsperaInterface[]) => {
+        return data.filter(
           (item) => item.idCliente === this.authService.usuarioLogeado?.id
         );
-        console.log(this.listaDeEsperaDelCliente, 'clientee');
-        
-      });
+      })
+    );
   }
 
   async agregarAListaDeEspera(): Promise<boolean> {
@@ -79,8 +74,6 @@ export class ListaDeEsperaService {
           docToDelete.id
         )
       );
-
-      console.log('Usuario eliminado de la lista de espera');
       return true;
     } catch (error) {
       console.error('Error al eliminar de la lista de espera: ', error);

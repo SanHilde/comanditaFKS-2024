@@ -5,7 +5,7 @@
       *ngIf="this.authService.usuarioLogeado !== undefined"
     >
       <ion-title
-        >{{ authService.usuarioLogeado?.nombre }} -
+        >{{ authService.usuarioLogeado.nombre }} -
         {{ authService.usuarioLogeado.tipoUsuario }}
       </ion-title>
       <ion-buttons slot="end">

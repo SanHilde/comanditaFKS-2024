@@ -4,13 +4,14 @@ import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { ListaDeEsperaService } from 'src/app/services/lista-de-espera.service';
+import { NgxSpinnerService, NgxSpinnerModule } from 'ngx-spinner';
 
 @Component({
   selector: 'app-ingreso',
   templateUrl: './ingreso.component.html',
   styleUrls: ['./ingreso.component.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule],
+  imports: [CommonModule, IonicModule, NgxSpinnerModule],
 })
 export class IngresoComponent implements OnInit {
   estaEnListaDeEspera: boolean = false;
@@ -19,7 +20,8 @@ export class IngresoComponent implements OnInit {
   constructor(
     public authService: AuthService,
     public listaDeEsperaService: ListaDeEsperaService,
-    private router: Router
+    private router: Router,
+    public spinner: NgxSpinnerService
   ) {}
 
   ngOnInit() {
@@ -27,18 +29,22 @@ export class IngresoComponent implements OnInit {
   }
 
   revisarSiEstaEnLaLista() {
-    console.log(
-      this.listaDeEsperaService.listaDeEsperaDelCliente,
-      ';ahbhdbdhgvbdv'
+    this.spinner.show();
+    this.listaDeEsperaService.obtenerListaDeEsperaCliente().subscribe(
+      (listaDeEspera) => {
+        this.listaDeEsperaService.listaDeEsperaDelCliente = listaDeEspera;
+        this.estaEnListaDeEspera = listaDeEspera.length > 0;
+        this.spinner.hide();
+      },
+      (error) => {
+        console.error('Error al obtener la lista de espera', error);
+        this.spinner.hide();
+      }
     );
-
-    return (this.estaEnListaDeEspera = this.listaDeEsperaService
-      .listaDeEsperaDelCliente.length
-      ? true
-      : false);
   }
 
   handleListaDeEspera(estado: boolean) {
+    this.spinner.show();
     if (estado) {
       this.listaDeEsperaService.agregarAListaDeEspera();
     } else {
@@ -46,6 +52,7 @@ export class IngresoComponent implements OnInit {
     }
     this.listaDeEsperaService.obtenerListaDeEsperaCliente();
     this.revisarSiEstaEnLaLista();
+    this.spinner.hide();
   }
 
   irACompletarEncuestas() {
