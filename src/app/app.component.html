@@ -1,34 +1,46 @@
-<!-- <ion-app>
-  <ion-router-outlet></ion-router-outlet>
-</ion-app> -->
-
 <ion-app>
-  <ion-header>
-    <ion-toolbar class="header" *ngIf="this.authService.usuarioLogeado.length != 0">
-      <ion-title>{{authService.usuarioLogeado.nombre}} - {{authService.usuarioLogeado.tipoUsuario}} </ion-title>
+  <ion-header *ngIf="this.authService.usuarioLogeado">
+    <ion-toolbar
+      class="header"
+      *ngIf="this.authService.usuarioLogeado !== undefined"
+    >
+      <ion-title
+        >{{ authService.usuarioLogeado.nombre }} -
+        {{ authService.usuarioLogeado.tipoUsuario }}
+      </ion-title>
       <ion-buttons slot="end">
-        <img src="{{authService.usuarioLogeado.foto}}" alt="Foto de perfil" class="fotoPerfil">
+        <img
+          src="{{ authService.usuarioLogeado.foto }}"
+          alt="Foto de perfil"
+          class="fotoPerfil"
+        />
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
   <ion-footer>
-    <ion-toolbar *ngIf="this.authService.usuarioLogeado.length != 0">
-      <!-- <ion-toolbar *ngIf="this.auth.currentUser?.email!=undefined" > -->
+    <ion-toolbar *ngIf="this.authService.usuarioLogeado !== undefined">
       <ion-buttons class="navigationBar">
         <ion-button [routerLink]="'/'" routerDirection="root">
           <ion-icon name="home"></ion-icon>
         </ion-button>
-        <ion-button  *ngIf="
-        this.authService.tipoUsuario == 'Dueño' ||
-        this.authService.tipoUsuario == 'Supervisor' ||
-        authService.tipoUsuario=='Maître'"
-        (click)="toggleList($event)">
+        <ion-button
+          *ngIf="
+            this.authService.tipoUsuario === 'Dueño' ||
+            this.authService.tipoUsuario === 'Supervisor' ||
+            authService.tipoUsuario === 'Maître'
+          "
+          (click)="toggleList($event)"
+        >
           <ion-icon name="add-circle-outline"></ion-icon>
         </ion-button>
-        <ion-button *ngIf="
-            this.authService.tipoUsuario == 'Dueño' ||
-            this.authService.tipoUsuario == 'Supervisor'
-          " [routerLink]="'/listaClientes'" routerDirection="root">
+        <ion-button
+          *ngIf="
+            this.authService.tipoUsuario === 'Dueño' ||
+            this.authService.tipoUsuario === 'Supervisor'
+          "
+          [routerLink]="'/listaClientes'"
+          routerDirection="root"
+        >
           <ion-icon name="person-add-outline"></ion-icon>
         </ion-button>
         <ion-button (click)="logout()">
@@ -42,15 +54,30 @@
   </ion-content>
   <ion-list *ngIf="showList" class="custom-list">
     <h3 class="list-title">Alta de Usuario</h3>
-    <ion-item *ngIf="authService.tipoUsuario=='Maître'" (click)="selectOption('Cliente')">Cliente</ion-item>
-    <ion-item *ngIf="
-    this.authService.tipoUsuario == 'Dueño' ||
-    this.authService.tipoUsuario == 'Supervisor'
-  " (click)="selectOption('Empleado')">Empleado</ion-item>
-    <ion-item *ngIf="
-    this.authService.tipoUsuario == 'Dueño' ||
-    this.authService.tipoUsuario == 'Supervisor'
-  " (click)="selectOption('Supervisor')">Dueño o Supervisor</ion-item>
+    <ion-item
+      *ngIf="authService.tipoUsuario === 'Maître'"
+      (click)="selectOption('Clientes')"
+    >
+      Clientes
+    </ion-item>
+    <ion-item
+      *ngIf="
+        this.authService.tipoUsuario === 'Dueño' ||
+        this.authService.tipoUsuario === 'Supervisor'
+      "
+      (click)="selectOption('Empleado')"
+    >
+      Empleado
+    </ion-item>
+    <ion-item
+      *ngIf="
+        this.authService.tipoUsuario === 'Dueño' ||
+        this.authService.tipoUsuario === 'Supervisor'
+      "
+      (click)="selectOption('Supervisor')"
+    >
+      Dueño o Supervisor
+    </ion-item>
   </ion-list>
 </ion-app>
 

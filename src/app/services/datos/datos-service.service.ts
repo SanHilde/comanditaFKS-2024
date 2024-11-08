@@ -1,35 +1,53 @@
 import { Injectable } from '@angular/core';
-import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, query, updateDoc, getDocs, limit, orderBy } from '@angular/fire/firestore';
-import { getDownloadURL, getStorage, ref, uploadBytes } from '@angular/fire/storage';
-// import { addDoc, collection, getDocs, limit, orderBy, query } from 'firebase/firestore';
-// import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
-
-import { Observable, map } from 'rxjs';
+import {
+  Firestore,
+  addDoc,
+  collection,
+  collectionData,
+  deleteDoc,
+  doc,
+  query,
+  updateDoc,
+  getDocs,
+  limit,
+  orderBy,
+} from '@angular/fire/firestore';
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytes,
+} from '@angular/fire/storage';
+import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DatosServiceService {
-  collection: any[]=[];
-  constructor(private firestore:Firestore) { }
-  
-  async guardarDatos(nombreDeRegistro: string, objetoAGuardar: any): Promise<any> {
+  collection: any[] = [];
+  constructor(public firestore: Firestore) {}
+
+  async guardarDatos(
+    nombreDeRegistro: string,
+    objetoAGuardar: any
+  ): Promise<boolean> {
     try {
-      // const id = await this.GetId(nombreDeRegistro);
-      let col = collection(this.firestore, nombreDeRegistro);
-        let doc= await addDoc(col, objetoAGuardar);
-        this.modificarDatoAsync(doc.id,nombreDeRegistro,{id:doc.id});
-        if(typeof doc.id == "string"){
-          return doc.id;
-        } else{
-          return "Error al subir el dato";
-        }
+      const col = collection(this.firestore, nombreDeRegistro);
+      const doc = await addDoc(col, objetoAGuardar);
+
+      this.modificarDatoAsync(doc.id, nombreDeRegistro, { id: doc.id });
+      return typeof doc.id == 'string' ? true : false;
     } catch (error) {
       console.error('Error guardando los datos: ', error);
+      return false;
     }
   }
 
-  async subirImagenAsync(carpeta:string, nombreImagen: string, file: any): Promise<any> {
+  async subirImagenAsync(
+    carpeta: string,
+    nombreImagen: string,
+    file: any
+  ): Promise<any> {
     try {
       const storage = getStorage();
       const storageRef = ref(storage, `/${carpeta}/${nombreImagen}`);
@@ -41,8 +59,8 @@ export class DatosServiceService {
       throw error;
     }
   }
-  
-  async getImagenAsync(carpeta:string, nombreImagen: string): Promise<string> {
+
+  async getImagenAsync(carpeta: string, nombreImagen: string): Promise<string> {
     try {
       const storage = getStorage();
       const imagesRef = ref(storage, `/${carpeta}/${nombreImagen}`);
@@ -53,52 +71,64 @@ export class DatosServiceService {
       throw error;
     }
   }
-  
 
   async GetId(nombreDeRegistro: string): Promise<number> {
-    let col = collection(this.firestore, nombreDeRegistro);
+    const col = collection(this.firestore, nombreDeRegistro);
     const q = query(col, orderBy('id', 'desc'), limit(1));
     const snapshot = await getDocs(q);
     if (snapshot.empty) {
       return 0; // Si no hay documentos, comenzamos desde 0
     } else {
       const doc = snapshot.docs[0];
-      return doc.data()["id"] || 0;
+      return doc.data()['id'] || 0;
     }
   }
-  
+
   ObtenerDatos(nombreDeRegistro: string): Observable<any[]> {
-    let col = collection(this.firestore, nombreDeRegistro);
+    const col = collection(this.firestore, nombreDeRegistro);
     return collectionData(col, { idField: 'id' }) as Observable<any[]>;
   }
 
   async ObtenerDatosAsync(nombreDeRegistro: string): Promise<any[]> {
-    let col = collection(this.firestore, nombreDeRegistro);
+    const col = collection(this.firestore, nombreDeRegistro);
     const snapshot = await getDocs(col);
-    // console.log(snapshot);
-    return snapshot.docs.map(doc => doc.data());
+    return snapshot.docs.map((doc) => doc.data());
   }
 
-
-  modificarDato(id: string, nombreDeRegistro: string, objeto: any): Promise<void> {
-    let datoRef = doc(this.firestore, nombreDeRegistro, id);
+  modificarDato(
+    id: string,
+    nombreDeRegistro: string,
+    objeto: any
+  ): Promise<void> {
+    const datoRef = doc(this.firestore, nombreDeRegistro, id);
     return updateDoc(datoRef, objeto);
   }
 
-  async modificarDatoAsync(id: string, nombreDeRegistro: string, objeto: any): Promise<void> {
+  async modificarDatoAsync(
+    id: string,
+    nombreDeRegistro: string,
+    objeto: any
+  ): Promise<void> {
     const datoRef = doc(this.firestore, nombreDeRegistro, id);
     try {
       await updateDoc(datoRef, objeto);
     } catch (error) {
-      console.error('Error al actualizar los datos en la base de datos:', error);
+      console.error(
+        'Error al actualizar los datos en la base de datos:',
+        error
+      );
       throw error;
     }
   }
-  
 
-
-  eliminarDato(id: string, nombreDeRegistro: string): Promise<void> {
-    let datoRef = doc(this.firestore, nombreDeRegistro, id);
-    return deleteDoc(datoRef);
+  async eliminarDato(id: string, nombreDeRegistro: string): Promise<boolean> {
+    const datoRef = doc(this.firestore, nombreDeRegistro, id);
+    try {
+      await deleteDoc(datoRef);
+      return true; // Retorna true si se eliminó correctamente
+    } catch (error) {
+      console.error('Error al eliminar el documento:', error);
+      return false; // Retorna false si hubo un error
+    }
   }
 }

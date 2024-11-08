@@ -26,7 +26,7 @@ export class FotosService {
       // Verificamos que el array de barcodes no esté vacío y que el primer elemento tenga un rawValue
       if (barcodes.length > 0 && barcodes[0].rawValue) {
         const qrData = barcodes[0].rawValue;
-        alert(`Código escaneado: ${qrData}`);
+        //alert(`Código escaneado: ${qrData}`);
         return qrData;
       } else {
         alert('No se detectó un valor válido en el QR.');

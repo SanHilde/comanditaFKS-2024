@@ -6,7 +6,6 @@ import { QrService, tipoQr } from '../services/qr.service';
 import { Mesa } from "../interfaces/mesa.interface";
 import { FotosService } from '../services/fotos.service'; // Importa FotoService
 import { DatosServiceService } from '../services/datos/datos-service.service';
-import Swal from 'sweetalert2';
 import { ToastService } from '../services/toast.service'; 
 
 @Component({
@@ -16,7 +15,7 @@ import { ToastService } from '../services/toast.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, IonicModule]
 })
-export class AltaMesaPage implements OnInit {
+export class AltaMesaPage  {
   mesaForm: FormGroup;
   codigoQR: string | null = null; 
   fotoUrl: string | null = null; // Para almacenar la URL de la foto
@@ -39,8 +38,6 @@ export class AltaMesaPage implements OnInit {
       this.codigoQR = null;
     });
   }
-
-  ngOnInit() {}
 
   async tomarFoto() {
     try {

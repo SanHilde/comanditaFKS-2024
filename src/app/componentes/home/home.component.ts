@@ -1,41 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { Router, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { ModulosComunesModule } from 'src/app/modulos/modulos-comunes/modulos-comunes.module';
-import { LoginComponent } from '../login/login.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { AppRoutingModule } from 'src/app/app-routing.module';
 import { AuthService } from 'src/app/services/auth.service';
+import { QrService } from 'src/app/services/qr.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  standalone:true,
-  imports: [ReactiveFormsModule, ModulosComunesModule, RouterOutlet],
+  standalone: true,
+  imports: [ModulosComunesModule, RouterOutlet],
 })
-export class HomeComponent  implements OnInit {
+export class HomeComponent {
+  constructor(
+    public auth: Auth,
+    public authService: AuthService,
+    public qrService: QrService
+  ) {}
 
-  constructor(public auth:Auth,private router: Router, public authService: AuthService) { }
+  escanearQr() {
+    this.qrService.leerQr();
 
-  ngOnInit() {
-    
-    if(!this.auth.currentUser){
-      // console.log(this.auth.currentUser);
-      // this.router.navigate(['/login']);
-    }
+    // TODO: Manejar los cambios de acción desde cada página donde se vaya hacer el cmabio de acción
+    if (this.authService.accionActual === 'PROPINA')
+      this.authService.accionActual = 'INGRESO';
   }
-  escanear(){
-    if( this.authService.accionActual=="PROPINA" || this.authService.accionActual==""){
-      this.authService.accionActual="INGRESO"
-    } else{
-      if( this.authService.accionActual=="INGRESO" ){
-        this.authService.accionActual="MESA"
-      } else{
-        this.authService.accionActual="PROPINA"
-      }
-
-    }
-  }
-
 }

@@ -217,7 +217,7 @@
       >
         Crear {{ tipoTraido }}
       </button>
-  <button *ngIf="this.authService.usuarioLogeado.length == 0" class="botonPrincipal" (click)="volverLogin()">Volver al inicio</button>
+  <button *ngIf="this.authService.usuarioLogeado !== undefined" class="botonPrincipal" (click)="volverLogin()">Volver al inicio</button>
 
     </div>
   </form>
