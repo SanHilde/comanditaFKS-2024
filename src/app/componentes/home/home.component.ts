@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { Router, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { ModulosComunesModule } from 'src/app/modulos/modulos-comunes/modulos-comunes.module';
 import { AuthService } from 'src/app/services/auth.service';
 import { QrService } from 'src/app/services/qr.service';
@@ -15,28 +15,15 @@ import { QrService } from 'src/app/services/qr.service';
 export class HomeComponent {
   constructor(
     public auth: Auth,
-    private router: Router,
     public authService: AuthService,
     public qrService: QrService
   ) {}
 
   escanearQr() {
-    console.log('holaaaaa');
+    this.qrService.leerQr();
 
-    this.router.navigate(['/ingreso']);
-
-    //this.qrService.leerQr();
-    // if (
-    //   this.authService.accionActual == 'PROPINA' ||
-    //   this.authService.accionActual == ''
-    // ) {
-    //   this.authService.accionActual = 'INGRESO';
-    // } else {
-    //   if (this.authService.accionActual == 'INGRESO') {
-    //     this.authService.accionActual = 'MESA';
-    //   } else {
-    //     this.authService.accionActual = 'PROPINA';
-    //   }
-    // }
+    // TODO: Manejar los cambios de acción desde cada página donde se vaya hacer el cmabio de acción
+    if (this.authService.accionActual === 'PROPINA')
+      this.authService.accionActual = 'INGRESO';
   }
 }

@@ -11,7 +11,11 @@ import { Observable, from, map, of, switchMap } from 'rxjs';
 import { Firestore } from '@angular/fire/firestore';
 import { DatosServiceService } from './datos/datos-service.service';
 import { FirebaseError } from '@angular/fire/app';
-import { UsuarioInterface } from '../interfaces/usuario.interface';
+import {
+  TipoDeAccionesUsuario,
+  TipoDeUsuario,
+  UsuarioInterface,
+} from '../interfaces/usuario.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -20,8 +24,8 @@ export class AuthService {
   firestore = inject(Firestore);
   firebaseAuth = inject(Auth);
 
-  public tipoUsuario = 'Anónimo'; // de defecto va a ser Anónimo
-  public accionActual = 'INGRESO';
+  public tipoUsuario: TipoDeUsuario = 'Anónimo'; // de defecto va a ser Anónimo
+  public accionActual: TipoDeAccionesUsuario = 'INGRESO';
   public verificado = false;
   // public datosTraidos:Observable<any[]>;
   public datosTraidos: any = [];
@@ -85,7 +89,7 @@ export class AuthService {
   }
 
   logout() {
-    this.tipoUsuario = '';
+    this.tipoUsuario = 'Sin asignar';
     this.verificado = false;
     this.usuarioLogeado = undefined;
     this.firebaseAuth.signOut().then(() => this.router.navigate(['login']));

@@ -5,10 +5,12 @@ export type TipoDeUsuario =
   | 'Dueño'
   | 'Supervisor'
   | 'Cocinero'
-  | 'Anónimo';
+  | 'Anónimo'
+  | 'Sin asignar';
 
 export type EstadoUsuario = 'pendiente' | 'rechazado' | 'aprobado' | 'anónimo';
 
+export type TipoDeAccionesUsuario = 'INGRESO' | 'MESA' | 'PROPINA';
 export interface UsuarioInterface {
   id: string;
   apellido?: string;

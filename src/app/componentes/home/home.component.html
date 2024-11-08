@@ -1,30 +1,25 @@
 <div class="container">
   <h1>
-    ¡Bienvenido {{ authService.usuarioLogeado.nombre }} a La Comandita FKS!
+    ¡Bienvenido {{ authService.usuarioLogeado?.nombre }} a La Comandita FKS!
   </h1>
   <!-- Ingreso de Clientes y Anonimos: Cuando escanea el qr los redirigue a la pagina de ingreso -->
   <ng-container
     *ngIf="['Cliente', 'Anónimo'].includes(authService.tipoUsuario)"
   >
-    <h2>Para iniciar el proceso, escanea el QR de la entrada</h2>
-    <button
-      id="escanerIngreso"
-      class="botonPrincipal botonScan"
-      (click)="escanearQr()"
-    >
-      <ion-icon name="qr-code-outline" class="iconScan"></ion-icon>
-    </button>
-  </ng-container>
+    <!-- INGRESO -->
+    <ng-container *ngIf="authService.accionActual === 'INGRESO'">
+      <h2>Para iniciar el proceso, escanea el QR de la entrada</h2>
+      <button
+        id="escanerIngreso"
+        class="botonPrincipal botonScan"
+        (click)="escanearQr()"
+      >
+        <ion-icon name="qr-code-outline" class="iconScan"></ion-icon>
+      </button>
+    </ng-container>
 
-  <div
-    *ngIf="
-      authService.tipoUsuario === 'Cliente' ||
-      authService.tipoUsuario === 'Anónimo'
-    "
-    class="listaColumna"
-  >
     <!-- MESA -->
-    <ng-container *ngIf="authService.accionActual === 'MESA'">
+    <div *ngIf="authService.accionActual === 'MESA'" class="listaColumna">
       <button class="botonPrincipal">Menú</button>
       <button class="botonPrincipal">Pedir</button>
       <button class="botonPrincipal">Hablar con el mozo</button>
@@ -32,21 +27,22 @@
       <button class="botonPrincipal">Completar encuesta</button>
       <button class="botonPrincipal">Juegos</button>
       <p>Escanea el código QR de propina y da la propina según la atención!</p>
-
-      <div *ngIf="authService.tipoUsuario === 'Maître'" class="listaColumna">
-        <button class="botonPrincipal">Disponibilidad de mesa</button>
-        <button class="botonPrincipal">Relacionar mesa a cliente</button>
-      </div>
-    </ng-container>
+    </div>
 
     <!-- PROPINA -->
-    <ng-container *ngIf="authService.accionActual === 'PROPINA'">
+    <div *ngIf="authService.accionActual === 'PROPINA'" class="listaColumna">
       <h2>Seleccione qué propina desea dar</h2>
       <button class="botonPrincipal">Excelente (20%)</button>
       <button class="botonPrincipal">Muy bueno (15%)</button>
       <button class="botonPrincipal">Bueno (10%)</button>
       <button class="botonPrincipal">Regular (15%)</button>
       <button class="botonPrincipal">Malo (0%)</button>
-    </ng-container>
+    </div>
+  </ng-container>
+
+  <!-- MAITRE -->
+  <div *ngIf="authService.tipoUsuario === 'Maître'" class="listaColumna">
+    <button class="botonPrincipal">Disponibilidad de mesa</button>
+    <button class="botonPrincipal">Relacionar mesa a cliente</button>
   </div>
 </div>
