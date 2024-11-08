@@ -62,7 +62,9 @@ export class AltaMesaPage  {
         fotoUrl: this.fotoUrl,
         codigoQR: '',
         estado: 'Disponible',
-        asignadaPor: 'Admin'
+        asignadaPor: 'Admin',
+        id: "",
+        idCliente: "",
       };
 
       this.qrService.crearImagenQr(mesaDataQR, tipoQr.MesaUno)

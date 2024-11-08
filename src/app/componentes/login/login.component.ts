@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -21,6 +21,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { NgxSpinnerService, NgxSpinnerModule } from 'ngx-spinner';
 import { AltaUsuariosComponent } from '../alta/alta-usuarios/alta-usuarios.component';
+import { CorreoService } from 'src/app/services/correo.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -40,7 +41,7 @@ import { AltaUsuariosComponent } from '../alta/alta-usuarios/alta-usuarios.compo
     AltaUsuariosComponent,
   ],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit{
   form: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
@@ -51,8 +52,13 @@ export class LoginComponent {
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthService,
-    public spinner: NgxSpinnerService
-  ) {}
+    public spinner: NgxSpinnerService, private CorreoService: CorreoService
+  ) {
+    
+  }
+  ngOnInit(): void {
+    //this.enviarCorreo();
+  }
 
   iniciarSesion() {
     this.spinner.show();
@@ -133,5 +139,14 @@ export class LoginComponent {
 
   onInputChange() {
     this.errorMessage = '';
+  }
+  enviarCorreo() {
+    const to = 'kervinstilver1991@gmail.com'; 
+    const subject = 'Asunto de prueba';
+    const message = 'mensaje';
+
+    this.CorreoService.sendEmail(to, subject, message)
+      .then(response => console.log('Correo enviado con éxito'))
+      .catch(error => console.error('Error al enviar el correo:', error));
   }
 }

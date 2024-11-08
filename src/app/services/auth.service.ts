@@ -110,7 +110,7 @@ export class AuthService {
   }
 
   getUserByEmail(email: string): Observable<UsuarioInterface | undefined> {
-    const usersRef = collection(this.firestore, 'usuarios');
+    const usersRef = collection(this.firestore, this.userCollectionName);
     const q = query(usersRef, where('correo', '==', email));
 
     return new Observable<UsuarioInterface | undefined>((observer) => {

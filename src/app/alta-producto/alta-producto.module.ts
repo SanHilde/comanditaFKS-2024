@@ -4,18 +4,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { EncuestaEmpleadoPageRoutingModule } from './encuesta-empleado-routing.module';
+import { AltaProductoPageRoutingModule } from './alta-producto-routing.module';
 
-import { EncuestaEmpleadoPage } from './encuesta-empleado.page';
+import { AltaProductoPage } from './alta-producto.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    EncuestaEmpleadoPageRoutingModule,
+    AltaProductoPageRoutingModule,
     ReactiveFormsModule
   ],
-  declarations: [EncuestaEmpleadoPage]
+  declarations: [AltaProductoPage]
 })
-export class EncuestaEmpleadoPageModule {}
+export class AltaProductoPageModule {}
