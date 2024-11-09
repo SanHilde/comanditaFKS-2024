@@ -90,7 +90,7 @@ export class LoginComponent implements OnInit{
         this.errorMessage = '';
         this.form.controls['email'].setValue('');
         this.form.controls['password'].setValue('');
-        this.router.navigateByUrl('home');
+        this.router.navigateByUrl('alta-mesa');
       },
       error: (err: FirebaseError) => {
         let errorMessage = 'Se produjo un error desconocido.';

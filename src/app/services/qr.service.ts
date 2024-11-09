@@ -49,7 +49,8 @@ export class QrService {
           tipoQr.MesaUno +
           objeto.numero +
           objeto.tipo +
-          objeto.cantidadComensales
+          objeto.cantidadComensales +
+          objeto.numeroRam
         );
       case tipoQr.MesaDos:
         return tipoQr.MesaDos + objeto.numero;

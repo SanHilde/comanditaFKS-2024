@@ -9,4 +9,6 @@ export interface Mesa {
     asignadaPor?: string;          // ID o nombre del usuario que asignó/creó la mesa (dueño o supervisor)
     id: string;
     idCliente: string;
+    qrid: string;
+    numeroRam: number;
   }

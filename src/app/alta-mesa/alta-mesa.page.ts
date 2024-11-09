@@ -52,6 +52,7 @@ export class AltaMesaPage  {
   }
 
   onSubmit() {
+    const numero = Math.floor(Math.random() * 1000) + 1;
     if (this.mesaForm.valid) {
       const mesaData = this.mesaForm.value;
       const mesaDataQR: Mesa = {
@@ -65,6 +66,9 @@ export class AltaMesaPage  {
         asignadaPor: 'Admin',
         id: "",
         idCliente: "",
+        numeroRam: numero ,
+        qrid:"MESA1"+mesaData.numero+mesaData.tipo+mesaData.cantidadComensales+numero,
+        
       };
 
       this.qrService.crearImagenQr(mesaDataQR, tipoQr.MesaUno)

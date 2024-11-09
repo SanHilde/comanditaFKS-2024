@@ -6,6 +6,7 @@ import { ToastService } from '../services/toast.service';
 import { FotosService } from '../services/fotos.service'; 
 import { AuthService } from 'src/app/services/auth.service';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-encuesta-empleado',
   templateUrl: './encuesta-empleado.page.html',
@@ -14,14 +15,14 @@ import { Observable } from 'rxjs';
 export class EncuestaEmpleadoPage  implements OnInit {
   encuestaForm: FormGroup;
   fotoUrl: string | null = null;  // Ahora acepta tanto string como null
-  usuarioActual$: Observable<any> = this.authService.getCurrentUser();
+  usuarios: any;
 
   constructor(
     private fb: FormBuilder,
     private datosService: DatosServiceService,
     private toastService: ToastService,
     private fotoService: FotosService, 
-    private authService:  AuthService 
+    private authService:  AuthService, private router: Router
   ) {
     // Inicializamos el formulario reactivo con los campos definidos
     this.encuestaForm = this.fb.group({
@@ -35,13 +36,23 @@ export class EncuestaEmpleadoPage  implements OnInit {
     });
   }
 
-  ngOnInit() {
-    this.usuarioActual$.subscribe(
-      user => 
-      {
-        alert('Correo del usuario: ' + user.email);
+  ngOnInit(): void {
+    this.usuarios = this.authService.usuarioLogeado;
+
+    // Verifica el tipo de usuario
+    if (this.usuarios) {
+      const { tipoUsuario } = this.usuarios;
+      
+      if (tipoUsuario === 'Cliente' || tipoUsuario === 'Anónimo') {
+        // Redirige al home
+        this.router.navigate(['/home']); // Ajusta la ruta según tu configuración
+      } else {
+        // Mantén al usuario en la misma página
+        console.log('Usuario no redirigido:', this.usuarios);
       }
-    )
+    } else {
+      console.log('No hay usuario logueado.');
+    }
   }
   
   
@@ -54,7 +65,7 @@ export class EncuestaEmpleadoPage  implements OnInit {
 
       // Creamos un objeto basado en la interfaz EncuestaEmpleado
       const encuestaEmpleado: EncuestaEmpleado = {
-        empleadoId: 'empleado123',  // Este dato puede venir de un servicio o contexto de usuario
+        empleadoId: this.usuarios.id,  // Este dato puede venir de un servicio o contexto de usuario
         fecha: new Date(),          // Se asigna la fecha actual
         espacioTrabajo: encuestaData.espacioTrabajo,
         imagenEspacio: encuestaData.imagenEspacio,
