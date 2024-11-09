@@ -133,7 +133,7 @@ export class AltaUsuariosComponent implements OnInit {
             'usuarios',
             this.ajustarDatos(urlFotoSubida)
           );
-          if(this.authService.usuarioLogeado !== undefined){
+          if (this.authService.usuarioLogeado !== undefined) {
             this.router.navigateByUrl('/login');
           }
         } else {
@@ -153,10 +153,9 @@ export class AltaUsuariosComponent implements OnInit {
             tipoUsuario: 'Anónimo',
             aprobado: 'anónimo',
           };
-          this.authService.tipoUsuario="Anónimo";
-          
-            this.router.navigateByUrl('/home');
-          
+          this.authService.tipoUsuario = 'Anónimo';
+
+          this.router.navigateByUrl('/home');
         }
         // if (nuevoUsuario.user || this.tipoTraido=="Anónimo")
         // {
@@ -226,8 +225,12 @@ export class AltaUsuariosComponent implements OnInit {
     this.cdr.detectChanges(); // Forzar actualización de la vista
     this.loader = false;
   }
-  volverLogin(){
-    this.router.navigate(['/login']);
+  volverLogin() {
+    if (this.authService.usuarioLogeado) {
+      this.router.navigate(['/home']);
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
 
   obtenerMensajeDeError(error: any) {
@@ -268,36 +271,35 @@ export class AltaUsuariosComponent implements OnInit {
     traduccion = await this.qrService.leerQr();
     // this.succesMessage = traduccion;
     this.parsearDatosDesdeString(traduccion);
-    
   }
 
   parsearDatosDesdeString(qrString: string) {
     // Dividimos el string en partes usando "@" como delimitador
-    const partes = qrString.split("@");
-  
+    const partes = qrString.split('@');
+
     // Verificamos que existan al menos tres partes después del primer "@" para extraer apellido, nombre y dni
     if (partes.length >= 4) {
       // Capitalizamos la primera letra de apellido y nombre
       const capitalizar = (texto: string) =>
-        texto.trim().toLowerCase().replace(/^\w/, (c) => c.toUpperCase());
-  
+        texto
+          .trim()
+          .toLowerCase()
+          .replace(/^\w/, (c) => c.toUpperCase());
+
       const apellido = capitalizar(partes[1]); // Primer elemento después del primer "@" es el apellido
-      const nombre = capitalizar(partes[2]);   // Segundo elemento después del primer "@" es el nombre
-      const dni = partes[4].trim();            // Tercer elemento después del primer "@" es el dni
-  
+      const nombre = capitalizar(partes[2]); // Segundo elemento después del primer "@" es el nombre
+      const dni = partes[4].trim(); // Tercer elemento después del primer "@" es el dni
+
       // Asignamos los valores a los campos correspondientes
       this.apellido?.setValue(apellido);
       this.nombre?.setValue(nombre);
       this.dni?.setValue(dni);
-      this.succesMessage = "QR leído con éxito";
+      this.succesMessage = 'QR leído con éxito';
     } else {
       // Si el formato es incorrecto y no tiene los elementos necesarios, mostramos un mensaje de error
-      this.errorMessage = "Error al leer el QR";
+      this.errorMessage = 'Error al leer el QR';
     }
   }
-  
-
-
 
   get nombre() {
     return this.formulario.get('nombre');
