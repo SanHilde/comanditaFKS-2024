@@ -136,13 +136,10 @@ Se marcaran en negrita aquellas tareas que hayan tenido un cambio de una semana 
 ![Aprobacion de cliente](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Lista%20clientes.JPG)
 
 ### **Proceso de pedido de cliente o anónimo**
--**Incio**
+Primero inicio, como aparece cuando se ingresa a la app, luego el ingreso, cuando se escanea el qr de la entrada, luego cuando se escanea el qr de la mesa y por ultimo el qr de la propina.
 ![Inicio](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Anónimo-cliente-inicio.JPG)
--**Ingreso**
 ![Ingreso](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Anónimo-cliente-ingreso.JPG)
--**Mesa**
 ![Mesa](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Anónimo-cliente-mesa.JPG)
--**Propina**
 ![Propina](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Anónimo-cliente-propina.JPG)
 
 
