@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Registrar Producto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="container">
+  <form [formGroup]="productoForm" (ngSubmit)="onSubmit()">
+    <!-- Campos del formulario -->
+    <ion-item>
+      <ion-label position="stacked">Nombre del Producto:</ion-label>
+      <ion-input formControlName="nombre" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Descripción:</ion-label>
+      <ion-textarea formControlName="descripcion" required></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Tiempo de Elaboración (minutos):</ion-label>
+      <ion-input formControlName="tiempoElaboracion" type="number" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Precio:</ion-label>
+      <ion-input formControlName="precio" type="number" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Categoría:</ion-label>
+      <ion-select formControlName="categoria" required>
+        <ion-select-option value="Cocinero">Cocinero</ion-select-option>
+        <ion-select-option value="Bartender">Bartender</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <!-- Botón para capturar fotos del producto -->
+    <ion-button expand="full" (click)="tomarFoto()" class="btnImagen">Capturar Foto del Producto</ion-button>
+
+    <ion-button expand="full" type="submit" class="botonPrincipal">Registrar Producto</ion-button>
+  </form>
+
+  <!-- Mostrar las fotos capturadas -->
+  <div *ngIf="fotos.length > 0">
+    <h3>Fotos del Producto:</h3>
+    <div *ngFor="let foto of fotos">
+      <img [src]="foto" alt="Foto del producto" />
+    </div>
+  </div>
+
+  <!-- Mostrar el código QR generado si está disponible -->
+  <div *ngIf="codigoQR">
+    <h3>Código QR del Producto:</h3>
+    <img [src]="codigoQR" alt="Código QR del producto" />
+  </div>
+</ion-content>

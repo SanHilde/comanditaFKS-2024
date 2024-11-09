@@ -7,4 +7,8 @@ export interface Mesa {
     estado?: 'Disponible' | 'Ocupada' | 'Reservada'; // Estado de la mesa (disponible, ocupada, reservada)
     fechaCreacion?: Date;          // Fecha en que se creó la mesa
     asignadaPor?: string;          // ID o nombre del usuario que asignó/creó la mesa (dueño o supervisor)
+    id: string;
+    idCliente: string;
+    qrid: string;
+    numeroRam: number;
   }

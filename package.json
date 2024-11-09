@@ -36,6 +36,8 @@
     "@capacitor/status-bar": "6.0.1",
     "@capgo/capacitor-navigation-bar": "^6.1.60",
     "@ionic/angular": "^8.0.0",
+    "@sendgrid/mail": "^8.1.4",
+    "emailjs-com": "^3.2.0",
     "firebase": "^11.0.1",
     "ionicons": "^7.0.0",
     "ngx-spinner": "^17.0.0",

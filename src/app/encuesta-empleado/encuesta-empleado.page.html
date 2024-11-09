@@ -1,13 +1,70 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>encuestaEmpleado</ion-title>
+    <ion-title>Alta Encuesta</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">encuestaEmpleado</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <form [formGroup]="encuestaForm" (ngSubmit)="onSubmit()">
+    
+    <!-- Espacio de Trabajo -->
+    <ion-item>
+      <ion-label position="floating">Espacio de Trabajo</ion-label>
+      <ion-input formControlName="espacioTrabajo" required></ion-input>
+    </ion-item>
+
+    <!-- Imagen del Espacio -->
+    <ion-item>
+      <ion-label position="floating">Imagen del Espacio</ion-label>
+      <ion-input formControlName="imagenEspacio" [value]="fotoUrl" readonly></ion-input>
+    </ion-item>
+
+    <ion-button expand="full" (click)="tomarFoto()">Tomar Foto</ion-button>
+    
+    <!-- Mostrar la foto tomada -->
+    <div *ngIf="fotoUrl">
+      <ion-img [src]="fotoUrl"></ion-img>
+    </div>
+
+    <!-- Organización del Espacio -->
+    <ion-item>
+      <ion-label position="floating">Organización del Espacio (1-10)</ion-label>
+      <ion-input formControlName="organizacionEspacio" type="number" min="1" max="10" required></ion-input>
+    </ion-item>
+
+    <!-- Herramientas Completas -->
+    <ion-item>
+      <ion-label>Herramientas Completas</ion-label>
+      <ion-toggle formControlName="herramientasCompletas"></ion-toggle>
+    </ion-item>
+
+    <!-- Tareas Realizadas -->
+    <ion-item>
+      <ion-label>Tareas Realizadas</ion-label>
+      <ion-select formControlName="tareasRealizadas" multiple="true">
+        <ion-select-option value="limpiarMesas">Limpiar mesas</ion-select-option>
+        <ion-select-option value="limpiarCocina">Limpiar cocina</ion-select-option>
+        <ion-select-option value="limpiarPiso">Limpiar piso</ion-select-option>
+        <ion-select-option value="revisarInventario">Revisar inventario</ion-select-option>
+        <ion-select-option value="organizarAlacena">Organizar alacena</ion-select-option>
+        <ion-select-option value="desinfectarSuperficies">Desinfectar superficies</ion-select-option>
+        <!-- Agregar más tareas según lo necesites -->
+      </ion-select>
+    </ion-item>
+
+    <!-- Categoría de Trabajo -->
+    <ion-item>
+      <ion-label position="floating">Categoría de Trabajo</ion-label>
+      <ion-input formControlName="categoriaTrabajo" required></ion-input>
+    </ion-item>
+
+    <!-- Opción para saltarse la encuesta -->
+    <ion-item>
+      <ion-label>¿Deseas saltar la encuesta?</ion-label>
+      <ion-toggle formControlName="saltearEncuesta"></ion-toggle>
+    </ion-item>
+
+    <!-- Botón de envío -->
+    <ion-button expand="full" type="submit" [disabled]="!encuestaForm.valid">Enviar Encuesta</ion-button>
+  </form>
 </ion-content>

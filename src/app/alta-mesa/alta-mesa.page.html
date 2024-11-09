@@ -4,7 +4,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="container">
   <form [formGroup]="mesaForm" (ngSubmit)="onSubmit()">
     <!-- Campos del formulario -->
     <ion-item>
@@ -40,9 +40,8 @@
     </ion-item>
 
     <!-- Botón para capturar la foto -->
-    <ion-button expand="full" (click)="tomarFoto()">Capturar Foto</ion-button>
-
-    <ion-button expand="full" type="submit">Crear Mesa</ion-button>
+    <ion-button expand="full" (click)="tomarFoto()" class="btnImagen">Capturar Foto</ion-button>
+    <ion-button expand="full" type="submit" class="botonPrincipal">Crear Mesa</ion-button>
   </form>
 
   <div *ngIf="codigoQR">

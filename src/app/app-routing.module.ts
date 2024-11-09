@@ -4,9 +4,8 @@ import { SplashScreenComponent } from './componentes/splash-screen/splash-screen
 
 const routes: Routes = [
   {
-    path: '',
-    loadComponent: () =>
-      import('./componentes/home/home.component').then((m) => m.HomeComponent),
+    path: 'home',
+    loadComponent: () => import('./componentes/home/home.component').then(m => m.HomeComponent),
   },
   {
     path: 'login',
@@ -58,6 +57,16 @@ const routes: Routes = [
     loadChildren: () =>
       import('./alta-mesa/alta-mesa.module').then((m) => m.AltaMesaPageModule),
   },
+  {
+    path: 'alta-producto',
+    loadChildren: () => import('./alta-producto/alta-producto.module').then( m => m.AltaProductoPageModule)
+  },
+  {
+    path: 'encuesta-supervisor',
+    loadChildren: () => import('./encuesta-supervisor/encuesta-supervisor.module').then( m => m.EncuestaSupervisorPageModule)
+  },
+
+
 ];
 @NgModule({
   imports: [
