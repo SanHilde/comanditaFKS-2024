@@ -6,6 +6,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ListaDeEsperaService } from 'src/app/services/lista-de-espera.service';
 import { NgxSpinnerService, NgxSpinnerModule } from 'ngx-spinner';
 import Swal from 'sweetalert2';
+import { MesasService } from 'src/app/services/mesas.service';
+import { Mesa } from 'src/app/interfaces/mesa.interface';
 
 @Component({
   selector: 'app-ingreso',
@@ -17,10 +19,13 @@ import Swal from 'sweetalert2';
 export class IngresoComponent implements OnInit {
   estaEnListaDeEspera: boolean = false;
   esUsuarioAnonimo: boolean = true;
+  yaTieneMesaAsignada: boolean = false;
+  mesaAsignada: Mesa | undefined;
 
   constructor(
     public authService: AuthService,
     public listaDeEsperaService: ListaDeEsperaService,
+    public mesasService: MesasService,
     private router: Router,
     public spinner: NgxSpinnerService
   ) {}
@@ -35,6 +40,11 @@ export class IngresoComponent implements OnInit {
       (listaDeEspera) => {
         this.listaDeEsperaService.listaDeEsperaDelCliente = listaDeEspera;
         this.estaEnListaDeEspera = listaDeEspera.length > 0;
+        if (listaDeEspera.length > 0) {
+          this.yaTieneMesaAsignada =
+            listaDeEspera.filter((item) => item.estado === 'LISTO').length > 0;
+          if (this.yaTieneMesaAsignada) this.obtenerMesaDelCliente();
+        }
         this.spinner.hide();
       },
       (error) => {
@@ -42,6 +52,15 @@ export class IngresoComponent implements OnInit {
         this.spinner.hide();
       }
     );
+  }
+
+  obtenerMesaDelCliente() {
+    if (!this.authService.usuarioLogeado?.id) return;
+    this.mesasService
+      .obtenerMesaPorCliente(this.authService.usuarioLogeado.id)
+      .subscribe((mesa) => {
+        this.mesaAsignada = mesa;
+      });
   }
 
   async handleListaDeEspera(estado: boolean) {
@@ -92,4 +111,7 @@ export class IngresoComponent implements OnInit {
     // TODO: Agregar pagina de los resultados
     this.router.navigate(['/resultadosEncuestas']);
   }
+
+  // Si ya tiene una mesa asignada
+  escanearQrMesa() {}
 }

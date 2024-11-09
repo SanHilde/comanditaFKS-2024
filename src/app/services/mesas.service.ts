@@ -40,4 +40,28 @@ export class MesasService {
         return false;
       });
   }
+
+  obtenerMesaPorCliente(idCliente: string): Observable<Mesa | undefined> {
+    return new Observable((observer) => {
+      this.obtenerMesas().subscribe(
+        (mesas: Mesa[]) => {
+          const mesaEncontrada = mesas.find(
+            (mesa) => mesa.idCliente === idCliente
+          );
+
+          if (mesaEncontrada) {
+            observer.next(mesaEncontrada);
+          } else {
+            observer.next(undefined);
+          }
+          observer.complete();
+        },
+        (error) => {
+          console.error('Error al obtener mesas desde Firestore:', error);
+          observer.next(undefined);
+          observer.complete();
+        }
+      );
+    });
+  }
 }
