@@ -1,7 +1,8 @@
+export type EstadoListaDeEspera = 'PENDIENTE' | 'LISTO';
 export interface ListaDeEsperaInterface {
   id?: string;
   idCliente: string;
-  estado: 'PENDIENTE' | 'LISTO';
+  estado: EstadoListaDeEspera;
   cantidadDePersonas: number;
   horaEntrada: string; // Es un Date pero se guarada como string
 }

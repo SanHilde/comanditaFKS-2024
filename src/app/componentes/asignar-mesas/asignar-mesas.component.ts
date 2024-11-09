@@ -102,7 +102,24 @@ export class AsignarMesasComponent implements OnInit {
     this.mesaSeleccionada = mesa;
   }
 
-  asignarMesa() {}
+  asignarMesa() {
+    if (!this.mesaSeleccionada || !this.itemDeLaListaSeleccionado?.id) return;
+    this.spinner.show();
+
+    this.mesasService.modificarMesa(
+      this.mesaSeleccionada.id,
+      this.itemDeLaListaSeleccionado.idCliente,
+      'Ocupada'
+    );
+
+    this.listaDeEsperaService.modificarListaDeEspera(
+      this.itemDeLaListaSeleccionado.id,
+      'LISTO'
+    );
+
+    this.mesasFiltradas = [];
+    this.spinner.hide();
+  }
 
   volver() {
     this.router.navigate(['/home']);
