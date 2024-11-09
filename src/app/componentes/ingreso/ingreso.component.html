@@ -1,5 +1,5 @@
 <div class="container">
-  <h1>¡Bienvenido!</h1>
+  <h1 *ngIf="!estaEnListaDeEspera">¡Bienvenido!</h1>
   <h2 *ngIf="estaEnListaDeEspera">Esperando a que le asignen una mesa...</h2>
 
   <div class="button-container">
@@ -25,7 +25,11 @@
     <!-- ENCUESTAS -->
     <!-- Si es Cliente, pueden ver y completar encuestas -->
     <button
-      *ngIf="authService.tipoUsuario !== 'Anónimo' && estaEnListaDeEspera"
+      *ngIf="
+        authService.tipoUsuario !== 'Anónimo' &&
+        authService.tipoUsuario !== 'Sin asignar' &&
+        estaEnListaDeEspera
+      "
       class="botonPrincipal button"
       (click)="irACompletarEncuestas()"
     >

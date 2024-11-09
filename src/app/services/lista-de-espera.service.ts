@@ -34,13 +34,14 @@ export class ListaDeEsperaService {
     );
   }
 
-  async agregarAListaDeEspera(): Promise<boolean> {
+  async agregarAListaDeEspera(cantidad: number): Promise<boolean> {
     const idUsuarioLogueado = this.authService.usuarioLogeado?.id;
     if (!idUsuarioLogueado) return false;
 
     const datos: ListaDeEsperaInterface = {
       idCliente: idUsuarioLogueado,
       estado: 'PENDIENTE',
+      cantidadDePersonas: cantidad,
     };
 
     try {
