@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -41,7 +41,7 @@ import { CorreoService } from 'src/app/services/correo.service';
     AltaUsuariosComponent,
   ],
 })
-export class LoginComponent implements OnInit{
+export class LoginComponent {
   form: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
@@ -52,13 +52,9 @@ export class LoginComponent implements OnInit{
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthService,
-    public spinner: NgxSpinnerService, private CorreoService: CorreoService
-  ) {
-    
-  }
-  ngOnInit(): void {
-    //this.enviarCorreo();
-  }
+    public spinner: NgxSpinnerService,
+    private CorreoService: CorreoService
+  ) {}
 
   iniciarSesion() {
     this.spinner.show();
@@ -90,7 +86,7 @@ export class LoginComponent implements OnInit{
         this.errorMessage = '';
         this.form.controls['email'].setValue('');
         this.form.controls['password'].setValue('');
-        this.router.navigateByUrl('alta-mesa');
+        this.router.navigateByUrl('home');
       },
       error: (err: FirebaseError) => {
         let errorMessage = 'Se produjo un error desconocido.';
@@ -141,12 +137,12 @@ export class LoginComponent implements OnInit{
     this.errorMessage = '';
   }
   enviarCorreo() {
-    const to = 'kervinstilver1991@gmail.com'; 
+    const to = 'kervinstilver1991@gmail.com';
     const subject = 'Asunto de prueba';
     const message = 'mensaje';
 
     this.CorreoService.sendEmail(to, subject, message)
-      .then(response => console.log('Correo enviado con éxito'))
-      .catch(error => console.error('Error al enviar el correo:', error));
+      .then((response) => console.log('Correo enviado con éxito'))
+      .catch((error) => console.error('Error al enviar el correo:', error));
   }
 }

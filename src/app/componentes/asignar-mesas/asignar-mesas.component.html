@@ -1,0 +1,60 @@
+<div class="container">
+  <ng-container *ngIf="listaDeEspera.length; else listaVacia">
+    <h1>Lista de espera</h1>
+    <h2>Selecciona un cliente</h2>
+
+    <ion-radio-group (ionChange)="onClienteSeleccionado($event)">
+      <ion-item *ngFor="let cliente of listaDeEspera">
+        <ion-radio [value]="cliente">
+          {{ cliente.cantidadDePersonas }} personas - Tiempo de espera:
+          {{ calcularPrioridad(cliente) }}
+        </ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <!-- Mostrar mesas disponibles según la cantidad de personas seleccionadas -->
+    <div *ngIf="mesasDisponibles.length > 0 && itemDeLaListaSeleccionado">
+      <h2>
+        Mesas disponibles para
+        {{ itemDeLaListaSeleccionado.cantidadDePersonas }} personas
+      </h2>
+      <ion-radio-group
+        (ionChange)="onMesaSeleccionada($event)"
+        [value]="mesaSeleccionada"
+      >
+        <ion-item *ngFor="let mesa of mesasFiltradas">
+          <ion-radio [value]="mesa">
+            Mesa {{ mesa.numero }} - {{ mesa.tipo }} ({{
+              mesa.cantidadComensales
+            }}
+            personas)
+          </ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </div>
+
+    <p *ngIf="!mesasDisponibles.length && mostrarMesas">
+      No hay mesas disponibles
+    </p>
+
+    <button
+      class="botonPrincipal botonSubmit"
+      (click)="asignarMesa()"
+      [disabled]="!itemDeLaListaSeleccionado || !mesaSeleccionada"
+    >
+      Asignar mesa
+    </button>
+  </ng-container>
+
+  <ng-template #listaVacia>
+    <p *ngIf="!listaDeEspera.length && mesasDisponibles.length">
+      No hay clientes en la lista de espera
+    </p>
+    <p *ngIf="!listaDeEspera.length && !mesasDisponibles.length">
+      No hay clientes en la lista de espera y no hay mesas disponibles
+    </p>
+  </ng-template>
+  <ion-button fill="clear" color="dark" (click)="volver()">
+    <ion-icon name="chevron-back-outline" size="large"></ion-icon> Volver
+  </ion-button>
+</div>

@@ -1,6 +1,22 @@
 <div class="container">
+  <ng-container *ngIf="yaTieneMesaAsignada && mesaAsignada !== undefined">
+    <h1>
+      Tu mesa asignada es la número <strong>{{ mesaAsignada.numero }}</strong>
+    </h1>
+    <h2>Escanea el QR de tu mesa para realizar tu pedido</h2>
+    <button
+      id="escanerIngreso"
+      class="botonPrincipal botonScan"
+      (click)="escanearQrMesa()"
+    >
+      <ion-icon name="qr-code-outline" class="iconScan"></ion-icon>
+    </button>
+  </ng-container>
+
   <h1 *ngIf="!estaEnListaDeEspera">¡Bienvenido!</h1>
-  <h2 *ngIf="estaEnListaDeEspera">Esperando a que le asignen una mesa...</h2>
+  <h2 *ngIf="estaEnListaDeEspera && !yaTieneMesaAsignada">
+    Esperando a que le asignen una mesa...
+  </h2>
 
   <div class="button-container">
     <!-- Ingreso a la lista de espera -->
@@ -14,7 +30,7 @@
     </button>
 
     <button
-      *ngIf="estaEnListaDeEspera"
+      *ngIf="estaEnListaDeEspera && !yaTieneMesaAsignada"
       class="botonPrincipal button"
       (click)="handleListaDeEspera(false)"
     >

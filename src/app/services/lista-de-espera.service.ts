@@ -1,13 +1,18 @@
 import { Injectable } from '@angular/core';
 import { DatosServiceService } from './datos/datos-service.service';
-import { ListaDeEsperaInterface } from '../interfaces/listaDeEspera.interface';
+import {
+  EstadoListaDeEspera,
+  ListaDeEsperaInterface,
+} from '../interfaces/listaDeEspera.interface';
 import { AuthService } from './auth.service';
 import {
   collection,
   deleteDoc,
   doc,
+  Firestore,
   getDocs,
   query,
+  updateDoc,
   where,
 } from '@angular/fire/firestore';
 import { map, Observable } from 'rxjs';
@@ -21,8 +26,13 @@ export class ListaDeEsperaService {
 
   constructor(
     public authService: AuthService,
-    private datosServices: DatosServiceService
+    private datosServices: DatosServiceService,
+    public firestore: Firestore
   ) {}
+
+  obtenerListaDeEspera(): Observable<ListaDeEsperaInterface[]> {
+    return this.datosServices.ObtenerDatos(this.nombreDeColeccion);
+  }
 
   obtenerListaDeEsperaCliente(): Observable<ListaDeEsperaInterface[]> {
     return this.datosServices.ObtenerDatos(this.nombreDeColeccion).pipe(
@@ -42,6 +52,7 @@ export class ListaDeEsperaService {
       idCliente: idUsuarioLogueado,
       estado: 'PENDIENTE',
       cantidadDePersonas: cantidad,
+      horaEntrada: `${new Date()}`,
     };
 
     try {
@@ -80,5 +91,21 @@ export class ListaDeEsperaService {
       console.error('Error al eliminar de la lista de espera: ', error);
       return false;
     }
+  }
+
+  modificarListaDeEspera(id: string, estado: EstadoListaDeEspera): void {
+    const itemListaRef = doc(this.firestore, this.nombreDeColeccion, id);
+
+    // Realiza la actualización del estado de la lista de espera
+    updateDoc(itemListaRef, {
+      estado: estado,
+    })
+      .then(() => {
+        return true;
+      })
+      .catch((error) => {
+        console.error('Error al actualizar los datos de la mesa:', error);
+        return false;
+      });
   }
 }
