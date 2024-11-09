@@ -11,6 +11,7 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { SplashScreenComponent } from './componentes/splash-screen/splash-screen.component';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [AppComponent],
@@ -37,6 +38,7 @@ import { SplashScreenComponent } from './componentes/splash-screen/splash-screen
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage()),
+    provideAnimations(),
   ],
   bootstrap: [AppComponent],
 })

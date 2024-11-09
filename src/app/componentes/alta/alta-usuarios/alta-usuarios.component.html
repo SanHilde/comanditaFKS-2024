@@ -13,7 +13,7 @@
     ></ion-toast>
   </ng-template>
   <!-- (ngSubmit)="guardarDatos()" -->
-  <form [formGroup]="formulario" >
+  <form [formGroup]="formulario">
     <div class="primerBloque">
       <div class="primerMitad">
         <ion-input
@@ -217,8 +217,9 @@
       >
         Dar de alta
       </button>
-  <button  class="botonPrincipal" (click)="volverLogin()">Volver al inicio</button>
-
+      <button class="botonPrincipal" (click)="volverLogin()">
+        Volver al inicio
+      </button>
     </div>
   </form>
   <div *ngIf="errorMessage.length > 0">

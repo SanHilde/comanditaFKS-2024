@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
 import {
   FormBuilder,
@@ -33,7 +33,6 @@ export class AltaUsuariosComponent implements OnInit {
   tipos: string[] = [];
   errorMessage = '';
   succesMessage = '';
-  // @Input() tipoTraido = 'Cliente';
   tipoTraido: string | null = 'Cliente';
 
   constructor(
@@ -147,7 +146,7 @@ export class AltaUsuariosComponent implements OnInit {
             this.ajustarDatos(urlFotoSubida)
           );
           this.authService.usuarioLogeado = {
-            id: 'Usuario Anónimo',
+            id: `Usuario Anónimo ${this.nombre?.value}`,
             nombre: this.nombre?.value,
             foto: urlFotoSubida,
             tipoUsuario: 'Anónimo',
@@ -225,6 +224,7 @@ export class AltaUsuariosComponent implements OnInit {
     this.cdr.detectChanges(); // Forzar actualización de la vista
     this.loader = false;
   }
+
   volverLogin() {
     if (this.authService.usuarioLogeado) {
       this.router.navigate(['/home']);

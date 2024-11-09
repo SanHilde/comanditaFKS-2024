@@ -5,7 +5,8 @@ import { SplashScreenComponent } from './componentes/splash-screen/splash-screen
 const routes: Routes = [
   {
     path: 'home',
-    loadComponent: () => import('./componentes/home/home.component').then(m => m.HomeComponent),
+    loadComponent: () =>
+      import('./componentes/home/home.component').then((m) => m.HomeComponent),
   },
   {
     path: 'login',
@@ -24,6 +25,13 @@ const routes: Routes = [
     loadComponent: () =>
       import('./componentes/ingreso/ingreso.component').then(
         (m) => m.IngresoComponent
+      ),
+  },
+  {
+    path: 'asignarMesas',
+    loadComponent: () =>
+      import('./componentes/asignar-mesas/asignar-mesas.component').then(
+        (m) => m.AsignarMesasComponent
       ),
   },
   {
@@ -59,14 +67,18 @@ const routes: Routes = [
   },
   {
     path: 'alta-producto',
-    loadChildren: () => import('./alta-producto/alta-producto.module').then( m => m.AltaProductoPageModule)
+    loadChildren: () =>
+      import('./alta-producto/alta-producto.module').then(
+        (m) => m.AltaProductoPageModule
+      ),
   },
   {
     path: 'encuesta-supervisor',
-    loadChildren: () => import('./encuesta-supervisor/encuesta-supervisor.module').then( m => m.EncuestaSupervisorPageModule)
+    loadChildren: () =>
+      import('./encuesta-supervisor/encuesta-supervisor.module').then(
+        (m) => m.EncuestaSupervisorPageModule
+      ),
   },
-
-
 ];
 @NgModule({
   imports: [

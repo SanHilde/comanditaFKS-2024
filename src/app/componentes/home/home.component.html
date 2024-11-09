@@ -1,13 +1,13 @@
 <div class="container">
-  <h1>
-    ¡Bienvenido {{ authService.usuarioLogeado?.nombre }} a La Comandita FKS!
-  </h1>
   <!-- Ingreso de Clientes y Anonimos: Cuando escanea el qr los redirigue a la pagina de ingreso -->
   <ng-container
     *ngIf="
       ['Cliente', 'Anónimo', 'Sin asignar'].includes(authService.tipoUsuario)
     "
   >
+    <h1>
+      ¡Bienvenido {{ authService.usuarioLogeado?.nombre }} a La Comandita FKS!
+    </h1>
     <!-- INGRESO -->
     <ng-container *ngIf="authService.accionActual === 'INGRESO'">
       <h2>Para iniciar el proceso, escanea el QR de la entrada</h2>
@@ -43,8 +43,24 @@
   </ng-container>
 
   <!-- MAITRE -->
-  <div *ngIf="authService.tipoUsuario === 'Maître'" class="listaColumna">
-    <button class="botonPrincipal">Asignar mesa a cliente</button>
-    <button class="botonPrincipal">Disponibilidad de mesa</button>
+  <div *ngIf="authService.tipoUsuario === 'Maître'">
+    <h1>¡Hola {{ authService.usuarioLogeado?.nombre }}!</h1>
+    <h2>Selecciona una acción a realizar</h2>
+    <div class="buttonsContainer">
+      <button
+        class="botonPrincipal"
+        (click)="navegarSiguienteAccionMaitre('asignarMesas')"
+      >
+        <ion-icon name="restaurant-outline" size="large"></ion-icon>
+        Asignar mesa a cliente -- Ver lista de espera
+      </button>
+      <button
+        class="botonPrincipal"
+        (click)="navegarSiguienteAccionMaitre('altaCliente')"
+      >
+        <ion-icon name="person-add-outline" size="large"></ion-icon>
+        Dar de alta a un cliente
+      </button>
+    </div>
   </div>
 </div>

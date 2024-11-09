@@ -67,6 +67,13 @@
     transform: scale(1.05);
     border: var(--color-principal-claro) solid;
   }
+
+  &:disabled {
+    background-color: gray;
+    cursor: not-allowed;
+    box-shadow: none; /* Elimina cualquier sombra */
+    transform: scale(1); /* Elimina el efecto de hover (transformación) */
+  }
 }
 
 .btnImagen {
@@ -88,12 +95,12 @@
   background-color: var(--color-fondo);
   padding: 20px;
   border-radius: 15px;
-  margin: 20px;
-  height: auto;
+  margin: 20px 10px;
   min-height: 76vh;
+  height: auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   overflow-y: auto;
   overflow-x: hidden;

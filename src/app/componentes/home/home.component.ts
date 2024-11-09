@@ -27,4 +27,12 @@ export class HomeComponent {
     if (this.authService.accionActual === 'PROPINA')
       this.authService.accionActual = 'INGRESO';
   }
+
+  navegarSiguienteAccionMaitre(pagina: 'altaCliente' | 'asignarMesas') {
+    if (pagina === 'altaCliente') {
+      this.router.navigate(['/altaUsuarios', 'Clientes']);
+    } else {
+      this.router.navigate(['/asignarMesas']);
+    }
+  }
 }

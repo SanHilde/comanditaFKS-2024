@@ -24,6 +24,10 @@ export class ListaDeEsperaService {
     private datosServices: DatosServiceService
   ) {}
 
+  obtenerListaDeEspera(): Observable<ListaDeEsperaInterface[]> {
+    return this.datosServices.ObtenerDatos(this.nombreDeColeccion);
+  }
+
   obtenerListaDeEsperaCliente(): Observable<ListaDeEsperaInterface[]> {
     return this.datosServices.ObtenerDatos(this.nombreDeColeccion).pipe(
       map((data: ListaDeEsperaInterface[]) => {
@@ -42,6 +46,7 @@ export class ListaDeEsperaService {
       idCliente: idUsuarioLogueado,
       estado: 'PENDIENTE',
       cantidadDePersonas: cantidad,
+      horaEntrada: `${new Date()}`,
     };
 
     try {
