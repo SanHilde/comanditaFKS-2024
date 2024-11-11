@@ -22,6 +22,7 @@ import {
 export class AppComponent {
   bandera = false;
   log: string | null | undefined = null;
+  showList = false; // Variable para controlar la visibilidad de la lista
 
   constructor(
     public auth: Auth,
@@ -95,6 +96,7 @@ export class AppComponent {
         if (this.log == undefined) {
           this.router.navigate(['/login']);
         } else{
+          // this.router.navigate(['/encuestasClientes']);
           this.router.navigate(['/home']);
         }
         setTimeout(() => {
@@ -104,7 +106,7 @@ export class AppComponent {
       }, 3000); // Simulación de carga de datos
     });
   }
-  showList = false; // Variable para controlar la visibilidad de la lista
+
 
   toggleList(event: MouseEvent) {
     event.stopPropagation(); // Evita que el clic en el botón cierre la lista

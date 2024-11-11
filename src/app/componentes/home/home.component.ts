@@ -21,6 +21,7 @@ export class HomeComponent {
   ) {}
 
   escanearQr() {
+    // this.router.navigate(['/ingreso']);
     this.qrService.leerQr();
 
     // TODO: Manejar los cambios de acción desde cada página donde se vaya hacer el cmabio de acción
