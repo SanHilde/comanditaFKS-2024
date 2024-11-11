@@ -104,12 +104,14 @@ export class IngresoComponent implements OnInit {
 
   irACompletarEncuestas() {
     // TODO: Agregar encuestas
-    this.router.navigate(['/completarEncuestas']);
+    this.router.navigate(['/encuestasClientes']);
   }
 
   irAResultadosDeLasEncuestas() {
     // TODO: Agregar pagina de los resultados
-    this.router.navigate(['/resultadosEncuestas']);
+    this.router.navigate(['/resultadosEncuestas'])
+    // this.router.navigate(['/altaUsuarios', option]);
+    ;
   }
 
   // Si ya tiene una mesa asignada

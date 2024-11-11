@@ -39,6 +39,13 @@
     </button>
 
     <!-- ENCUESTAS -->
+    <button
+    class="botonPrincipal button"
+    (click)="irACompletarEncuestas()"
+  >
+    <ion-icon name="clipboard-outline" size="large"></ion-icon>
+    Completar una encuesta
+  </button>
     <!-- Si es Cliente, pueden ver y completar encuestas -->
     <button
       *ngIf="
@@ -53,13 +60,6 @@
       Completar una encuesta
     </button>
     <!-- Si es anónimo, solo puede ver resultados -->
-    <button
-      class="botonPrincipal button"
-      (click)="irAResultadosDeLasEncuestas()"
-    >
-      <ion-icon name="stats-chart-outline" size="large"></ion-icon>
-      Ver resultados de encuestas previas
-    </button>
   </div>
 </div>
 

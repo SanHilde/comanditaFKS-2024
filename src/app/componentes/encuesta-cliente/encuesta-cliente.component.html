@@ -1,0 +1,163 @@
+
+  <div class="container">
+    <form [formGroup]="encuestaForm" class="listasFilas wrap">
+      <!-- <h2>Teniendo en cuenta que 1 siempre es lo peor y 5 lo mejor</h2> -->
+       <h1>Encuesta de satistacción</h1>
+      <div *ngFor="let pregunta of preguntas; let i = index" class="wAuto">  
+        <!-- Renderizar control de entrada según el tipo -->
+        <div [ngSwitch]="pregunta.tipo" class="wAuto">
+          <!-- Control tipo Range -->
+          <div *ngSwitchCase="'range'" class="contenedorCompleto">
+           <h2 class="tituloInput">{{ pregunta.texto }}</h2>
+            <ion-range
+              aria-label="pregunta.key"
+              ticks="true"
+              snaps="true"
+              min="1"
+              max="5"
+              formControlName="{{pregunta.key}}"
+            >
+            <ion-icon slot="start" color="danger" name="sad-outline"></ion-icon>
+            <ion-icon slot="end" color="success" name="happy-outline"></ion-icon>
+            </ion-range>
+          </div>
+  
+          <!-- Control tipo Radio -->
+          <div *ngSwitchCase="'radio'" class="mitadContenedor listasColumnas">
+            <h2 class="tituloInput">{{ pregunta.texto }}</h2>
+            <ion-radio-group formControlName="{{pregunta.key}}" class="listasColumnas" value="end">
+              <ion-radio
+                *ngFor="let opcion of opcionesRadio"
+                [value]="opcion"
+                label-placement="end"
+                [name]="pregunta.key"
+              >
+                {{ opcion }}
+              </ion-radio>
+            </ion-radio-group>
+          </div>
+
+          <!-- Control tipo Check -->
+
+          <div *ngSwitchCase="'check'" class="mitadContenedor listasColumnas">
+            <h2 class="tituloInput">{{ pregunta.texto }}</h2>
+            <ion-list class="listasColumnas">
+              <ion-checkbox 
+              *ngFor="let opcion of opcionesCheck"
+              label-placement="end"
+              [value]="opcion"
+              (ionChange)="onCheckboxChange(opcion, $event)"
+               
+            >
+              {{ opcion }}
+            </ion-checkbox>
+            </ion-list>
+          </div>
+
+        
+          <!-- Control tipo input -->
+          <div *ngSwitchCase="'input'" class="contenedorCompleto">
+            <ion-input
+            label="{{ pregunta.texto }}"
+            label-placement="floating"
+            fill="outline"
+            placeholder="Solo valores del 1 al 5"
+            formControlName="{{pregunta.key}}"
+            type="number" min="1" max="5"
+          ></ion-input>
+          </div>
+
+          <!-- Control tipo Select -->
+          <div *ngSwitchCase="'select'" class="contenedorCompleto" >
+            <ion-select
+            formControlName="{{pregunta.key}}"
+            label="{{ pregunta.texto }}"
+            placeholder="Elija el tipo de atención"
+            label-placement="floating"
+            fill="outline"
+          >
+            <ion-select-option *ngFor="let tipo of tiposSelect" [value]="tipo" class="contenedorCompleto">
+              {{ tipo }}
+            </ion-select-option>
+          </ion-select>
+          </div>
+
+          <!-- Agrega más tipos de controles si es necesario -->
+        </div>
+  
+
+        <!-- Mensaje de error -->
+           <ion-text
+             color="danger"
+             *ngIf="
+               encuestaForm.controls[pregunta.key].invalid &&
+               encuestaForm.controls[pregunta.key].touched 
+             "
+           >
+             {{pregunta.textoError}}
+           </ion-text>
+
+      </div>
+      <ion-textarea
+        label="Comentario (no obligatorio)"
+        label-placement="floating"
+        fill="outline"
+        placeholder="Escriba aquí"
+        [autoGrow]="true"
+        (ionChange)="actualizarComentario($event)"
+      ></ion-textarea>
+      <div>
+        <h2>Fotos adjuntadas (no obligatorias)</h2>
+        <p *ngIf="listaDeFotos.length==0" >No hay fotos subidas. Puede subir hasta 3.</p>
+        <div *ngIf="listaDeFotos.length>0" class="listasFilas img-container">
+          <ion-card *ngFor="let item of listaDeFotos" class="listasColumnas align-items-center justify-content-center">
+            <img *ngIf="item['foto']" appImageOrientation [src]="item.foto" alt="foto perdida" class="mi-imagen">
+          </ion-card>
+        </div>
+      </div>
+      <div class="listasFilas">
+        <ion-fab-button class="iconos" (click)="volverAtras()" >
+          <ion-icon name="arrow-back" ></ion-icon>
+        </ion-fab-button>
+        <ion-fab-button class="iconos" (click)="subirEncuesta()" >
+          <!-- [disabled]="encuestaForm.invalid" -->
+          <ion-icon name="checkmark-outline"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-button class="iconos" (click)="addPhotoToGallery()">
+          <ion-icon name="attach-outline"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-button class="iconos" (click)="eliminarUltimaFoto()">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-fab-button>
+      </div>
+    </form>
+    <div *ngIf="errorMessage.length > 0">
+      <ion-toast
+        class="text"
+        color="danger"
+        [duration]="5000"
+        (didDismiss)="errorMessage = ''"
+        isOpen="errorMessage.length > 0"
+        [message]="errorMessage"
+        position="bottom"
+      ></ion-toast>
+    </div>
+    <div *ngIf="succesMessage.length > 0">
+      <ion-toast
+        class="text"
+        color="success"
+        [duration]="5000"
+        (didDismiss)="succesMessage = ''"
+        isOpen="succesMessage.length > 0"
+        [message]="succesMessage"
+        position="bottom"
+      ></ion-toast>
+    </div>
+  
+  <ngx-spinner
+    bdColor="rgba(0, 0, 0, 0.8)"
+    template="<img src='./../../../assets/logoConFondo.png' alt='logo' />"
+  >
+    <!-- <p style="color: white; font-size: 40px">Cargando...</p> -->
+  </ngx-spinner>
+  </div>

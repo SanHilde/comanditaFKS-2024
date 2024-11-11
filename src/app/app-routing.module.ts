@@ -16,11 +16,6 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'home',
-    loadComponent: () =>
-      import('./componentes/home/home.component').then((m) => m.HomeComponent),
-  },
-  {
     path: 'ingreso',
     loadComponent: () =>
       import('./componentes/ingreso/ingreso.component').then(
@@ -79,6 +74,22 @@ const routes: Routes = [
         (m) => m.EncuestaSupervisorPageModule
       ),
   },
+  {
+    path: 'resultadosEncuestas',
+    loadComponent: () =>
+      import('./componentes/resultados-encuestas/resultados-encuestas.component').then(
+        (m) => m.ResultadosEncuestasComponent
+      ),
+  },
+  {
+    path: 'encuestasClientes',
+    loadComponent: () =>
+      import('./componentes/encuesta-cliente/encuesta-cliente.component').then(
+        (m) => m.EncuestaClienteComponent
+      ),
+  },
+
+
 ];
 @NgModule({
   imports: [
