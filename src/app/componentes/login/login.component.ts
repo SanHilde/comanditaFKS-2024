@@ -142,7 +142,7 @@ export class LoginComponent {
     this.errorMessage = '';
   }
   enviarCorreo() {
-    const to = 'kervinstilver1991@gmail.com';
+    const to = 'santihilde@gmail.com'; 
     const subject = 'Asunto de prueba';
     const message = 'mensaje';
 
