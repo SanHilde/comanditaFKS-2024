@@ -86,7 +86,12 @@ export class LoginComponent {
         this.errorMessage = '';
         this.form.controls['email'].setValue('');
         this.form.controls['password'].setValue('');
-        this.router.navigateByUrl('home');
+        if(this.authService.tipoUsuario == "Dueño" || this.authService.tipoUsuario == "Supervisor"){
+          this.router.navigate(['/listaClientes']);
+        } else{
+          this.router.navigate(['/home']);
+        }
+        
       },
       error: (err: FirebaseError) => {
         let errorMessage = 'Se produjo un error desconocido.';

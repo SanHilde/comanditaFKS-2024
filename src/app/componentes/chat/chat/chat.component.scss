@@ -1,0 +1,83 @@
+#contenedor{
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+.chat{
+    width: 100%;
+    height: 93%;
+    border: 3px solid var(--color-detalle-claro);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color:var(--color-principal);
+
+}
+
+.message-container{
+    width: 100%;
+    padding-top: 10px;  
+}
+.message-input{
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+}
+ion-button{
+    // width: 5vw;
+    margin: 10px;
+    border-radius: 50%;
+    
+}
+*
+{
+    --ion-color-primary: var(--color-detalles);
+}
+
+input {
+    width: 75vw;
+    padding: 10px;
+    height: 40px;
+    border-radius: 20px;
+    border: 0px;
+    color: white;
+    background-color: var(--ion-color-primary);
+    // background-color: opacity 0.8;
+}
+input::placeholder {
+    color:white; /* Cambia este color al que desees */
+    opacity: 1; /* Cambia la opacidad si es necesario (1 es completamente opaco) */
+  }
+
+input:focus {
+    outline: none; /* Elimina el borde blanco en focus */
+    border: none;  /* Asegura que no haya borde */
+}
+// .chatA{
+//     background-color:var(--ion-color-light);
+//     border-radius: 10px;
+// }
+// .chatB{
+//     background-color: var(--ion-color-dark);
+//     border-radius: 10px;
+// }
+h1{
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    margin: 10px;
+}
+// .message-input{
+    // border-top: 3px solid var(--ion-color-primary);
+// }
+

@@ -47,7 +47,8 @@ export class AltaUsuariosComponent implements OnInit {
     public authService: AuthService,
     private route: ActivatedRoute,
     private qrService: QrService,
-    private scanService: FotosService
+    private scanService: FotosService,
+    
   ) {
     this.formulario = this.formBuilder.group(
       {
@@ -81,7 +82,6 @@ export class AltaUsuariosComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.tipoTraido);
     this.route.paramMap.subscribe((params) => {
       this.tipoTraido = params.get('tipoUsuario');
     });

@@ -96,8 +96,12 @@ export class AppComponent {
         if (this.log == undefined) {
           this.router.navigate(['/login']);
         } else{
-          // this.router.navigate(['/encuestasClientes']);
-          this.router.navigate(['/home']);
+          if(this.authService.tipoUsuario == "Dueño" || this.authService.tipoUsuario == "Supervisor"){
+            this.router.navigate(['/listaClientes']);
+          } else{
+            // this.router.navigate(['/salaDeChats']);
+            this.router.navigate(['/home']);
+          }
         }
         setTimeout(() => {
           SplashScreen.hide();

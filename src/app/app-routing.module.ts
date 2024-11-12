@@ -88,6 +88,21 @@ const routes: Routes = [
         (m) => m.EncuestaClienteComponent
       ),
   },
+  {
+    path: 'salaDeChats',
+    loadComponent: () =>
+      import('./componentes/chat/sala-de-chat/sala-de-chat.component').then(
+        (m) => m.SalaDeChatComponent
+      ),
+      
+  },
+  {
+    path: 'chat/:chatNumero',
+    loadComponent: () =>
+      import('./componentes/chat/chat/chat.component').then(
+        (m) => m.ChatComponent
+      ),
+  },
 
 
 ];

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { CorreoService } from 'src/app/services/correo.service';
 import { DatosServiceService } from 'src/app/services/datos/datos-service.service';
 
 @Component({
@@ -21,7 +22,7 @@ export class ListaClientesComponent  implements OnInit {
   aprobados = [];
 
 
-  constructor(private datosService: DatosServiceService) { }
+  constructor(private datosService: DatosServiceService, private emailService: CorreoService) { }
 
   ngOnInit() {
     this.datosService.ObtenerDatos("usuarios").subscribe((listaUsuarios: any) => {
@@ -46,8 +47,19 @@ export class ListaClientesComponent  implements OnInit {
   // }
   async aprobacion(orden:string, item:any){
     item.aprobado=orden;
+    console.log(item);
+    let subject;
+    let mensaje;
+    if(orden=="aprobado"){
+      subject="Bienvendio"
+      mensaje = "Bienvenido! Usted fue aceptado como cliente. Ya puede ingresar a nuestra aplicacion, lo esperamos!" ;
+    } else{
+      subject="Solicitud rechazada"
+      mensaje = "Lo lamento, usted fue rechazado como cliente, no puede ingresar a nuestra aplicación. Consulte con el supervisor cual fue el inconveniente. Saludos." ;
+    }
       try {
         await this.datosService.modificarDatoAsync(item.id, "usuarios", item );
+        await this.emailService.sendEmail(item.correo,subject,mensaje)
       } catch (error) {
         console.error('Error al actualizar el item en la base de datos:', error);
       }
