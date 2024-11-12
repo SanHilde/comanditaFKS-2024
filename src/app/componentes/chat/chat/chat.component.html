@@ -1,0 +1,23 @@
+<div id="containedor" class="container">
+  <h1>Chat de mesa {{chatNumero}}</h1>
+  <div id="chatCompleto" class="chat">
+    <div class="message-container" id="chat">
+    </div>
+    <div class="message-input ">
+      <input type="text" [(ngModel)]="mensaje" placeholder="Escribe un mensaje..." />
+      <ion-button (click)="enviarMensaje()" shape="round"><ion-icon name="send" slot="icon-only"></ion-icon></ion-button>
+    </div>
+  </div>
+  <ion-fab slot="fixed" vertical="top" horizontal="start" >
+    <ion-fab-button class="iconos" (click)="volverAtras()" >
+      <ion-icon name="arrow-back" ></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</div>
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 08)"
+  template="<img src='./../../../assets/logoConFondo.png' alt='logo' />"
+>
+  <!-- <p style="color: white; font-size: 40px">Cargando...</p> -->
+</ngx-spinner>
+
