@@ -1,0 +1,39 @@
+<div class="container">
+    <h2>Detalle del Pedido</h2>
+  
+    <!-- Lista de productos pedidos -->
+    <div class="miniCard listaFila" *ngFor="let producto of detalleArmado.pedido">
+      <img [src]="producto.foto" alt="Imagen de {{ producto.producto }}">
+      <p class="producto-nombre">{{ producto.producto }} ({{ producto.cantidad }})</p>
+      <p>${{ producto.precio }}</p>
+    </div>
+    
+  
+    <!-- Detalles adicionales -->
+    <div class="detalle-adicional">
+      <div class="listaFila">
+        <p>Total</p> 
+          <p>${{ detalleArmado.total }}</p>
+        </div>
+        <div *ngIf="detalleArmado.descuento" class="listaFila">
+        <p>Descuento aplicado ({{ detalleArmado.descuento }}%) </p> 
+        <p>{{descuentoCalculado}}</p>
+      </div>
+      <div *ngIf="detalleArmado.propina" class="listaFila">
+        <p>Propina ({{ detalleArmado.propina }}%)</p> 
+        <p>{{propina}}</p>
+      </div>
+      <div class="listaFila">
+        <h3>Total Final:</h3> 
+        <h3>${{ detalleArmado.totalFinal }}</h3>
+      </div>
+    </div>
+  
+  <button class="botonPrincipal" (click)="pagar()">Pagar cuenta</button>
+</div>
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 08)"
+  template="<img src='./../../../assets/logoConFondo.png' alt='logo' />"
+>
+  <!-- <p style="color: white; font-size: 40px">Cargando...</p> -->
+</ngx-spinner>

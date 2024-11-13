@@ -103,6 +103,21 @@ const routes: Routes = [
         (m) => m.ChatComponent
       ),
   },
+  {
+    path: 'listasParaAceptar/:tipoLista',
+    loadComponent: () =>
+      import('./componentes/listas-para-aceptar/listas-para-aceptar.component').then(
+        (m) => m.ListasParaAceptarComponent
+      ),
+  },
+  {
+    path: 'detalle/:idPedido',
+    loadComponent: () =>
+      import('./componentes/detalle-de-cuenta/detalle-de-cuenta.component').then(
+        (m) => m.DetalleDeCuentaComponent
+      ),
+  },
+
 
 
 ];
