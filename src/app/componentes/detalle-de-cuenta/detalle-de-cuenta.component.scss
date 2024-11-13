@@ -1,0 +1,35 @@
+.miniCard {
+    // display: grid;
+    // grid-template-columns: repeat(6, 1fr);
+    // gap: 10px;
+    // align-items: center;
+    background-color: var(--color-detalles);
+    // width: 90%;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 10px;
+    font-size: 15px;
+    text-transform: capitalize;
+}
+
+
+
+h2{
+    width: 100%;
+    text-align: center;
+}
+.detalle-adicional{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 90%;
+    margin: 10px;
+    flex-direction: column;
+}
+.listaFila{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 90%;
+}

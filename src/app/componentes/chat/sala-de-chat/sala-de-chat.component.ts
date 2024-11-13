@@ -17,9 +17,10 @@ export class SalaDeChatComponent  implements OnInit {
   public listaDeMesasOcupadas: any[] = [];
   // public mesaElegida!:string;
 
-  constructor(private datosService: DatosServiceService,private router: Router) { }
+  constructor(private datosService: DatosServiceService,private router: Router, private spiner:NgxSpinnerService) { }
 
   ngOnInit() {
+    this.spiner.show();
     this.datosService.ObtenerDatos("Mesa").subscribe((listaDeMesas: any[]) => {
       this.botones=[];
       listaDeMesas.forEach((mesa: any) => {
@@ -29,6 +30,7 @@ export class SalaDeChatComponent  implements OnInit {
           this.botones.push(mesa.numero);
         }
       });
+      this.spiner.hide();
     });
   }
   ingresarAlChat(mesa:string){

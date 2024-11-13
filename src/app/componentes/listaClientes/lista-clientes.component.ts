@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
-import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { CorreoService } from 'src/app/services/correo.service';
 import { DatosServiceService } from 'src/app/services/datos/datos-service.service';
 
@@ -22,29 +22,25 @@ export class ListaClientesComponent  implements OnInit {
   aprobados = [];
 
 
-  constructor(private datosService: DatosServiceService, private emailService: CorreoService) { }
+  constructor(private datosService: DatosServiceService, private emailService: CorreoService, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
+    // this.spinner.show();
     this.datosService.ObtenerDatos("usuarios").subscribe((listaUsuarios: any) => {
       this.pendientes = listaUsuarios.filter((usuario: any) => usuario.tipoUsuario === "Cliente" && usuario.aprobado=="pendiente");
       this.rechazados = listaUsuarios.filter((usuario: any) => usuario.tipoUsuario === "Cliente" && usuario.aprobado=="rechazado");
       this.aprobados = listaUsuarios.filter((usuario: any) => usuario.tipoUsuario === "Cliente" && usuario.aprobado=="aprobado");
     });
+    // setTimeout(()=>{
+      this.spinner.hide();
+    // }, 1500);
   }
   
 
   seleccionarFila(item: any): void {
     // this.itemSeleccionado.emit(item);
   }
-  // async toggleChanged(event: any,item: any) {
-  //   const isChecked = event.detail.checked;
-  //   item.aprobado=isChecked;
-  //   try {
-  //     await this.datosService.modificarDatoAsync(item.id, "usuarios", item );
-  //   } catch (error) {
-  //     console.error('Error al actualizar el item en la base de datos:', error);
-  //   }
-  // }
+
   async aprobacion(orden:string, item:any){
     item.aprobado=orden;
     console.log(item);

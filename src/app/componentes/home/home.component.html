@@ -63,4 +63,25 @@
       </button>
     </div>
   </div>
+    <!-- MOZO -->
+    <div *ngIf="authService.tipoUsuario === 'Mozo'">
+      <h1>¡Hola {{ authService.usuarioLogeado?.nombre }}!</h1>
+      <h2>Selecciona una acción a realizar</h2>
+      <div class="buttonsContainer">
+        <button
+          class="botonPrincipal"
+          (click)="navegarSiguienteAccionMozo('pedidos')"
+        >
+          <ion-icon name="pizza-outline" size="large"></ion-icon>
+          Confirmar pedidos
+        </button>
+        <button
+          class="botonPrincipal"
+          (click)="navegarSiguienteAccionMozo('pagos')"
+        >
+          <ion-icon name="wallet-outline" size="large"></ion-icon>
+          Confirmas pagos
+        </button>
+      </div>
+    </div>
 </div>

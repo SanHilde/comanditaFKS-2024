@@ -1,0 +1,31 @@
+<div class="container" *ngIf="tipoTraido!=null">
+  <!-- <div *ngFor="let lista of listas" [ngSwitch]="lista" class="cardLista"> -->
+    <h1>Lista de {{tipoTraido}}</h1>
+    <p *ngIf="listaDeObjetos.length === 0">No hay datos para mostrar</p>
+    
+    <div *ngFor="let item of listaDeObjetos" class="card" (click)="seleccionarFila(item)">
+      <img *ngIf="item['foto']" [src]="item['foto']" [alt]="item['nombre']" class="imgTabla">
+      <div class="bloque">
+        <h2 *ngIf="item['nombre']" class="titulo w100">{{ item['nombre'] }} {{ item['apellido'] }}</h2>
+        <div class="fila">
+          <!-- <ion-fab-button color="danger" (click)="aprobacion('rechazado', item); $event.stopPropagation()">
+            <ion-icon name="close-circle-outline"></ion-icon>
+          </ion-fab-button> -->
+          <ion-fab-button color="success" (click)="aprobacion('aprobado', item); $event.stopPropagation()">
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+          </ion-fab-button>
+        </div>
+      </div>
+    </div>
+  <!-- </div> -->
+</div>
+<div class="container" *ngIf="tipoTraido==null">
+  <p>Error al acceder a lo que se solicitó</p>
+</div>
+
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 08)"
+  template="<img src='./../../../assets/logoConFondo.png' alt='logo' />"
+>
+  <!-- <p style="color: white; font-size: 40px">Cargando...</p> -->
+</ngx-spinner>

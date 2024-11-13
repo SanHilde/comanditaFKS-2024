@@ -70,18 +70,10 @@ export class ChatComponent   implements OnInit {
         let pMensaje = document.createElement('p');
         let divFecha = document.createElement('div');
         divFecha.classList.add('timestamp');
-        
-        // Agregar clases CSS al div del mensaje según el usuario
-        console.log(objeto.user)
-        console.log(this.auth.usuarioLogeado?.nombre)
-
         if (objeto.user === this.auth.usuarioLogeado?.nombre) {
           pMensaje.classList.add('message-personal');
           divMensaje.classList.add('derecha');
-          console.log("entre a personal")
         } else{
-          console.log("entre a otro")
-
           let pUser = document.createElement('p');
           pUser.classList.add('usuario');
           pMensaje.classList.add('message');
@@ -128,7 +120,6 @@ export class ChatComponent   implements OnInit {
       const obs = collectionData(filteredQuery);
       this.sub = obs.subscribe((respuesta: any) => {
         this.chatCollection = respuesta;
-        console.log(this.chatCollection);
         this.insertarMensaje(respuesta);
         this.spinner.hide();
 
