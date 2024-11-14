@@ -5,7 +5,7 @@ img{
     width: 40%;
 }
 .bloque{
-    width: 40%;
+    width: 50%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -34,7 +34,7 @@ img{
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
-    width: 90%;
+    width: 100%;
     margin-top: 20px;
     background-color: var(--color-detalles);
     border-radius: 20px;
@@ -60,6 +60,7 @@ h1{
 h2{
     text-transform: capitalize;
     font-size: 20px;
+    width: 100%;
 
   }
 
@@ -67,7 +68,7 @@ h2{
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     // margin-top: 10px;
     height: 50px;
     width: 100%;
@@ -75,6 +76,10 @@ h2{
 p{
     margin: 5px;
     color: white;
+    
+}
+.textoBoton{
+    width: auto;
 }
 ion-toggle {
     padding: 12px;
