@@ -31,12 +31,12 @@ export class HomeComponent {
 
   navegarSiguienteAccionMaitre(pagina: 'altaCliente' | 'asignarMesas') {
     if (pagina === 'altaCliente') {
-      this.router.navigate(['/altaUsuarios', 'Clientes']);
+      this.router.navigate(['/altaUsuarios', 'Cliente']);
     } else {
       this.router.navigate(['/asignarMesas']);
     }
   }
-  navegarSiguienteAccionMozo(accion:string){
-          this.router.navigate(['/listasParaAceptar', accion]);
+  navegarSiguienteAccionMozo(accion: string) {
+    this.router.navigate(['/listasParaAceptar', accion]);
   }
 }

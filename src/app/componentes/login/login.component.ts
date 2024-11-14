@@ -14,6 +14,7 @@ import {
   IonInput,
   IonInputPasswordToggle,
   IonToast,
+  IonIcon,
 } from '@ionic/angular/standalone';
 import { FirebaseError } from '@angular/fire/app';
 import { authErrors } from 'src/app/services/auth.errors';
@@ -22,6 +23,7 @@ import { Router } from '@angular/router';
 import { NgxSpinnerService, NgxSpinnerModule } from 'ngx-spinner';
 import { AltaUsuariosComponent } from '../alta/alta-usuarios/alta-usuarios.component';
 import { CorreoService } from 'src/app/services/correo.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -34,6 +36,7 @@ import { CorreoService } from 'src/app/services/correo.service';
     IonToast,
     IonToolbar,
     IonInput,
+    IonIcon,
     IonInputPasswordToggle,
     CommonModule,
     ReactiveFormsModule,
@@ -86,12 +89,14 @@ export class LoginComponent {
         this.errorMessage = '';
         this.form.controls['email'].setValue('');
         this.form.controls['password'].setValue('');
-        if(this.authService.tipoUsuario == "Dueño" || this.authService.tipoUsuario == "Supervisor"){
+        if (
+          this.authService.tipoUsuario == 'Dueño' ||
+          this.authService.tipoUsuario == 'Supervisor'
+        ) {
           this.router.navigate(['/listaClientes']);
-        } else{
+        } else {
           this.router.navigate(['/home']);
         }
-        
       },
       error: (err: FirebaseError) => {
         let errorMessage = 'Se produjo un error desconocido.';
@@ -142,7 +147,7 @@ export class LoginComponent {
     this.errorMessage = '';
   }
   enviarCorreo() {
-    const to = 'santihilde@gmail.com'; 
+    const to = 'santihilde@gmail.com';
     const subject = 'Asunto de prueba';
     const message = 'mensaje';
 

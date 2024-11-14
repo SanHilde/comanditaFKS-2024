@@ -6,20 +6,21 @@
   </ng-container>
 
   <ng-template #otroTitulo>
-    <h1>Complete los datos para entrar como Anónimo</h1>
+    <h1>Ingrese los datos</h1>
     <ion-toast
       color="primary"
       message="Los datos ingresados no te crean una cuenta como cliente"
     ></ion-toast>
   </ng-template>
-  <!-- (ngSubmit)="guardarDatos()" -->
+
   <form [formGroup]="formulario">
     <div class="primerBloque">
       <div class="primerMitad">
-        <ion-input style="color: white;"
+        <ion-input
+          style="color: white"
           label="Nombre"
           label-placement="floating"
-          fill="outline"
+          fill="solid"
           placeholder="Ingrese nombre"
           formControlName="nombre"
         ></ion-input>
@@ -36,7 +37,7 @@
           *ngIf="tipoTraido !== 'Anónimo'"
           label="Apellido"
           label-placement="floating"
-          fill="outline"
+          fill="solid"
           placeholder="Ingrese apellido"
           formControlName="apellido"
         ></ion-input>
@@ -72,7 +73,7 @@
         <ion-input
           label="Dni"
           label-placement="floating"
-          fill="outline"
+          fill="solid"
           placeholder="Ingrese dni"
           formControlName="dni"
         ></ion-input>
@@ -90,7 +91,7 @@
         <ion-input
           label="Correo"
           label-placement="floating"
-          fill="outline"
+          fill="solid"
           placeholder="Ingrese correo"
           formControlName="correo"
         ></ion-input>
@@ -108,7 +109,7 @@
         <ion-input
           label="Clave"
           label-placement="floating"
-          fill="outline"
+          fill="solid"
           placeholder="Ingrese clave"
           formControlName="clave"
           type="password"
@@ -127,7 +128,7 @@
         <ion-input
           label="Repita clave"
           label-placement="floating"
-          fill="outline"
+          fill="solid"
           placeholder="Ingrese clave"
           formControlName="repiteClave"
           type="password"
@@ -143,16 +144,15 @@
         </ion-text>
       </div>
 
-
-    <!-- <div
+      <!-- <div
       *ngIf="tipoTraido !== 'Anónimo' && tipoTraido !== 'Cliente'"
       class="ultimoBloqueConMasDatos"
     > -->
-      <div  *ngIf="tipoTraido !== 'Anónimo' && tipoTraido !== 'Cliente'">
+      <div *ngIf="tipoTraido !== 'Anónimo' && tipoTraido !== 'Cliente'">
         <ion-input
           label="Cuil"
           label-placement="floating"
-          fill="outline"
+          fill="solid"
           placeholder="Ingrese cuil"
           formControlName="cuil"
         ></ion-input>
@@ -167,13 +167,13 @@
         </ion-text>
       </div>
 
-      <div  *ngIf="tipoTraido !== 'Anónimo' && tipoTraido !== 'Cliente'">
+      <div *ngIf="tipoTraido !== 'Anónimo' && tipoTraido !== 'Cliente'">
         <ion-select
           formControlName="tipoUsuario"
           label="Tipo de usuario"
           placeholder="Elija el tipo de usuario"
           label-placement="floating"
-          fill="outline"
+          fill="solid"
         >
           <ion-select-option *ngFor="let tipo of tipos" [value]="tipo">
             {{ tipo }}
@@ -189,8 +189,8 @@
           Debe seleccionar un tipo de usuario.
         </ion-text>
       </div>
-    <!-- </div> -->
-  </div>
+      <!-- </div> -->
+    </div>
 
     <h2 *ngIf="tipoTraido === 'Anónimo'">
       <ion-icon
@@ -202,45 +202,53 @@
       un nombre para diferenciarte de otros clientes
     </h2>
 
-    <div id="buttons" *ngIf="tipoTraido !== 'Anónimo' && tipoTraido !== 'Cliente'">
-      <ion-fab-button  class="iconos" (click)="volverLogin()">
+    <div
+      id="buttons"
+      *ngIf="tipoTraido !== 'Anónimo' && tipoTraido !== 'Cliente'"
+    >
+      <ion-fab-button class="iconos" (click)="volverLogin()">
         <!-- Volver al inicio -->
         <ion-icon name="arrow-back-outline"></ion-icon>
-      </ion-fab-button >
-      <ion-fab-button 
+      </ion-fab-button>
+      <ion-fab-button
         class="iconos"
         *ngIf="tipoTraido !== 'Anónimo'"
         (click)="escanearDatos()"
-      ><ion-icon name="qr-code-outline"></ion-icon></ion-fab-button >
-      <ion-fab-button 
+        ><ion-icon name="qr-code-outline"></ion-icon
+      ></ion-fab-button>
+      <ion-fab-button
         class="iconos"
         (click)="guardarDatos()"
         [disabled]="isSubmitting"
       >
-      <ion-icon name="save-outline"></ion-icon>
+        <ion-icon name="save-outline"></ion-icon>
         <!-- Dar de alta -->
-      </ion-fab-button >
+      </ion-fab-button>
     </div>
-    <div class="listaColumna"  *ngIf="tipoTraido == 'Anónimo' || tipoTraido == 'Cliente'">
-      <button 
-      class="botonPrincipal"
-      *ngIf="tipoTraido !== 'Anónimo'"
-      (click)="escanearDatos()"
-      ><ion-icon class="icon" name="qr-code-outline"></ion-icon> Escanear DNI</button >
-      <button 
-      class="botonPrincipal"
-      (click)="guardarDatos()"
-      [disabled]="isSubmitting"
+    <div
+      class="listaColumna"
+      *ngIf="tipoTraido === 'Anónimo' || tipoTraido === 'Cliente'"
+    >
+      <button
+        class="botonPrincipal"
+        *ngIf="tipoTraido !== 'Anónimo'"
+        (click)="escanearDatos()"
       >
-      <ion-icon class="icon" name="save-outline"></ion-icon>Guardar
-      <!-- Dar de alta -->
-    </button>
-    <button  class="botonPrincipal" (click)="volverLogin()">
-      <!-- Volver al inicio -->
-      <ion-icon class="icon" name="arrow-back-outline"></ion-icon> Volver
-    </button >
-  </div>
-
+        <ion-icon class="icon" name="qr-code-outline"></ion-icon> Escanear DNI
+      </button>
+      <button
+        class="botonPrincipal"
+        (click)="guardarDatos()"
+        [disabled]="isSubmitting"
+      >
+        <ion-icon class="icon" name="save-outline"></ion-icon>Guardar
+        <!-- Dar de alta -->
+      </button>
+      <button class="botonPrincipal" (click)="volverLogin()">
+        <!-- Volver al inicio -->
+        <ion-icon class="icon" name="arrow-back-outline"></ion-icon> Volver
+      </button>
+    </div>
   </form>
   <div *ngIf="errorMessage.length > 0">
     <ion-toast

@@ -1,16 +1,18 @@
 <div class="container">
-  <!-- <div class=""> -->
-    <!-- (click)="generarDatosTorta(clave)" -->
-    <h1>Lista de mesas ocupadas</h1>
-    <button *ngFor="let boton of botones" class="botonPrincipal" (click)="ingresarAlChat(boton)" >
-      <ion-icon name="fast-food-outline"></ion-icon> Mesa {{boton}}
-    </button>
-    <p *ngIf="listaDeMesasOcupadas.length==0">No hay mesas ocupadas, no hay con quien comunicarse.</p>
-  <!-- </div> -->
+  <h1>Lista de mesas ocupadas</h1>
+  <button
+    *ngFor="let boton of botones"
+    class="botonPrincipal"
+    (click)="ingresarAlChat(boton)"
+  >
+    <ion-icon name="fast-food-outline"></ion-icon> Mesa {{ boton }}
+  </button>
+  <p *ngIf="listaDeMesasOcupadas.length === 0" class="mensajeVacio">
+    No hay mesas ocupadas, no hay con quien comunicarse.
+  </p>
 </div>
 <ngx-spinner
   bdColor="rgba(0, 0, 0, 08)"
   template="<img src='./../../../assets/logoConFondo.png' alt='logo' />"
 >
-  <!-- <p style="color: white; font-size: 40px">Cargando...</p> -->
 </ngx-spinner>
