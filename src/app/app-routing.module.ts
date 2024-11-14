@@ -102,6 +102,9 @@ const routes: Routes = [
       import('./componentes/chat/chat/chat.component').then(
         (m) => m.ChatComponent
       ),
+  },  {
+    path: 'lista-productos',
+    loadChildren: () => import('./lista-productos/lista-productos.module').then( m => m.ListaProductosPageModule)
   },
   {
     path: 'listasParaAceptar/:tipoLista',
@@ -117,6 +120,7 @@ const routes: Routes = [
         (m) => m.DetalleDeCuentaComponent
       ),
   },
+
 
 
 

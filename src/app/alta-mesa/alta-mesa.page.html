@@ -41,15 +41,20 @@
 
     <!-- Botón para capturar la foto -->
     <ion-button expand="full" (click)="tomarFoto()" class="btnImagen">Capturar Foto</ion-button>
+
+    <!-- Botón para enviar el formulario -->
     <ion-button expand="full" type="submit" class="botonPrincipal">Crear Mesa</ion-button>
   </form>
 
+  <!-- Mostrar el código QR generado -->
   <div *ngIf="codigoQR">
     <h3>Código QR:</h3>
     <img [src]="codigoQR" alt="Código QR de la mesa" />
   </div>
+
+  <!-- Mostrar la foto capturada -->
   <div *ngIf="fotoUrl">
     <h3>Foto:</h3>
-    <img [src]="fotoUrl" alt="Código QR de la mesa" />
+    <img [src]="fotoUrl" alt="Foto de la mesa" />
   </div>
 </ion-content>

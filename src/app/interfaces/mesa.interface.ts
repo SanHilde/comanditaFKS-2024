@@ -1,4 +1,4 @@
-export type EstadoMesaTipo = 'Disponible' | 'Ocupada' | 'Reservada';
+export type EstadoMesaTipo = 'Disponible' | 'Ocupada' | 'Reservada' | 'procesoPago';
 
 export interface Mesa {
   numero: number; // Número de mesa

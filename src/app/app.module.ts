@@ -12,6 +12,7 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { SplashScreenComponent } from './componentes/splash-screen/splash-screen.component';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,6 +21,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
     IonicModule.forRoot(),
     AppRoutingModule,
     SplashScreenComponent,
+    NgApexchartsModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
