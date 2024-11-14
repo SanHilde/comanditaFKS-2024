@@ -40,7 +40,7 @@ export class AltaProductoPage implements OnInit {
       try {
         const fotoUrl = await this.fotoService.guardarFoto();
         if (fotoUrl) {
-          this.fotos.push(fotoUrl);
+          this.fotos.push(fotoUrl); // Almacena la URL de la foto
         }
       } catch (error) {
         console.error('Error al capturar la foto:', error);
@@ -60,7 +60,7 @@ export class AltaProductoPage implements OnInit {
         descripcion: productoData.descripcion,
         tiempoElaboracion: productoData.tiempoElaboracion,
         precio: productoData.precio,
-        fotos: this.fotos,
+        fotos: this.fotos, // Guarda las URLs de las fotos
         codigoQR: '',
         categoria: productoData.categoria,
         creadoPor: 'Admin', // O el usuario que crea el producto
@@ -71,7 +71,19 @@ export class AltaProductoPage implements OnInit {
           this.codigoQR = qrImageUrl;
           productoDataQR.codigoQR = this.codigoQR;
 
-          return this.datosService.guardarDatos("Producto", productoDataQR);
+          // Subir todas las fotos a Firebase Storage
+          const uploadPromises = this.fotos.map((fotoUrl, index) => {
+            const nombreImagen = `producto_${productoDataQR.nombre}_${new Date().getTime()}_${index}.jpg`;
+            return this.datosService.subirImagenAsync2('productos', nombreImagen, fotoUrl);
+          });
+
+          return Promise.all(uploadPromises).then(uploadedUrls => {
+            // Una vez que todas las fotos se han subido, actualizamos las URLs en el producto
+            productoDataQR.fotos = uploadedUrls;
+
+            // Guardamos los datos del producto en la base de datos
+            return this.datosService.guardarDatos("Producto", productoDataQR);
+          });
         })
         .then(() => {
           this.toastService.openSuccessToast('Producto guardado con éxito.');

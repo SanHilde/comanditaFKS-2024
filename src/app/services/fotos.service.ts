@@ -4,6 +4,7 @@ import {
 } from '@capacitor-mlkit/barcode-scanning';
 import {Camera, CameraPhoto, CameraResultType,CameraSource,Photo} from '@capacitor/camera';
 import { AlertController } from '@ionic/angular';
+import { ToastService } from './toast.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ import { AlertController } from '@ionic/angular';
 export class FotosService {
   isSupported: boolean = false;
 
-  constructor(private alertController: AlertController) {
+  constructor(private alertController: AlertController, private ToastService: ToastService) {
 
     BarcodeScanner.isSupported().then((result) => {
       this.isSupported = result.supported;
@@ -19,6 +20,7 @@ export class FotosService {
     BarcodeScanner.installGoogleBarcodeScannerModule();
 
   }
+  
   async scan(): Promise<string> {
     try {
       const { barcodes } = await BarcodeScanner.scan();
@@ -29,12 +31,13 @@ export class FotosService {
         //alert(`Código escaneado: ${qrData}`);
         return qrData;
       } else {
-        alert('No se detectó un valor válido en el QR.');
+        this.ToastService.openErrorToast('No se detectó un valor válido en el QR.', 'bottom');
         return '';
       }
     } catch (error) {
+      this.ToastService.openErrorToast('Error al escanear, intenta de nuevo.', 'bottom');
       console.error('Error al escanear:', error);
-      alert('Error al escanear, intenta de nuevo.');
+      
       return '';
     }
   }

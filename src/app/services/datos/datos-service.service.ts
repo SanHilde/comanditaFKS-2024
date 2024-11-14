@@ -131,4 +131,28 @@ export class DatosServiceService {
       return false; // Retorna false si hubo un error
     }
   }
+  async subirImagenAsync2(
+    carpeta: string,
+    nombreImagen: string,
+    fileUrl: string
+  ): Promise<any> {
+    try {
+      const fileBlob = await this.urlToBlob(fileUrl); // Convierte la URL a Blob
+      const storage = getStorage();
+      const storageRef = ref(storage, `/${carpeta}/${nombreImagen}`);
+      
+      await uploadBytes(storageRef, fileBlob); // Sube el Blob en lugar de la URL
+      const downloadURL = await getDownloadURL(storageRef);
+      return downloadURL;
+    } catch (error) {
+      console.error('Error al subir la imagen:', error);
+      throw error;
+    }
+  }
+  
+  private async urlToBlob(url: string): Promise<Blob> {
+    const response = await fetch(url);
+    return await response.blob();
+  }
+  
 }
