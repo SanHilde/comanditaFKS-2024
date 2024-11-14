@@ -50,11 +50,13 @@
     <p *ngIf="!listaDeEspera.length && mesasDisponibles.length">
       No hay clientes en la lista de espera
     </p>
-    <p *ngIf="!listaDeEspera.length && !mesasDisponibles.length">
+    <p
+      *ngIf="!listaDeEspera.length && !mesasDisponibles.length && mostrarMesas"
+    >
       No hay clientes en la lista de espera y no hay mesas disponibles
     </p>
   </ng-template>
   <ion-button fill="clear" color="dark" (click)="volver()">
-    <ion-icon name="chevron-back-outline" size="large"></ion-icon> Volver
+    <ion-icon name="arrow-back-outline" size="large" /> &nbsp; Volver
   </ion-button>
 </div>

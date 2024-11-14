@@ -109,9 +109,7 @@ export class IngresoComponent implements OnInit {
 
   irAResultadosDeLasEncuestas() {
     // TODO: Agregar pagina de los resultados
-    this.router.navigate(['/resultadosEncuestas'])
-    // this.router.navigate(['/altaUsuarios', option]);
-    ;
+    this.router.navigate(['/resultadosEncuestas']);
   }
 
   // Si ya tiene una mesa asignada

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { QrService, tipoQr } from '../services/qr.service';
-import { FotosService } from '../services/fotos.service';
-import { DatosServiceService } from '../services/datos/datos-service.service';
-import { ToastService } from '../services/toast.service';
+import { QrService, tipoQr } from '../../../services/qr.service';
+import { FotosService } from '../../../services/fotos.service';
+import { DatosServiceService } from '../../../services/datos/datos-service.service';
+import { ToastService } from '../../../services/toast.service';
 import Swal from 'sweetalert2';
-import { Producto } from '../interfaces/producto.interface';
+import { Producto } from '../../../interfaces/producto.interface';
 
 @Component({
   selector: 'app-alta-producto',

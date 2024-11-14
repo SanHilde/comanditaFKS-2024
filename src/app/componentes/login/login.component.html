@@ -2,13 +2,13 @@
   bdColor="rgba(0, 0, 0, 08)"
   template="<img src='./../../../assets/logoConFondo.png' alt='logo' />"
 >
-  <!-- <p style="color: white; font-size: 40px">Cargando...</p> -->
 </ngx-spinner>
+
 <ion-content>
   <div class="container">
     <h1>Inicio de sesión</h1>
 
-    <div class="buttons-container">
+    <div class="botonesAccesoRapido">
       <button
         class="btnImagen"
         (click)="handleQuickAccess('duenio@gmail.com', '123456')"
@@ -63,8 +63,8 @@
         <img src="./../../../assets/pics/anonimo.png" alt="Anónimo" />
       </button>
     </div>
-    <!-- (ngSubmit)="handleSubmit()" -->
-    <form [formGroup]="form" >
+
+    <form [formGroup]="form">
       <ion-input
         color="dark"
         id="email"
@@ -87,10 +87,22 @@
         <ion-input-password-toggle slot="end"></ion-input-password-toggle>
       </ion-input>
 
-      <button class="botonPrincipal marginTop" (click)="iniciarSesion()">Iniciar sesión</button>
-      <button class="botonPrincipal marginTop" (click)="registrarse=true">
-        Registrarse
-      </button>
+      <div class="botonesPrincipales">
+        <button
+          id="btnInicioSesion"
+          class="botonPrincipal"
+          (click)="iniciarSesion()"
+        >
+          Iniciar sesión
+        </button>
+        <button
+          id="btnRegistrarse"
+          class="botonPrincipal"
+          (click)="registrarse = true"
+        >
+          Registrarse
+        </button>
+      </div>
     </form>
   </div>
   <div *ngIf="errorMessage.length > 0">
@@ -104,29 +116,28 @@
       position="bottom"
     ></ion-toast>
   </div>
-  <!-- <app-alta-usuarios
-    *ngIf="formularioAnonimo === true"
-    tipoTraido="Anónimo"
-  ></app-alta-usuarios> -->
-  <!-- <button
-    class="botonPrincipal botonAnonimo"
-    *ngIf="formularioAnonimo === true"
-    (click)="crearAnonimo()"
-  >
-    Iniciar normalmente
-  </button> -->
 
-  <div  *ngIf="registrarse === true" class="overlay">
+  <div *ngIf="registrarse === true" class="overlay">
     <div class="card">
-      <h2>Como desea registrarse</h2>
+      <h2>¿Cómo desea registrarse?</h2>
       <div class="buttons">
-        <button class="btnImagen botonEleccion" (click)="rutearAnonimo('Anónimo')">Anónimo</button>
-        <button class="btnImagen botonEleccion" (click)="rutearCliente('Cliente')">Cliente</button>
-        <button class="btnImagen botonEleccion" (click)="registrarse=false">Volver</button>
+        <button
+          class="btnImagen botonEleccion"
+          (click)="rutearAnonimo('Anónimo')"
+        >
+          Anónimo
+        </button>
+        <button
+          class="btnImagen botonEleccion"
+          (click)="rutearCliente('Cliente')"
+        >
+          Cliente
+        </button>
+        <button class="btnImagen botonEleccion" (click)="registrarse = false">
+          <ion-icon name="arrow-back-outline"></ion-icon>
+          &nbsp; Volver
+        </button>
       </div>
     </div>
   </div>
-
-  
-
 </ion-content>

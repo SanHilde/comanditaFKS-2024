@@ -43,13 +43,12 @@
           <ion-icon name="list-outline"></ion-icon>
         </ion-button>
         <ion-button
-        *ngIf="
-          this.authService.tipoUsuario === 'Mozo'"
-        [routerLink]="'/salaDeChats'"
-        routerDirection="root"
-      >
-      <ion-icon name="chatbubbles-outline"></ion-icon>
-      </ion-button>
+          *ngIf="this.authService.tipoUsuario === 'Mozo'"
+          [routerLink]="'/salaDeChats'"
+          routerDirection="root"
+        >
+          <ion-icon name="chatbubbles-outline"></ion-icon>
+        </ion-button>
         <ion-button (click)="logout()">
           <ion-icon name="log-out-outline"></ion-icon>
         </ion-button>
@@ -57,20 +56,12 @@
     </ion-toolbar>
   </ion-footer>
 
-
   <ion-content>
     <ion-router-outlet></ion-router-outlet>
   </ion-content>
 
-
   <ion-list *ngIf="showList" class="custom-list">
     <h3 class="list-title">Alta de Usuario</h3>
-    <!-- <ion-item
-      *ngIf="authService.tipoUsuario === 'Maître'"
-      (click)="selectOption('Clientes')"
-    >
-      Clientes
-    </ion-item> -->
     <ion-item
       *ngIf="
         this.authService.tipoUsuario === 'Dueño' ||

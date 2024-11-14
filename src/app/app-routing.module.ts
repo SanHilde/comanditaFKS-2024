@@ -43,48 +43,46 @@ const routes: Routes = [
         (m) => m.AltaUsuariosComponent
       ),
   },
-  // {
-  //   path: 'play-k',
-  //   loadComponent: () => import('./play-k/play-k.page').then(m => m.PlayKPage)
-  // },
   { path: 'custom-splash', component: SplashScreenComponent },
   {
     path: 'encuesta-empleado',
     loadChildren: () =>
-      import('./encuesta-empleado/encuesta-empleado.module').then(
+      import('./componentes/encuestas/encuesta-empleado/encuesta-empleado.module').then(
         (m) => m.EncuestaEmpleadoPageModule
       ),
   },
   {
     path: 'alta-mesa',
     loadChildren: () =>
-      import('./alta-mesa/alta-mesa.module').then((m) => m.AltaMesaPageModule),
+      import('./componentes/alta/alta-mesa/alta-mesa.module').then(
+        (m) => m.AltaMesaPageModule
+      ),
   },
   {
     path: 'alta-producto',
     loadChildren: () =>
-      import('./alta-producto/alta-producto.module').then(
+      import('./componentes/alta/alta-producto/alta-producto.module').then(
         (m) => m.AltaProductoPageModule
       ),
   },
   {
     path: 'encuesta-supervisor',
     loadChildren: () =>
-      import('./encuesta-supervisor/encuesta-supervisor.module').then(
+      import('./componentes/encuestas/encuesta-supervisor/encuesta-supervisor.module').then(
         (m) => m.EncuestaSupervisorPageModule
       ),
   },
   {
     path: 'resultadosEncuestas',
     loadComponent: () =>
-      import('./componentes/resultados-encuestas/resultados-encuestas.component').then(
-        (m) => m.ResultadosEncuestasComponent
-      ),
+      import(
+        './componentes/resultados-encuestas/resultados-encuestas.component'
+      ).then((m) => m.ResultadosEncuestasComponent),
   },
   {
     path: 'encuestasClientes',
     loadComponent: () =>
-      import('./componentes/encuesta-cliente/encuesta-cliente.component').then(
+      import('./componentes/encuestas/encuesta-cliente/encuesta-cliente.component').then(
         (m) => m.EncuestaClienteComponent
       ),
   },
@@ -94,7 +92,6 @@ const routes: Routes = [
       import('./componentes/chat/sala-de-chat/sala-de-chat.component').then(
         (m) => m.SalaDeChatComponent
       ),
-      
   },
   {
     path: 'chat/:chatNumero',
@@ -102,28 +99,28 @@ const routes: Routes = [
       import('./componentes/chat/chat/chat.component').then(
         (m) => m.ChatComponent
       ),
-  },  {
+  },
+  {
     path: 'lista-productos',
-    loadChildren: () => import('./lista-productos/lista-productos.module').then( m => m.ListaProductosPageModule)
+    loadChildren: () =>
+      import('./lista-productos/lista-productos.module').then(
+        (m) => m.ListaProductosPageModule
+      ),
   },
   {
     path: 'listasParaAceptar/:tipoLista',
     loadComponent: () =>
-      import('./componentes/listas-para-aceptar/listas-para-aceptar.component').then(
-        (m) => m.ListasParaAceptarComponent
-      ),
+      import(
+        './componentes/listas-para-aceptar/listas-para-aceptar.component'
+      ).then((m) => m.ListasParaAceptarComponent),
   },
   {
     path: 'detalle/:idPedido',
     loadComponent: () =>
-      import('./componentes/detalle-de-cuenta/detalle-de-cuenta.component').then(
-        (m) => m.DetalleDeCuentaComponent
-      ),
+      import(
+        './componentes/detalle-de-cuenta/detalle-de-cuenta.component'
+      ).then((m) => m.DetalleDeCuentaComponent),
   },
-
-
-
-
 ];
 @NgModule({
   imports: [

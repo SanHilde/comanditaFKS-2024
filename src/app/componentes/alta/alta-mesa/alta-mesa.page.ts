@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import { QrService, tipoQr } from '../services/qr.service';
-import { Mesa } from "../interfaces/mesa.interface";
-import { DatosServiceService } from '../services/datos/datos-service.service';
-import { ToastService } from '../services/toast.service';
-import { FotosService } from '../services/fotos.service';
+import { QrService, tipoQr } from '../../../services/qr.service';
+import { Mesa } from "../../../interfaces/mesa.interface";
+import { DatosServiceService } from '../../../services/datos/datos-service.service';
+import { ToastService } from '../../../services/toast.service';
+import { FotosService } from '../../../services/fotos.service';
 
 @Component({
   selector: 'app-alta-mesa',
