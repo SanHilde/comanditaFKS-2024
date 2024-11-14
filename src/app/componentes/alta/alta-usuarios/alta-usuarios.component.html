@@ -16,7 +16,7 @@
   <form [formGroup]="formulario">
     <div class="primerBloque">
       <div class="primerMitad">
-        <ion-input
+        <ion-input style="color: white;"
           label="Nombre"
           label-placement="floating"
           fill="outline"
@@ -142,13 +142,13 @@
           Las claves no coinciden.
         </ion-text>
       </div>
-    </div>
 
-    <div
+
+    <!-- <div
       *ngIf="tipoTraido !== 'Anónimo' && tipoTraido !== 'Cliente'"
       class="ultimoBloqueConMasDatos"
-    >
-      <div>
+    > -->
+      <div  *ngIf="tipoTraido !== 'Anónimo' && tipoTraido !== 'Cliente'">
         <ion-input
           label="Cuil"
           label-placement="floating"
@@ -167,7 +167,7 @@
         </ion-text>
       </div>
 
-      <div>
+      <div  *ngIf="tipoTraido !== 'Anónimo' && tipoTraido !== 'Cliente'">
         <ion-select
           formControlName="tipoUsuario"
           label="Tipo de usuario"
@@ -189,7 +189,8 @@
           Debe seleccionar un tipo de usuario.
         </ion-text>
       </div>
-    </div>
+    <!-- </div> -->
+  </div>
 
     <h2 *ngIf="tipoTraido === 'Anónimo'">
       <ion-icon
@@ -201,26 +202,45 @@
       un nombre para diferenciarte de otros clientes
     </h2>
 
-    <div id="buttons">
-      <button
-        class="botonPrincipal"
+    <div id="buttons" *ngIf="tipoTraido !== 'Anónimo' && tipoTraido !== 'Cliente'">
+      <ion-fab-button  class="iconos" (click)="volverLogin()">
+        <!-- Volver al inicio -->
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-fab-button >
+      <ion-fab-button 
+        class="iconos"
         *ngIf="tipoTraido !== 'Anónimo'"
         (click)="escanearDatos()"
-      >
-        <ion-icon class="qr-icon" name="qr-code-outline"></ion-icon> Escanear
-        DNI
-      </button>
-      <button
-        class="botonPrincipal"
+      ><ion-icon name="qr-code-outline"></ion-icon></ion-fab-button >
+      <ion-fab-button 
+        class="iconos"
         (click)="guardarDatos()"
         [disabled]="isSubmitting"
       >
-        Dar de alta
-      </button>
-      <button class="botonPrincipal" (click)="volverLogin()">
-        Volver al inicio
-      </button>
+      <ion-icon name="save-outline"></ion-icon>
+        <!-- Dar de alta -->
+      </ion-fab-button >
     </div>
+    <div class="listaColumna"  *ngIf="tipoTraido == 'Anónimo' || tipoTraido == 'Cliente'">
+      <button 
+      class="botonPrincipal"
+      *ngIf="tipoTraido !== 'Anónimo'"
+      (click)="escanearDatos()"
+      ><ion-icon class="icon" name="qr-code-outline"></ion-icon> Escanear DNI</button >
+      <button 
+      class="botonPrincipal"
+      (click)="guardarDatos()"
+      [disabled]="isSubmitting"
+      >
+      <ion-icon class="icon" name="save-outline"></ion-icon>Guardar
+      <!-- Dar de alta -->
+    </button>
+    <button  class="botonPrincipal" (click)="volverLogin()">
+      <!-- Volver al inicio -->
+      <ion-icon class="icon" name="arrow-back-outline"></ion-icon> Volver
+    </button >
+  </div>
+
   </form>
   <div *ngIf="errorMessage.length > 0">
     <ion-toast

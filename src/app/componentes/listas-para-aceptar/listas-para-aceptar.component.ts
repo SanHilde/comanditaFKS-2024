@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { DatosServiceService } from 'src/app/services/datos/datos-service.service';
+import { ListaDeEsperaService } from 'src/app/services/lista-de-espera.service';
 
 @Component({
   selector: 'app-listas-para-aceptar',
@@ -17,16 +18,34 @@ import { DatosServiceService } from 'src/app/services/datos/datos-service.servic
 export class ListasParaAceptarComponent  implements OnInit {
   tipoTraido: string | null = null;
   listaDeObjetos=[];
-  constructor(  private route: ActivatedRoute, private datosService: DatosServiceService, private spinner: NgxSpinnerService) { }
+  subtitulo!:string;
+  constructor(  private route: ActivatedRoute, private datosService: DatosServiceService, private spinner: NgxSpinnerService,private listaDeEsperaService: ListaDeEsperaService) { }
 
   ngOnInit() {
     this.spinner.show();
     this.route.paramMap.subscribe((params) => {
       this.tipoTraido = params.get('tipoLista');
     });
+    this.tipoTraido="usuarios";
     if(this.tipoTraido!=null){
-      this.datosService.ObtenerDatos(this.tipoTraido).subscribe((listasDeTipoTraido:any)=>{
-      this.listaDeObjetos = listasDeTipoTraido;
+      let lista = this.tipoTraido;
+      if(this.tipoTraido=="pagos" || this.tipoTraido=="pedidos"){
+        lista = "pedidos";
+      }
+      this.datosService.ObtenerDatos(lista).subscribe((listasDeTipoTraido:any)=>{
+        switch(this.tipoTraido){
+          case "pagos":
+            this.subtitulo = "Confirmar pago:";
+            this.listaDeObjetos=listasDeTipoTraido.filter((pedido:any) => {pedido.pago==false});
+            break;
+          case "pedidos":
+            this.listaDeObjetos=listasDeTipoTraido.filter((pedido:any) => {pedido.confirmado==false});
+            this.subtitulo = "Confirmar pedido:";
+          break;
+          default:
+            this.subtitulo="Confirmar";
+            this.listaDeObjetos = listasDeTipoTraido;
+        }
       this.spinner.hide();
       })
     } else{
@@ -40,9 +59,20 @@ export class ListasParaAceptarComponent  implements OnInit {
 
   async aprobacion(orden:string, item:any){
     item.aprobado=orden;
-    console.log(item);
       try {
         if(this.tipoTraido!=null){
+          if(this.tipoTraido=="pagos"){
+            item.pago=true;
+            let mesa = item.mesa;
+            let listaDeMesas = await this.datosService.ObtenerDatosAsync("Mesa");
+            let mesaBuscada = listaDeMesas.find((mesaIndividual: any) => mesa.numero === mesaIndividual.numero);
+            mesaBuscada.estado = "Disponible";
+            await this.datosService.modificarDatoAsync(item.id, this.tipoTraido, item );
+          }
+          if(this.tipoTraido=="pedidos"){
+            item.estado="Aprobado para cocina";//????
+            await this.datosService.modificarDatoAsync(item.id, this.tipoTraido, item );
+          }
           // await this.datosService.modificarDatoAsync(item.id, this.tipoTraido, item );
         }
 

@@ -32,11 +32,11 @@ export class DetalleDeCuentaComponent  implements OnInit {
     });
 
     this.productosPedidos=[
-      {producto:"coca",
+      { nombre:"coca",
         precio: "50",
-        cantidad: 2
+        cantidad: 2,
       },
-      {producto:"hamburguesa",
+      {nombre:"hamburguesa",
         precio: "75",
         cantidad: 2
       }

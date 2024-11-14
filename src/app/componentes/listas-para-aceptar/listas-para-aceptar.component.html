@@ -6,11 +6,12 @@
     <div *ngFor="let item of listaDeObjetos" class="card" (click)="seleccionarFila(item)">
       <img *ngIf="item['foto']" [src]="item['foto']" [alt]="item['nombre']" class="imgTabla">
       <div class="bloque">
-        <h2 *ngIf="item['nombre']" class="titulo w100">{{ item['nombre'] }} {{ item['apellido'] }}</h2>
+        <h2 *ngIf="item['nombre']" class="">{{ item['nombre'] }} {{ item['apellido'] }}</h2>
         <div class="fila">
           <!-- <ion-fab-button color="danger" (click)="aprobacion('rechazado', item); $event.stopPropagation()">
             <ion-icon name="close-circle-outline"></ion-icon>
           </ion-fab-button> -->
+          <p class="textoBoton">{{subtitulo}}</p>
           <ion-fab-button color="success" (click)="aprobacion('aprobado', item); $event.stopPropagation()">
             <ion-icon name="checkmark-circle-outline"></ion-icon>
           </ion-fab-button>

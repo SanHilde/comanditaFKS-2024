@@ -25,22 +25,27 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-top: 30px;
 }
 
 .ultimoBloque {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin-bottom: 30px;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 9px;
+  // margin-bottom: 30px;
 }
 
-.ultimoBloqueConMasDatos {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 30px;
-}
+// .ultimoBloqueConMasDatos {
+//   display: flex;
+//   flex-direction: column;
+//   gap: 10px;
+//   margin-bottom: 30px;
+// }
+// .segundoBloque{
+//   display: flex;
+//   flex-direction: row;
+//   align-items: flex-start;
+//   justify-content: center;
+// }
 
 .primerMitad {
   display: flex;
@@ -51,7 +56,7 @@
 }
 
 .textoError {
-  width: 40vw;
+  width: auto;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -77,8 +82,13 @@ form {
 
 h1 {
   text-align: center;
-  font-size: 40px;
-  color: white;
+  font-size: 35px;
+  color: var(--color-detalles);
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  margin-top: 0px;
+  margin-bottom: 10px;
 }
 
 ion-select,
@@ -90,33 +100,33 @@ ion-button,
 ion-text,
 ion-select,
 button {
-  margin-top: 10px;
+  margin-top: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-ion-input,
-ion-select {
-  width: 38vw;
-  margin-right: 10px;
-  font-size: 30px;
-}
 
 ion-input,
 ion-select {
-  height: 90px;
+  // height: 40px;
+  margin-right: 10px;
+  // font-size: 25px;
+  // --padding-bottom:10px;
+  // --place-holder-style: 25px;
   width: auto;
   --color:white;
   --placeholder-color:white;
-  color:white;
+  justify-content: center;
 }
-
+.input-fill-outline{
+  --padding-bottom:15px;
+}
 .text {
   font-size: 20px;
 }
 
-.qr-icon {
-  font-size: 30px;
+.icon {
+  // font-size: 30px;
   margin-right: 15px;
 }
 
@@ -124,11 +134,23 @@ ion-select {
   margin-top: 10px;
   width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 
 h2{
   color: white;
+}
+.listaColumna{
+  margin-top: 10px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.botonPrincipal{
+  margin: 10px;
 }
