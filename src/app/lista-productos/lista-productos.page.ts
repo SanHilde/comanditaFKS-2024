@@ -82,7 +82,7 @@ export class ListaProductosPage implements OnInit {
                 break;
             
               case "procesoPago":
-                this.router.navigate(['/menu-mesa']);
+                this.router.navigate([`/mesa/${mesa.id}`]);
                 break;
             
               default:

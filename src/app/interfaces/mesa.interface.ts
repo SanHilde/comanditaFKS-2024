@@ -16,4 +16,5 @@ export interface Mesa {
   qrid: string;
   numeroRam: number;
   pedido:string;
+  listoPago: boolean; 
 }
