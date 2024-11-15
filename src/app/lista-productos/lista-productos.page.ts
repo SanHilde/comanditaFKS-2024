@@ -141,7 +141,10 @@ export class ListaProductosPage implements OnInit {
       this.calcularTiempoEstimado();
       this.actualizarPrecioPagar(producto);
       this.ventaActual.precioPaga = this.precioPagar;
-      
+      this.ToastService.openSuccessToast(
+        `¡Muchas gracias por comprar el producto "${producto.nombre}" por un precio de $${producto.precio.toFixed(2)}!`,
+        'bottom'
+      );
     }
   }
   chatConsultaMozo()
