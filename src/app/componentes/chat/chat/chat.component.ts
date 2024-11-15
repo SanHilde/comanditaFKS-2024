@@ -132,7 +132,7 @@ export class ChatComponent   implements OnInit {
       this.router.navigate(['/salaDeChats']);
     }else{
       if(this.auth.tipoUsuario=="Cliente" || this.auth.tipoUsuario=="Anónimo"){
-        this.router.navigate(['/login']); //configurar bien esta ruta
+        this.router.navigate(['/mesa',this.chatNumero]); //configurar bien esta ruta
       } else{
         this.router.navigate(['/home']); //configurar bien esta ruta
       }

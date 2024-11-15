@@ -29,7 +29,7 @@ export class ListasParaAceptarComponent  implements OnInit {
     this.tipoTraido="usuarios";
     if(this.tipoTraido!=null){
       let lista = this.tipoTraido;
-      if(this.tipoTraido=="pagos" || this.tipoTraido=="pedidos"){
+      if(this.tipoTraido=="pagos" || this.tipoTraido=="Ventas"){
         lista = "pedidos";
       }
       this.datosService.ObtenerDatos(lista).subscribe((listasDeTipoTraido:any)=>{
