@@ -20,13 +20,28 @@ export class HomeComponent {
     public qrService: QrService
   ) {}
 
-  escanearQr() {
-    // this.router.navigate(['}/ingreso']);
-    this.qrService.leerQr();
+  async escanearQr() {
+    // this.router.navigate(['/ingreso']);
+    let lectura = await this.qrService.leerQr();
 
     // TODO: Manejar los cambios de acción desde cada página donde se vaya hacer el cmabio de acción
-    if (this.authService.accionActual === 'PROPINA')
-      this.authService.accionActual = 'INGRESO';
+    // if (this.authService.accionActual === 'PROPINA')
+    this.authService.accionActual = 'INGRESO';
+    switch(lectura){
+        case 'INGRESO':
+          this.router.navigate(['/ingreso']);
+          this.authService.accionActual = 'INGRESO';
+        break;
+        case 'MESA1':
+          this.router.navigate(['/mesa',"1"]);
+        break;
+        case 'MESA2':
+          this.router.navigate(['/mesa',"2"]);
+        break;
+        case 'MESA3':
+          this.router.navigate(['/mesa',"3"]);
+        break;
+    }
   }
 
   navegarSiguienteAccionMaitre(pagina: 'altaCliente' | 'asignarMesas') {

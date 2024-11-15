@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output,OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+import { Ventas } from 'src/app/interfaces/venta.interface';
 import { AuthService } from 'src/app/services/auth.service';
 import { DatosServiceService } from 'src/app/services/datos/datos-service.service';
 import { FechaService } from 'src/app/services/fecha/fecha.service';
@@ -29,6 +30,9 @@ export class EncuestaClienteComponent  implements OnInit {
   seleccionados: string[] = [];
   cantFotos=3;
   comentario: string = '';
+  idPedido!:string | null; 
+  
+
   // @Output() encuestaTerminada= new EventEmitter<any>;
   
   preguntas = [
@@ -39,7 +43,7 @@ export class EncuestaClienteComponent  implements OnInit {
     { key: 'mejoras', texto: 'Para mejorar', tipo: 'check', textoError:"Seleccione opción" }
   ];
 
-   constructor(private fb: FormBuilder, private datosService: DatosServiceService, public fotosService: FotoService, private cdr: ChangeDetectorRef, private router: Router, public spinner: NgxSpinnerService, private fechaService: FechaService, private auth:AuthService) {}
+   constructor(private route: ActivatedRoute ,private fb: FormBuilder, private datosService: DatosServiceService, public fotosService: FotoService, private cdr: ChangeDetectorRef, private router: Router, public spinner: NgxSpinnerService, private fechaService: FechaService, private auth:AuthService) {}
  
    ngOnInit(): void {
      this.encuestaForm = this.fb.group({
@@ -51,6 +55,9 @@ export class EncuestaClienteComponent  implements OnInit {
      });
     //  const arrayDePreguntas = this.generarArrayDeObjetos(20);
     //  console.log(arrayDePreguntas);
+    this.route.paramMap.subscribe((params) => {
+      this.idPedido = params.get('idPedido');
+    });
    }
    
     async generarObjetoAleatorio(){
@@ -129,12 +136,21 @@ export class EncuestaClienteComponent  implements OnInit {
           objetoASubir.comentario = this.comentario;
         }
         await this.datosService.guardarDatos("encuestas clientes", objetoASubir);
+        let pedido:Ventas;
+        let listaPedidos =await this.datosService.ObtenerDatosAsync("Ventas");
+        listaPedidos.forEach(pedidoIndividual => {
+          if(pedidoIndividual==this.idPedido){
+            pedido=pedidoIndividual;
+            pedido.completoEncuesta=true;
+          }
+        });
+        
+        // if(await this.datosService.guardarDatos("Ventas",pedido));
         this.succesMessage="Formulario subido con éxtio";
         this.resetCheckboxesManual();
         this.encuestaForm.reset();
-        //AGREGAR ACA ALGUN CAMBIO QUE SE COMPLETO LA ENCUEST
-        this.succesMessage="AGREGAR ACA ALGUN CAMBIO DE QUE SE COMPLETO LA ENCUESTA";
-        setTimeout(()=>this.router.navigateByUrl('ingreso'),3000);
+        // setTimeout(()=>this.router.navigateByUrl('mesas',pedido.mesaId),3000);
+        // this.router.navigate(['/mesa', pedido.mesaId]);
         
       } else{
         this.errorMessage="Falta completar datos del formulario";

@@ -1,0 +1,50 @@
+<div class="container">
+  <button 
+    class="botonPrincipal" 
+    *ngIf="estadoActual >= 1" 
+    (click)="navegarA('menu')">Menú</button>
+
+  <button 
+    class="botonPrincipal" 
+    *ngIf="estadoActual >= 1" 
+    (click)="navegarA('pedir')">Pedir</button>
+
+  <button 
+    class="botonPrincipal" 
+    *ngIf="estadoActual >= 1" 
+    (click)="navegarA('chat')">Consultar al mozo</button>
+
+  <button 
+    class="botonPrincipal" 
+    *ngIf="estadoActual >= 2" 
+    (click)="navegarA('estadoPedido')">Estado del pedido</button>
+
+  <button 
+    class="botonPrincipal" 
+    *ngIf="estadoActual == 2" 
+    (click)="navegarA('confirmarRecepcion')">Confirmar recepción de pedido</button>
+
+  <button 
+    class="botonPrincipal" 
+    *ngIf="estadoActual >= 3" 
+    (click)="navegarA('resultadosEncuestas')">Completar encuesta</button>
+
+  <button 
+    class="botonPrincipal" 
+    *ngIf="estadoActual >= 3" 
+    (click)="navegarA('juegos')">Juegos</button>
+
+  <button 
+    class="botonPrincipal" 
+    *ngIf="estadoActual >= 3" 
+    (click)="navegarA('pedirCuenta')">Pedir cuenta</button>
+
+  <button 
+    class="botonPrincipal" 
+    *ngIf="estadoActual >= 4" 
+    (click)="navegarA('resultadosEncuestas')">Ver resultados de encuestas</button>
+
+  <p>
+    Escanea el código QR de propina y da la propina según la atención!
+  </p>
+</div>

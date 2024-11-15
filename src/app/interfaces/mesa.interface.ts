@@ -1,3 +1,5 @@
+import { Ventas } from "./venta.interface";
+
 export type EstadoMesaTipo = 'Disponible' | 'Ocupada' | 'Reservada' | 'procesoPago';
 
 export interface Mesa {
@@ -13,4 +15,5 @@ export interface Mesa {
   idCliente: string;
   qrid: string;
   numeroRam: number;
+  pedido:string;
 }

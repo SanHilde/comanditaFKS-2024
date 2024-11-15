@@ -80,7 +80,7 @@ const routes: Routes = [
       ).then((m) => m.ResultadosEncuestasComponent),
   },
   {
-    path: 'encuestasClientes',
+    path: 'encuestasClientes/:idPedido',
     loadComponent: () =>
       import('./componentes/encuestas/encuesta-cliente/encuesta-cliente.component').then(
         (m) => m.EncuestaClienteComponent
@@ -120,6 +120,13 @@ const routes: Routes = [
       import(
         './componentes/detalle-de-cuenta/detalle-de-cuenta.component'
       ).then((m) => m.DetalleDeCuentaComponent),
+  },
+  {
+    path: 'mesa/:idMesa',
+    loadComponent: () =>
+      import(
+        './componentes/mesa/mesa.component'
+      ).then((m) => m.MesaComponent),
   },
 ];
 @NgModule({

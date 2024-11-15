@@ -99,8 +99,9 @@ export class AppComponent {
           if(this.authService.tipoUsuario == "Dueño" || this.authService.tipoUsuario == "Supervisor"){
             this.router.navigate(['/listaClientes']);
           } else{
-            // this.router.navigate(['/detalle/1']);
+            // this.router.navigate(['/mesa',"2"]);
             this.router.navigate(['/home']);
+        
           }
         }
         setTimeout(() => {

@@ -153,8 +153,18 @@ export class ListaProductosPage implements OnInit {
   }
 
    // Inicia una nueva venta para el usuario y la mesa actual
-   iniciarVenta() {
+   async iniciarVenta() {
     this.QrMesaId = "MESA11VIP4803";
+    let mesa:any;
+    mesa.numero="";
+    let listaDeMesas = await this.DatosServices.ObtenerDatosAsync("Mesas");
+      listaDeMesas.forEach((mesaIndivual:Mesa) => {
+        if(mesaIndivual.qrid==this.QrMesaId){
+          mesa= mesaIndivual      
+      }
+    });
+  
+    
     if (this.personaLog && this.QrMesaId) {
       this.ventaActual = {
         usuarioId: this.personaLog.id,
@@ -162,7 +172,14 @@ export class ListaProductosPage implements OnInit {
         productosSeleccionados: [],
         pago: false,
         validacionMozo: false,
-        precioPaga: 0
+        precioPaga: 0,
+        completoEncuesta:false,
+        confirmarRecepcion:false,
+        id:"",
+        estadoCocinero:"pendiente",
+        estadoBartender:"pendiente",
+        mesaNumero: mesa.numero
+
       };
       console.log("Venta iniciada:", this.ventaActual);
     } else {
