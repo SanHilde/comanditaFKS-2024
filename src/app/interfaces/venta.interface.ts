@@ -4,7 +4,7 @@ export interface Ventas {
     usuarioId: string;         
     mesaId: string;              
     productosSeleccionados: Producto[]; 
-    pago: boolean;      
+    listoPago: boolean;      
     precioPaga: number;
     validacionMozo:boolean;       
     completoEncuesta:boolean; 
@@ -12,6 +12,6 @@ export interface Ventas {
     estadoCocinero: EstadoPedido;
     estadoBartender: EstadoPedido;
     id:string;
-    mesaNumero:String;
+    mesaNumero:number;
   }
   

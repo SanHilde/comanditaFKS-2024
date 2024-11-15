@@ -9,6 +9,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import {  OnChanges, SimpleChanges } from '@angular/core';
 import { PreCargaimgService } from '../services/pre-cargaimg.service';
 import { ToastService } from '../services/toast.service';
+import { Router } from '@angular/router';
  
 @Component({
   selector: 'app-lista-productos',
@@ -30,15 +31,13 @@ export class ListaProductosPage implements OnInit {
   public chat: boolean = false;
   public tiempoEstimado: number = 0; 
   public precioPagar: number = 0;
-  @Input() mostrarAnimacion: boolean = false; // Controla la visualización de la animación
-  estadoPedido: string = 'cocinando'; // Estado inicial del pedido
-  intervalId: any;
-  public animar: boolean=false;
+  public mesaActual: Mesa | undefined;
   
 
   constructor(private fotosServices: FotosService, private DatosServices: DatosServiceService,
     private authService: AuthService, private PreCargaimgService: PreCargaimgService,
-    private ToastService: ToastService
+    private ToastService: ToastService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -63,15 +62,35 @@ export class ListaProductosPage implements OnInit {
   
   }
 
-  /*scanerDQrMesa() {
+  scanerDQrMesa() {
     this.fotosServices.scan().then((resultado: string) => {
       this.QrMesaId = resultado;
       for (const mesa of this.listaMesa) {
       if (mesa.qrid === this.QrMesaId) {
           if (mesa.idCliente === this.personaLog?.id) {
-            this.botonQr = false;
-            this.listarProductos = true;
-            this.iniciarVenta();
+            switch (mesa.estado) {
+              case "Ocupada":
+                this.mesaActual = mesa;
+                this.botonQr = false;
+                this.listarProductos = true;
+                this.ToastService.openSuccessToast(
+                  '¡Bienvenido a La Comandita FKS! Puede generar su compra aquí. Este es el menú principal de comida y bebidas.',
+                  'bottom'
+                );
+                this.ToastService.vibrar(5000);
+                this.iniciarVenta();
+                break;
+            
+              case "procesoPago":
+                this.router.navigate([`/mesa/${mesa.id}`]);
+                break;
+            
+              default:
+                this.ToastService.openErrorToast("Estado de la mesa no reconocido: " + mesa.estado, 'bottom');
+                console.warn("Estado de la mesa no reconocido:", mesa.estado);
+                break;
+            }
+            
           } else {
             console.log("El idCliente no coincide con personaLog.");
            }
@@ -83,7 +102,8 @@ export class ListaProductosPage implements OnInit {
     }).catch(error => {
       console.error("Error al escanear el código QR:", error);
     });
-  }*/
+  }
+ /*
  scanerDQrMesa() {
     
       this.fotosServices.scan().then((resultado: string) => {
@@ -91,14 +111,8 @@ export class ListaProductosPage implements OnInit {
         if(this.personaLog)
           {
             this.QrMesaId = resultado;
-        if(this.animar){
-          this.botonQr = false;
-            this.mostrarAnimacion = true; // Esto activará la animación de estados
-        
-        }else{
-          this.botonQr = false; // Ocultar el botón de escaneo
-          this.listarProductos = true; // Mostrar la lista de productos
-        }
+            this.botonQr = false; // Ocultar el botón de escaneo
+            this.listarProductos = true; // Mostrar la lista de productos
           }else
           {
             console.log("no ha cargado de forma correcta el usuario");
@@ -108,7 +122,7 @@ export class ListaProductosPage implements OnInit {
       }).catch(error => {
         console.error("Error al escanear el código QR:", error);
       });
-    }
+    }*/
 
 
   private clasificarProductos() {
@@ -154,33 +168,28 @@ export class ListaProductosPage implements OnInit {
 
    // Inicia una nueva venta para el usuario y la mesa actual
    async iniciarVenta() {
-    this.QrMesaId = "MESA11VIP4803";
-    let mesa:any;
-    mesa.numero="";
-    let listaDeMesas = await this.DatosServices.ObtenerDatosAsync("Mesas");
-      listaDeMesas.forEach((mesaIndivual:Mesa) => {
-        if(mesaIndivual.qrid==this.QrMesaId){
-          mesa= mesaIndivual      
-      }
-    });
-  
+    if (!this.mesaActual) {
+      console.error('mesaActual no está definido.');
+      return;
+    }
     
     if (this.personaLog && this.QrMesaId) {
       this.ventaActual = {
         usuarioId: this.personaLog.id,
         mesaId: this.QrMesaId,
-        productosSeleccionados: [],
-        pago: false,
-        validacionMozo: false,
+        productosSeleccionados: [], // Inicializado como un array vacío
+        listoPago: false,
         precioPaga: 0,
+        validacionMozo: false,
         completoEncuesta:false,
         confirmarRecepcion:false,
         id:"",
         estadoCocinero:"pendiente",
         estadoBartender:"pendiente",
-        mesaNumero: mesa.numero
+        mesaNumero: this.mesaActual.numero
 
       };
+  
       console.log("Venta iniciada:", this.ventaActual);
     } else {
       console.error("No se pudo iniciar la venta: usuario o mesa no están definidos.");
@@ -232,41 +241,32 @@ export class ListaProductosPage implements OnInit {
     this.resetVenta();
     this.botonQr = true; // Ocultar el botón de escaneo
     this.listarProductos = false; // Mostrar la lista de productos
-    this.animar = true;
-    this.iniciarAnimacion();
+    this.modificarEstadoMesa();
 
   }
-  ngOnChanges(changes: SimpleChanges) {
-    // Activa la animación cuando mostrarAnimacion cambia a true
-    if (changes['mostrarAnimacion'] && this.mostrarAnimacion) {
-      this.iniciarAnimacion();
-    } else if (!this.mostrarAnimacion) {
-      this.detenerAnimacion();
+  
+  modificarEstadoMesa()
+  {
+    if (!this.mesaActual) {
+      console.error('mesaActual no está definido.');
+      return;
     }
+  
+    this.mesaActual.estado = "procesoPago";
+  
+    this.DatosServices.modificarDatoAsync(this.mesaActual.id, "Mesa", this.mesaActual)
+      .then(() => {
+        this.ToastService.openSuccessToast(
+          '¡Ya su pedido ha sido tomado!',
+          'bottom'
+        );
+      })
+      .catch((error) => {
+        console.error('Error al actualizar la mesa:', error);
+      });
+
   }
 
-  iniciarAnimacion() {
-    this.estadoPedido = 'cocinando'; // Estado inicial
-    this.intervalId = setInterval(() => {
-      this.actualizarEstado();
-    }, 7000); // Cambia de estado cada 5 segundos
-  }
 
-  actualizarEstado() {
-    if (this.estadoPedido === 'cocinando') {
-      this.estadoPedido = 'emplatando';
-    } else if (this.estadoPedido === 'emplatando') {
-      this.estadoPedido = 'entregando';
-    } else if (this.estadoPedido === 'entregando') {
-      this.detenerAnimacion(); // Detiene la animación al finalizar
-    }
-  }
-
-  detenerAnimacion() {
-    clearInterval(this.intervalId);
-    this.intervalId = null;
-    this.estadoPedido = 'cocinando'; // Reinicia el estado para la próxima vez
-  }
- 
 
 }
