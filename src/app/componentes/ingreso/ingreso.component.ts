@@ -8,6 +8,8 @@ import { NgxSpinnerService, NgxSpinnerModule } from 'ngx-spinner';
 import Swal from 'sweetalert2';
 import { MesasService } from 'src/app/services/mesas.service';
 import { Mesa } from 'src/app/interfaces/mesa.interface';
+import { FotosService } from 'src/app/services/fotos.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-ingreso',
@@ -27,10 +29,13 @@ export class IngresoComponent implements OnInit {
     public listaDeEsperaService: ListaDeEsperaService,
     public mesasService: MesasService,
     private router: Router,
-    public spinner: NgxSpinnerService
-  ) {}
+    public spinner: NgxSpinnerService,
+    public fotosServices: FotosService,
+    public ToastService: ToastService
+  ) { }
 
   ngOnInit() {
+
     this.revisarSiEstaEnLaLista();
   }
 
@@ -113,5 +118,17 @@ export class IngresoComponent implements OnInit {
   }
 
   // Si ya tiene una mesa asignada
-  escanearQrMesa() {}
+  escanearQrMesa() {
+    if (!this.mesaAsignada) return;
+    this.fotosServices.scan().then((resultado: string) => {
+      if (this.mesaAsignada?.qrid == resultado) {
+        this.router.navigate(['/lista-productos']);
+      } else {
+        this.ToastService.openErrorToast('Error. Esta mesa no ha sido asignada para ti', 'bottom');
+      }
+    }).catch(error => {
+      console.error("Error al escanear el código QR:", error);
+    });
+
+  }
 }
