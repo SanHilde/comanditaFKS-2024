@@ -140,7 +140,7 @@ export class ListaProductosPage implements OnInit {
       console.log(this.tiempoEstimado);
       this.calcularTiempoEstimado();
       this.actualizarPrecioPagar(producto);
-      this.ventaActual.precioPaga = this.precioPagar;
+      this.ventaActual.precio = this.precioPagar;
       this.ToastService.openSuccessToast(
         `¡Muchas gracias por comprar el producto "${producto.nombre}" por un precio de $${producto.precio.toFixed(2)}!`,
         'bottom'
@@ -182,15 +182,14 @@ export class ListaProductosPage implements OnInit {
         mesaId: this.QrMesaId,
         productosSeleccionados: [], // Inicializado como un array vacío
         pago: false,
-        precioPaga: 0,
+        precio: 0, //CAMBIE NOMBRE DE PRECIO
         validacionMozo: false,
         completoEncuesta:false,
         confirmarRecepcion:false,
         id:"",
         estadoCocinero:"pendiente",
         estadoBartender:"pendiente",
-        mesaNumero: this.mesaActual.numero
-
+        mesaNumero: this.mesaActual.numero,
       };
   
       console.log("Venta iniciada:", this.ventaActual);

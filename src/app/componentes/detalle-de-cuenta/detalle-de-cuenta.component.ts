@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { Mesa } from 'src/app/interfaces/mesa.interface';
+import { Producto } from 'src/app/interfaces/producto.interface';
 import { Ventas } from 'src/app/interfaces/venta.interface';
 import { DatosVinculadosService } from 'src/app/services/datos-vinculados.service';
 import { DatosServiceService } from 'src/app/services/datos/datos-service.service';
@@ -48,8 +49,10 @@ export class DetalleDeCuentaComponent  implements OnInit {
       }
     ];
     this.pedirDatos();
-    this.productosPedidos.forEach((productoIndividual:any) => {
-      this.totalTraido= this.totalTraido+ productoIndividual.precio*productoIndividual.cantidad
+
+    this.productosPedidos.forEach((productoIndividual:Producto) => {
+      this.totalTraido= this.totalTraido+ productoIndividual.precio
+      // productoIndividual.foto= productoIndividual.fotos[]
     });
     this.descuentoCalculado = this.totalTraido * (this.descuentoTraido/100);
     this.totalFinal =this.totalTraido- this.descuentoCalculado;
@@ -71,8 +74,18 @@ export class DetalleDeCuentaComponent  implements OnInit {
       this.mesa = await this.datosVinculados.traerDatosMesa(this.idMesa);
     }
     if(this.mesa){
-      this.pedido= this.datosVinculados.pedido;
+      this.pedido= this.datosVinculados.getPedido();
     }
+    console.log(this.pedido.productosSeleccionados)
+    if(this.pedido){
+      this.pedido.productosSeleccionados.forEach(productoIndividual => {
+        this.productosPedidos.push(productoIndividual)
+      });
+      // this.productosPedidos=this.pedido.productosSeleccionados;
+      console.log("entre")
+    }
+    console.log(this.mesa);
+    console.log(this.pedido);
   }
   async pagar(){
     //cambiar estado de pago

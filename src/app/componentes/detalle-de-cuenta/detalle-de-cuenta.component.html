@@ -3,7 +3,7 @@
   
     <!-- Lista de productos pedidos -->
     <div class="miniCard listaFila" *ngFor="let producto of detalleArmado.pedido">
-      <img [src]="producto.foto" alt="Imagen de {{ producto.producto }}">
+      <!-- <img [src]="producto.fotos[0]" alt="Imagen de {{ producto.producto }}"> -->
       <p class="producto-nombre">{{ producto.nombre }} ({{ producto.cantidad }})</p>
       <p>${{ producto.precio }}</p>
     </div>

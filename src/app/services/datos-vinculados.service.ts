@@ -10,11 +10,46 @@ export class DatosVinculadosService {
 
   constructor(private datosService: DatosServiceService) { }
   public pedido!:Ventas;
-  mesa!:Mesa;
+  public mesa!:Mesa;
+  suscripcionAVenta=false;
 
   getPedido(){
     return this.pedido;
   }
+
+  getMesa(){
+    return this.mesa;
+  }
+
+  suscribirseADatos(idMesa:string){
+    if(idMesa!="" ){
+      this.datosService.ObtenerDatos("Mesa").subscribe((listaDeMesas:any)=>{
+        listaDeMesas.forEach((mesaIndividual: Mesa) => {
+          if(idMesa!=null && mesaIndividual.numero ==  idMesa){
+            this.mesa=mesaIndividual;
+            if(!this.suscripcionAVenta && this.mesa.pedido){
+              this.suscripcionAVenta= true;
+              this.datosService.ObtenerDatos("Ventas").subscribe((listaDeVentas:any)=>{
+                listaDeVentas.forEach((ventaIndividual:Ventas) => {
+                  if(ventaIndividual.id==this.mesa.pedido){
+                    this.pedido=ventaIndividual;
+                    // resolve(true);
+                    return
+                  }                 
+                });
+              })
+            } else{
+              // resolve(true);
+              return
+            }
+          }
+       });
+
+     })
+    } 
+  }
+
+
   buscarDatoMesa(idMesa: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       this.datosService.ObtenerDatos("Mesa").subscribe(
@@ -61,7 +96,6 @@ export class DatosVinculadosService {
 
   async traerDatosMesa(idMesa:string){
     let listaDeMesas = await this.datosService.ObtenerDatosAsync("Mesa");
-    console.log(listaDeMesas)
     listaDeMesas.forEach((mesaIdividual:Mesa) => {
          if(mesaIdividual.numero==idMesa){
             this.mesa=mesaIdividual;
@@ -74,7 +108,6 @@ export class DatosVinculadosService {
  async buscarPedido(){
     if(this.mesa.pedido){
       let listaDePedidos = await this.datosService.ObtenerDatosAsync("Ventas");
-      console.log(listaDePedidos)
       listaDePedidos.forEach((pedidoIndividual:Ventas) => {
            if(this.mesa.pedido==pedidoIndividual.id){
             this.pedido=pedidoIndividual;

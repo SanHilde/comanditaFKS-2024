@@ -17,7 +17,7 @@ import { DatosServiceService } from 'src/app/services/datos/datos-service.servic
   imports:[CommonModule,IonicModule,NgxSpinnerModule]
 })
 export class MesaComponent  implements OnInit, OnChanges {
-  estadoActual=5;
+  estadoActual=1;
   idMesa: string | null="";
   pedido!:Ventas;
   mesa!:Mesa
@@ -33,26 +33,7 @@ export class MesaComponent  implements OnInit, OnChanges {
     this.route.paramMap.subscribe((params) => {
       this.idMesa = params.get('idMesa');
     });
-    
-    // if (this.idMesa) {
-    //   this.datosVinculados.buscarDatoMesa(this.idMesa)
-    //     .then(() => {
-    //       this.datosVinculados.obtenerDatoPedidoDeMesa()
-    //         .then(() => {
-    //           this.analizarEstadoActual();
-    //         })
-    //         .catch((error) => {
-    //           console.error("Error al obtener el dato del pedido:", error);
-    //         });
-    //         this.spinner.hide()
-    //     })
-    //     .catch((error) => {
-    //       console.error("Error al buscar la mesa:", error);
-    //     });
-    // }
-    
-    
-
+    this.datosVinculados.suscribirseADatos
     // this.traerDatosMesa();
     if(this.idMesa!="" ){
       this.datosService.ObtenerDatos("Mesa").subscribe((listaDeMesas:any)=>{
@@ -61,9 +42,6 @@ export class MesaComponent  implements OnInit, OnChanges {
             this.mesa=mesaIndividual;
             this.analizarEstadoActual();
             this.spinner.hide();
-            // console.log(this.mesa)
-            console.log(this.pedido)
-
             // if(this.mesa.pedido){
             if(!this.suscripcionAVenta && this.mesa.pedido){
               this.suscripcionAVenta= true;
@@ -76,74 +54,70 @@ export class MesaComponent  implements OnInit, OnChanges {
                 });
               })
             }
-
-
           }
        });
-
      })
     } 
-    // this.traerDatos();
-  }
-  async traerDatos(){
-    if(this.idMesa){
-      this.mesa=await this.datosVinculados.traerDatosMesa(this.idMesa);
-      this.pedido= this.datosVinculados.getPedido();
-      console.log(this.mesa)
-      console.log(this.pedido)
-      this.spinner.hide();
-    }
+   }
+//   async traerDatos(){
+//     if(this.idMesa){
+//       this.mesa=await this.datosVinculados.traerDatosMesa(this.idMesa);
+//       this.pedido= this.datosVinculados.getPedido();
+//       console.log(this.mesa)
+//       console.log(this.pedido)
+//       this.spinner.hide();
+//     }
     
-  }
-  async traerDatosMesa(){
-    let listaDeMesas = await this.datosService.ObtenerDatosAsync("Mesa");
-    console.log(listaDeMesas)
-    listaDeMesas.forEach((mesaIdividual:Mesa) => {
-         if(mesaIdividual.numero==this.idMesa){
-            this.mesa=mesaIdividual;
-    };
-  })
-  if(this.mesa){
-    this.spinner.hide();
-    // this.suscribirAPedido();
-    this.buscarPedido();
-  }
-}
+//   }
+//   async traerDatosMesa(){
+//     let listaDeMesas = await this.datosService.ObtenerDatosAsync("Mesa");
+//     console.log(listaDeMesas)
+//     listaDeMesas.forEach((mesaIdividual:Mesa) => {
+//          if(mesaIdividual.numero==this.idMesa){
+//             this.mesa=mesaIdividual;
+//     };
+//   })
+//   if(this.mesa){
+//     this.spinner.hide();
+//     // this.suscribirAPedido();
+//     this.buscarPedido();
+//   }
+// }
 
- async buscarPedido(){
-    if(this.mesa.pedido){
-      let listaDePedidos = await this.datosService.ObtenerDatosAsync("Ventas");
-      console.log(listaDePedidos)
-      listaDePedidos.forEach((pedidoIndividual:Ventas) => {
+//  async buscarPedido(){
+//     if(this.mesa.pedido){
+//       let listaDePedidos = await this.datosService.ObtenerDatosAsync("Ventas");
+//       console.log(listaDePedidos)
+//       listaDePedidos.forEach((pedidoIndividual:Ventas) => {
         
-           if(this.mesa.pedido==pedidoIndividual.id){
-            console.log("entre")
-            this.pedido=pedidoIndividual;
-            // this.analizarEstadoActual();
-      };
-    })
-    }
-  }
-  suscribirAPedido(){
-    if(this.mesa.pedido){
-      this.datosService.ObtenerDatos("Ventas").subscribe((listaDeVentasTraida:any)=>{
-        this.listaDeVentas=listaDeVentasTraida;
+//            if(this.mesa.pedido==pedidoIndividual.id){
+//             console.log("entre")
+//             this.pedido=pedidoIndividual;
+//             // this.analizarEstadoActual();
+//       };
+//     })
+//     }
+//   }
+//   suscribirAPedido(){
+//     if(this.mesa.pedido){
+//       this.datosService.ObtenerDatos("Ventas").subscribe((listaDeVentasTraida:any)=>{
+//         this.listaDeVentas=listaDeVentasTraida;
         
-        let contador=0;
-        this.listaDeVentas.forEach((ventaIndividual:Ventas) => {
-          if(ventaIndividual.id==this.mesa.pedido){
-            this.pedido=ventaIndividual;
-            this.analizarEstadoActual();
-            contador++;
-            console.log(contador);
-            console.log("venta individual id:"+ ventaIndividual.id)
-            console.log("mesa pedido:"+ this.mesa.pedido)
-          }
-        });
-      });
-    }
+//         let contador=0;
+//         this.listaDeVentas.forEach((ventaIndividual:Ventas) => {
+//           if(ventaIndividual.id==this.mesa.pedido){
+//             this.pedido=ventaIndividual;
+//             this.analizarEstadoActual();
+//             contador++;
+//             console.log(contador);
+//             console.log("venta individual id:"+ ventaIndividual.id)
+//             console.log("mesa pedido:"+ this.mesa.pedido)
+//           }
+//         });
+//       });
+//     }
 
-  }
+//   }
 
 
   ngOnChanges(){
@@ -189,8 +163,7 @@ export class MesaComponent  implements OnInit, OnChanges {
   }
   async analizarEstadoActual(){
 
-    this.estadoActual=5;
-    console.log("id mesa: " + this.idMesa)
+    this.estadoActual=1;
     if(this.idMesa!="" && this.pedido){
       if(this.pedido.validacionMozo){
         this.estadoActual++;
@@ -202,19 +175,15 @@ export class MesaComponent  implements OnInit, OnChanges {
         this.estadoActual++;
       }
       if(this.huboCambio){
-
+        
          await this.datosService.modificarDatoAsync(this.pedido.id,"Ventas",this.pedido);
          this.huboCambio=false;
         //  if(pedidoGuardado){
-        //   console.log("se guardaron los datos correctamente")
+          console.log("se guardaron los datos correctamente")
         //  }
-        console.log("entre")
+      
       }
     }
-    this.estadoActual=5;
-
-    console.log("estado actual: " + this.estadoActual);
-
     }
 
 }
