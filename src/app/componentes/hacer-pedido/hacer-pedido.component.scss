@@ -1,0 +1,129 @@
+.contenedor {
+  background-color: var(--color-fondo);
+  border-radius: 15px;
+  margin: 5px;
+  min-height: 76vh;
+}
+
+h1 {
+  font-size: 30px;
+  color: var(--color-detalle-claro);
+  margin-top: 30px;
+  text-align: center;
+  margin-bottom: auto;
+}
+
+/* Estilos de las cards */
+.cards {
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  gap: 20px;
+  height: 440px;
+  padding: 20px;
+}
+
+ion-card {
+  min-height: fit-content;
+  display: flex;
+  flex-direction: column;
+  ion-button {
+    font-size: 25px;
+    text-transform: none;
+  }
+}
+
+ion-card-title {
+  color: white;
+  margin-bottom: 20px;
+}
+
+ion-card-subtitle {
+  color: var(--color-detalle-claro);
+}
+
+ion-card img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  margin: auto;
+}
+
+ion-card-header,
+ion-card-content {
+  font-size: 25px;
+  color: beige;
+}
+
+ion-card-title,
+ion-card-subtitle {
+  font-size: 25px;
+}
+
+ion-card-content p {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+/* Estilo para hacer el ion-fab-button rectangular */
+.rectangular-fab {
+  --border-radius: 8px;
+  width: 170px;
+  ion-label {
+    font-size: 20px;
+  }
+}
+
+#tiempoEstimado {
+  font-size: 25px;
+  text-align: center;
+  color: white;
+  margin: 0;
+  span {
+    color: var(--color-detalle-claro);
+  }
+}
+
+#importeTotal {
+  font-size: 25px;
+  text-align: center;
+  color: white;
+  margin: 0;
+  padding: 10px;
+  strong {
+    font-size: 40px;
+    color: var(--color-detalle-claro);
+  }
+}
+
+ion-modal {
+  --height: 50%;
+  --border-radius: 16px;
+  --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  ion-avatar {
+    margin-right: 20px;
+  }
+
+  ion-label {
+    h2,
+    p {
+      font-size: 20px;
+      margin-top: 10px;
+    }
+    p {
+      margin-bottom: 20px;
+    }
+  }
+}
+
+#tiempoTotalModal {
+  color: var(--color-detalle-claro);
+  font-size: 20px;
+}
+
+#enviarPedido {
+  font-size: 40px;
+  text-transform: none;
+}

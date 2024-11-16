@@ -95,16 +95,16 @@ export class AppComponent {
         this.log = this.auth.currentUser?.email;
         if (this.log == undefined) {
           this.router.navigate(['/login']);
-        } else{
-          if(this.authService.tipoUsuario == "Dueño" || this.authService.tipoUsuario == "Supervisor"){
+        } else {
+          if (
+            this.authService.tipoUsuario == 'Dueño' ||
+            this.authService.tipoUsuario == 'Supervisor'
+          ) {
             this.router.navigate(['/listaClientes']);
           } else{
             // this.router.navigate(['/mesa',"1"]);
             this.router.navigate(['/home']);
             // this.router.navigate(['/ingreso']);
-
-
-        
           }
           // this.router.navigate(['/resultadosEncuestas']);
 
@@ -119,14 +119,18 @@ export class AppComponent {
     });
   }
 
-
   toggleList(event: MouseEvent) {
     event.stopPropagation(); // Evita que el clic en el botón cierre la lista
     this.showList = !this.showList; // Cambia la visibilidad de la lista
   }
 
   selectOption(option: string) {
-    this.router.navigate(['/altaUsuarios', option]);
+    if (option === 'Producto') {
+      this.router.navigate(['/alta-producto']);
+    } else {
+      this.router.navigate(['/altaUsuarios', option]);
+    }
+
     this.showList = false; // Cierra la lista al seleccionar una opción
   }
 

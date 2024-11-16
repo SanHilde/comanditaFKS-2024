@@ -19,7 +19,11 @@
 
     <ion-item>
       <ion-label position="stacked">Tiempo de Elaboración (minutos):</ion-label>
-      <ion-input formControlName="tiempoElaboracion" type="number" required></ion-input>
+      <ion-input
+        formControlName="tiempoElaboracion"
+        type="number"
+        required
+      ></ion-input>
     </ion-item>
 
     <ion-item>
@@ -35,10 +39,20 @@
       </ion-select>
     </ion-item>
 
-    <!-- Botón para capturar fotos del producto -->
-    <ion-button expand="full" (click)="tomarFoto()" class="btnImagen">Capturar Foto del Producto</ion-button>
+    <!-- Mostrar checkbox "Es un postre" solo si la categoría es Cocinero -->
+    <ion-item *ngIf="productoForm.controls['categoria'].value === 'Cocinero'">
+      <ion-label>¿La comida es un postre?</ion-label>
+      <ion-checkbox formControlName="esPostre"></ion-checkbox>
+    </ion-item>
 
-    <ion-button expand="full" type="submit" class="botonPrincipal">Registrar Producto</ion-button>
+    <!-- Botón para capturar fotos del producto -->
+    <ion-button expand="full" (click)="tomarFoto()" class="btnImagen">
+      Capturar Foto del Producto
+    </ion-button>
+
+    <ion-button expand="full" type="submit" class="botonPrincipal">
+      Registrar Producto
+    </ion-button>
   </form>
 
   <!-- Mostrar las fotos capturadas -->
