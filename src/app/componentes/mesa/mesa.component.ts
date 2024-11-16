@@ -8,6 +8,7 @@ import { Mesa } from 'src/app/interfaces/mesa.interface';
 import { Ventas } from 'src/app/interfaces/venta.interface';
 import { DatosVinculadosService } from 'src/app/services/datos-vinculados.service';
 import { DatosServiceService } from 'src/app/services/datos/datos-service.service';
+import { QrService } from 'src/app/services/qr.service';
 
 @Component({
   selector: 'app-mesa',
@@ -24,9 +25,10 @@ export class MesaComponent  implements OnInit, OnChanges {
   huboCambio:boolean=false;
   suscripcionAVenta=false;
   listaDeVentas:any=false;
+  habilitarPropina=false;
   
 
-  constructor(private datosVinculados: DatosVinculadosService,private router: Router, private datosService: DatosServiceService, private route: ActivatedRoute, private spinner: NgxSpinnerService) { }
+  constructor(private qrservice: QrService,private datosVinculados: DatosVinculadosService,private router: Router, private datosService: DatosServiceService, private route: ActivatedRoute, private spinner: NgxSpinnerService) { }
 
    ngOnInit() {
     this.spinner.show();
@@ -59,65 +61,6 @@ export class MesaComponent  implements OnInit, OnChanges {
      })
     } 
    }
-//   async traerDatos(){
-//     if(this.idMesa){
-//       this.mesa=await this.datosVinculados.traerDatosMesa(this.idMesa);
-//       this.pedido= this.datosVinculados.getPedido();
-//       console.log(this.mesa)
-//       console.log(this.pedido)
-//       this.spinner.hide();
-//     }
-    
-//   }
-//   async traerDatosMesa(){
-//     let listaDeMesas = await this.datosService.ObtenerDatosAsync("Mesa");
-//     console.log(listaDeMesas)
-//     listaDeMesas.forEach((mesaIdividual:Mesa) => {
-//          if(mesaIdividual.numero==this.idMesa){
-//             this.mesa=mesaIdividual;
-//     };
-//   })
-//   if(this.mesa){
-//     this.spinner.hide();
-//     // this.suscribirAPedido();
-//     this.buscarPedido();
-//   }
-// }
-
-//  async buscarPedido(){
-//     if(this.mesa.pedido){
-//       let listaDePedidos = await this.datosService.ObtenerDatosAsync("Ventas");
-//       console.log(listaDePedidos)
-//       listaDePedidos.forEach((pedidoIndividual:Ventas) => {
-        
-//            if(this.mesa.pedido==pedidoIndividual.id){
-//             console.log("entre")
-//             this.pedido=pedidoIndividual;
-//             // this.analizarEstadoActual();
-//       };
-//     })
-//     }
-//   }
-//   suscribirAPedido(){
-//     if(this.mesa.pedido){
-//       this.datosService.ObtenerDatos("Ventas").subscribe((listaDeVentasTraida:any)=>{
-//         this.listaDeVentas=listaDeVentasTraida;
-        
-//         let contador=0;
-//         this.listaDeVentas.forEach((ventaIndividual:Ventas) => {
-//           if(ventaIndividual.id==this.mesa.pedido){
-//             this.pedido=ventaIndividual;
-//             this.analizarEstadoActual();
-//             contador++;
-//             console.log(contador);
-//             console.log("venta individual id:"+ ventaIndividual.id)
-//             console.log("mesa pedido:"+ this.mesa.pedido)
-//           }
-//         });
-//       });
-//     }
-
-//   }
 
 
   ngOnChanges(){
@@ -126,7 +69,7 @@ export class MesaComponent  implements OnInit, OnChanges {
 
   }
 
-  navegarA(ruta:string){
+  async navegarA(ruta:string){
     switch(ruta){
       case "menu":
         // this.router.navigate(['/menu']);
@@ -155,11 +98,23 @@ export class MesaComponent  implements OnInit, OnChanges {
         this.analizarEstadoActual();
       break;
       case "pedirCuenta":
-        this.router.navigate(['/detalle', this.idMesa]);
+        // this.router.
+        // let lectura = await this.qrservice.leerQr();
+        let lectura="PROPINA";
+        if(lectura=="PROPINA"){
+            this.habilitarPropina=true;
+        }
+        // this.router.navigate(['/detalle', this.idMesa]);
       break;
     }
     // console.log(this.mesa);
     // console.log(this.pedido);
+  }
+  propina(eleccion:String){
+    let propina=eleccion;
+    this.habilitarPropina=false;
+    this.router.navigate(['/detalle', this.idMesa, propina]);
+
   }
   async analizarEstadoActual(){
 
@@ -172,6 +127,9 @@ export class MesaComponent  implements OnInit, OnChanges {
         this.estadoActual++;
       }
       if(this.pedido.completoEncuesta){
+        this.estadoActual++;
+      }
+      if(this.pedido.pago){
         this.estadoActual++;
       }
       if(this.huboCambio){

@@ -20,14 +20,16 @@ export class DetalleDeCuentaComponent  implements OnInit {
   
   // @Input() pedidoTraido!:any;
   public idMesa!:string | null;
-  public productosPedidos!:any;
   public descuentoTraido=10;
   public propinaTraida=15;
   public totalTraido=0;
   public totalFinal=0;
   public detalleArmado!:any;
   public descuentoCalculado=0;
-  public propina=0;
+  public propinaCalculada=0;
+  public propina!: string | null;
+  // public productosPedidos: any[] = [];
+  public productosPedidos: any=false;
   public mesa:Mesa | false = false;
   public pedido!:Ventas;
 
@@ -36,60 +38,78 @@ export class DetalleDeCuentaComponent  implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
       this.idMesa = params.get('idMesa');
+      this.propina = params.get('porcentajePropina');
+      if(this.propina){
+        this.propinaTraida = parseInt(this.propina);
+        console.log(this.propinaTraida)
+      }
     });
 
-    this.productosPedidos=[
-      { nombre:"coca",
-        precio: "50",
-        cantidad: 2,
-      },
-      {nombre:"hamburguesa",
-        precio: "75",
-        cantidad: 2
-      }
-    ];
+    // this.productosPedidos=[
+    //   { nombre:"coca",
+    //     precio: "50",
+    //     cantidad: 2,
+    //   },
+    //   {nombre:"hamburguesa",
+    //     precio: "75",
+    //     cantidad: 2
+    //   }
+    // ];
     this.pedirDatos();
 
-    this.productosPedidos.forEach((productoIndividual:Producto) => {
-      this.totalTraido= this.totalTraido+ productoIndividual.precio
-      // productoIndividual.foto= productoIndividual.fotos[]
-    });
-    this.descuentoCalculado = this.totalTraido * (this.descuentoTraido/100);
-    this.totalFinal =this.totalTraido- this.descuentoCalculado;
-    this.propina = this.totalFinal * (this.propinaTraida/100);
-
-    this.totalFinal=this.totalFinal+this.propina;
-
-     this.detalleArmado={
-      pedido:this.productosPedidos,
-      descuento:this.descuentoTraido,
-      propina:this.propinaTraida,
-      total:this.totalTraido,
-      totalFinal:this.totalFinal,
-    }
+    // console.log(this.productosPedidos)
+   
 
   }
-  async pedirDatos(){
-    if(this.idMesa){
-      this.mesa = await this.datosVinculados.traerDatosMesa(this.idMesa);
+
+  async pedirDatos() {
+    try {
+      if (this.idMesa) {
+        this.mesa = await this.datosVinculados.traerDatosMesa(this.idMesa);  
+          if (this.mesa) {
+            this.pedido =await this.datosVinculados.buscarPedido();
+        }
+      if (this.pedido ) {
+        this.productosPedidos = [...this.pedido.productosSeleccionados];
+      }
+      this.actualizarDatos();
+      }
+    } catch (error) {
+      console.error("Error al pedir datos:", error);
     }
-    if(this.mesa){
-      this.pedido= this.datosVinculados.getPedido();
-    }
-    console.log(this.pedido.productosSeleccionados)
-    if(this.pedido){
-      this.pedido.productosSeleccionados.forEach(productoIndividual => {
-        this.productosPedidos.push(productoIndividual)
+  }
+
+  actualizarDatos(){
+    if(this.productosPedidos.length>0){
+      console.log("entre a la lista")
+      this.productosPedidos.forEach((productoIndividual:Producto) => {
+        if(!productoIndividual.cantidad){
+          productoIndividual.cantidad=1;
+        } 
+        this.totalTraido= this.totalTraido+ productoIndividual.precio*productoIndividual.cantidad;
+        
       });
-      // this.productosPedidos=this.pedido.productosSeleccionados;
-      console.log("entre")
+      this.descuentoCalculado = this.totalTraido * (this.descuentoTraido/100);
+      this.totalFinal =this.totalTraido- this.descuentoCalculado;
+      this.propinaCalculada = this.totalFinal * (this.propinaTraida/100);
+      
+      this.totalFinal=this.totalFinal+this.propinaCalculada;
+  
+       this.detalleArmado={
+        pedido:this.productosPedidos,
+        descuento:this.descuentoTraido,
+        propina:this.propinaTraida,
+        total:this.totalTraido,
+        totalFinal:this.totalFinal,
+      }
+    } else{
+      console.log("no entre a la lista")
     }
-    console.log(this.mesa);
-    console.log(this.pedido);
   }
+  
   async pagar(){
     //cambiar estado de pago
-    // this.pedido.pago=true;
+    this.pedido.pago=true;
     // await this.datosService.modificarDatoAsync(this.pedido.id,"Ventas",this.pedido);
     this.router.navigate(['/mesa', this.idMesa]);
 

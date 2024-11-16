@@ -101,7 +101,7 @@ export class DatosVinculadosService {
             this.mesa=mesaIdividual;
     };
   })
-  await this.buscarPedido();
+  // await this.buscarPedido();
   return this.mesa;
 }
 

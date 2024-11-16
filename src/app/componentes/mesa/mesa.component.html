@@ -1,7 +1,7 @@
-<div class="container">
+<div class="container" *ngIf="!habilitarPropina">
   <button 
     class="botonPrincipal" 
-    *ngIf="estadoActual >= 1" 
+    *ngIf="estadoActual >= 1 && estadoActual!=5" 
     (click)="navegarA('menu')">Iniciar pedido</button>
 <!-- 
   <button 
@@ -11,12 +11,12 @@
 
   <button 
     class="botonPrincipal" 
-    *ngIf="estadoActual >= 1" 
+    *ngIf="estadoActual >= 1 && estadoActual!=5" 
     (click)="navegarA('chat')">Consultar al mozo</button>
 
   <button 
     class="botonPrincipal" 
-    *ngIf="estadoActual >= 2" 
+    *ngIf="estadoActual >= 2 && estadoActual!=5" 
     (click)="navegarA('estadoPedido')">Estado del pedido</button>
 
   <button 
@@ -33,12 +33,12 @@
 
   <button 
     class="botonPrincipal" 
-    *ngIf="estadoActual >= 3" 
+    *ngIf="estadoActual >= 3 " 
     (click)="navegarA('juegos')">Juegos</button>
 
   <button 
     class="botonPrincipal" 
-    *ngIf="estadoActual >= 3" 
+    *ngIf="estadoActual >= 3 && estadoActual!=5" 
     (click)="navegarA('pedirCuenta')">Pedir cuenta</button>
 
   <button 
@@ -50,6 +50,15 @@
     Escanea el código QR de propina y da la propina según la atención!
   </p>
 </div>
+<div *ngIf="habilitarPropina" class="container">
+  <h2>Seleccione qué propina desea dar</h2>
+  <button class="botonPrincipal"(click)="propina('20')">Excelente (20%)</button>
+  <button class="botonPrincipal"(click)="propina('15')">Muy bueno (15%)</button>
+  <button class="botonPrincipal"(click)="propina('10')">Bueno (10%)</button>
+  <button class="botonPrincipal"(click)="propina('5')">Regular (5%)</button>
+  <button class="botonPrincipal"(click)="propina('0')">Malo (0%)</button>
+</div>
+
 <ngx-spinner
   bdColor="rgba(0, 0, 0, 08)"
   template="<img src='./../../../assets/logoConFondo.png' alt='logo' />"

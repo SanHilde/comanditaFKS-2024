@@ -2,15 +2,17 @@
     <h2>Detalle del Pedido</h2>
   
     <!-- Lista de productos pedidos -->
-    <div class="miniCard listaFila" *ngFor="let producto of detalleArmado.pedido">
-      <!-- <img [src]="producto.fotos[0]" alt="Imagen de {{ producto.producto }}"> -->
-      <p class="producto-nombre">{{ producto.nombre }} ({{ producto.cantidad }})</p>
-      <p>${{ producto.precio }}</p>
-    </div>
+     <div *ngIf="detalleArmado">
+       <div class="miniCard listaFila" *ngFor="let producto of detalleArmado.pedido">
+         <!-- <img *ngIf="producto.fotos" [src]="producto.fotos[0]" alt="Imagen de {{ producto.producto }}"> -->
+         <p class="producto-nombre">{{ producto.nombre }} ({{ producto.cantidad }})</p>
+         <p>${{ producto.precio }}</p>
+       </div>
+     </div>
     
   
     <!-- Detalles adicionales -->
-    <div class="detalle-adicional">
+    <div class="detalle-adicional" *ngIf="detalleArmado">
       <div class="listaFila">
         <p>Subotal</p> 
           <p>${{ detalleArmado.total }}</p>
@@ -21,15 +23,17 @@
       </div>
       <div *ngIf="detalleArmado.propina" class="listaFila">
         <p>Propina ({{ detalleArmado.propina }}%)</p> 
-        <p style="color: red;">+${{propina}}</p>
+        <p style="color: red;">+${{propinaCalculada}}</p>
       </div>
     </div>
     
-    <div class="listaFila">
+    <div class="listaFila" *ngIf="detalleArmado">
       <h3>Total Final</h3> 
       <h3>${{ detalleArmado.totalFinal }}</h3>
     </div>
-  <button class="botonPrincipal" (click)="pagar()"><ion-icon name="cash-outline"></ion-icon> Pagar</button>
+
+  <button *ngIf="detalleArmado" class="botonPrincipal" (click)="pagar()"><ion-icon name="cash-outline"></ion-icon> Pagar</button>
+  <p *ngIf="!detalleArmado">Error, no hay detalle cargado</p>
 </div>
 <ngx-spinner
   bdColor="rgba(0, 0, 0, 08)"

@@ -115,7 +115,7 @@ const routes: Routes = [
       ).then((m) => m.ListasParaAceptarComponent),
   },
   {
-    path: 'detalle/:idMesa',
+    path: 'detalle/:idMesa/:porcentajePropina',
     loadComponent: () =>
       import(
         './componentes/detalle-de-cuenta/detalle-de-cuenta.component'
