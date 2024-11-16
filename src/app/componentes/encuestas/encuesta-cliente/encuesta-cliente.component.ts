@@ -55,7 +55,7 @@ export class EncuestaClienteComponent  implements OnInit {
       mejoras: [[], Validators.required],
       atencion: ['', Validators.required],
      });
-     const arrayDePreguntas = this.generarArrayDeObjetos(20);
+    //  const arrayDePreguntas = this.generarArrayDeObjetos(20);
     //  console.log(arrayDePreguntas);
     this.route.paramMap.subscribe((params) => {
       this.idMesa = params.get('idMesa');

@@ -27,27 +27,27 @@ export class HomeComponent {
     // TODO: Manejar los cambios de acción desde cada página donde se vaya hacer el cmabio de acción
     // if (this.authService.accionActual === 'PROPINA')
     this.authService.accionActual = 'INGRESO';
-    switch(lectura){
-        case 'INGRESO':
-          this.router.navigate(['/ingreso']);
-          this.authService.accionActual = 'INGRESO';
-        break;
-        case 'MESA1':
-          this.router.navigate(['/mesa',"1"]);
-        break;
-        case 'MESA2':
-          this.router.navigate(['/mesa',"2"]);
-        break;
-        case 'MESA3':
-          this.router.navigate(['/mesa',"3"]);
-        break;
-        case 'MESA4':
-          this.router.navigate(['/mesa',"4"]);
-        break;
-        case 'MESA6':
-          this.router.navigate(['/mesa',"5"]);
-        break;
-    }
+    // switch(lectura){
+    //     case 'INGRESO':
+    //       this.router.navigate(['/ingreso']);
+    //       this.authService.accionActual = 'INGRESO';
+    //     break;
+    //     case 'MESA1':
+    //       this.router.navigate(['/mesa',"1"]);
+    //     break;
+    //     case 'MESA2':
+    //       this.router.navigate(['/mesa',"2"]);
+    //     break;
+    //     case 'MESA3':
+    //       this.router.navigate(['/mesa',"3"]);
+    //     break;
+    //     case 'MESA4':
+    //       this.router.navigate(['/mesa',"4"]);
+    //     break;
+    //     case 'MESA6':
+    //       this.router.navigate(['/mesa',"5"]);
+    //     break;
+    // }
   }
 
   navegarSiguienteAccionMaitre(pagina: 'altaCliente' | 'asignarMesas') {
