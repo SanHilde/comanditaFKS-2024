@@ -63,7 +63,7 @@ async tomarFoto() {
 }
 
 
-  // Método para manejar el envío del formulario
+  // Método para manejar el envío del formulario  
   onSubmit() {
     const numero = Math.floor(Math.random() * 1000) + 1; // Genera un número aleatorio para la mesa
     if (this.mesaForm.valid) {
@@ -77,11 +77,12 @@ async tomarFoto() {
         codigoQR: '',
         estado: 'Disponible',
         asignadaPor: 'Admin',
-        id: "",
-        idCliente: "",
+        id: '',
+        idCliente: '',
         numeroRam: numero,
-        qrid: "MESA1" + mesaData.numero + mesaData.tipo + mesaData.cantidadComensales + numero,
-        pedido:"sinPedido",
+        qrid: 'MESA1' + mesaData.numero + mesaData.tipo + mesaData.cantidadComensales + numero,
+        pedido: 'sinPedido',
+        listoPago: false, // Indica si el pago está listo (puedes ajustar el valor según tu lógica)
       };
 
       // Genera el código QR para la mesa
