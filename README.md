@@ -217,31 +217,31 @@ Primero inicio, como aparece cuando se ingresa a la app, luego el ingreso, cuand
 
 
 ### **Meitre Home**
-![Home-maitre](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Home-maitre)
+![Home-maitre](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Home-maitre.JPG)
 
 ### **Mozo Home**
-![Home-mozo](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Home-mozo)
+![Home-mozo](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Home-mozo.JPG)
 
 ### **Metre Lista de Espera**
-![Home-maitre](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Maitre-listadeespera)
+![Home-maitre](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Maitre-listadeespera.JPG)
 
 ### **Cliente armado de Pedido**
 ![Nombre](link)
 
 ### **Sala de chat**
-![Sala de chat](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Sala-de-chat)
+![Sala de chat](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Sala-de-chat.JPG)
 
 ### **Chat**
-![Sala de chat](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Chat)
+![Sala de chat](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Chat.JPG)
 
 ### **Detalle de pedido**
-![Detalle](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Resumen)
+![Detalle](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Resumen.JPG)
 
 ### **Cliente Encuestas**
-![Resultados-encuestas](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Encuesta-cliente)
+![Resultados-encuestas](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Encuesta-cliente.JPG)
 
 ### **Estadísticas**
-![Estadisticas](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Resultados-encuestas)
+![Estadisticas](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Resultados-encuestas.JPG)
 
 ### **Juegos**
 ![Nombre](link)
