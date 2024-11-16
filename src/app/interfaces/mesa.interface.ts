@@ -3,7 +3,7 @@ import { Ventas } from "./venta.interface";
 export type EstadoMesaTipo = 'Disponible' | 'Ocupada' | 'Reservada' | 'procesoPago';
 
 export interface Mesa {
-  numero: number; // Número de mesa
+  numero: string; // Número de mesa
   cantidadComensales: number; // Cantidad de personas que pueden sentarse en la mesa
   tipo: 'VIP' | 'Discapacitados' | 'Estándar' | string; // Tipo de mesa (VIP, discapacitados, estándar, etc.)
   fotoUrl?: any; // URL de la foto de la mesa (opcional, si la foto se guarda en un servidor)

@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { Ventas } from 'src/app/interfaces/venta.interface';
 import { AuthService } from 'src/app/services/auth.service';
+import { DatosVinculadosService } from 'src/app/services/datos-vinculados.service';
 import { DatosServiceService } from 'src/app/services/datos/datos-service.service';
 import { FechaService } from 'src/app/services/fecha/fecha.service';
 import { FotoService } from 'src/app/services/foto/foto.service';
@@ -30,7 +31,8 @@ export class EncuestaClienteComponent  implements OnInit {
   seleccionados: string[] = [];
   cantFotos=3;
   comentario: string = '';
-  idPedido!:string | null; 
+  idMesa!:string | null; 
+  pedido!:Ventas;
   
 
   // @Output() encuestaTerminada= new EventEmitter<any>;
@@ -43,7 +45,7 @@ export class EncuestaClienteComponent  implements OnInit {
     { key: 'mejoras', texto: 'Para mejorar', tipo: 'check', textoError:"Seleccione opción" }
   ];
 
-   constructor(private route: ActivatedRoute ,private fb: FormBuilder, private datosService: DatosServiceService, public fotosService: FotoService, private cdr: ChangeDetectorRef, private router: Router, public spinner: NgxSpinnerService, private fechaService: FechaService, private auth:AuthService) {}
+   constructor(private datosVinculados: DatosVinculadosService,private route: ActivatedRoute ,private fb: FormBuilder, private datosService: DatosServiceService, public fotosService: FotoService, private cdr: ChangeDetectorRef, private router: Router, public spinner: NgxSpinnerService, private fechaService: FechaService, private auth:AuthService) {}
  
    ngOnInit(): void {
      this.encuestaForm = this.fb.group({
@@ -53,11 +55,12 @@ export class EncuestaClienteComponent  implements OnInit {
       mejoras: [[], Validators.required],
       atencion: ['', Validators.required],
      });
-    //  const arrayDePreguntas = this.generarArrayDeObjetos(20);
+     const arrayDePreguntas = this.generarArrayDeObjetos(20);
     //  console.log(arrayDePreguntas);
     this.route.paramMap.subscribe((params) => {
-      this.idPedido = params.get('idPedido');
+      this.idMesa = params.get('idMesa');
     });
+    this.buscarPedido();
    }
    
     async generarObjetoAleatorio(){
@@ -117,6 +120,15 @@ export class EncuestaClienteComponent  implements OnInit {
     this.listaDeFotos=[];
     return listaDeURLS;
   }
+  async buscarPedido(){
+    if(this.idMesa){
+      await this.datosVinculados.traerDatosMesa(this.idMesa);
+      this.pedido = await this.datosVinculados.buscarPedido();
+    }
+
+    // let listaPedidos = await this.datosService.ObtenerDatosAsync("Ventas");
+    // this.pedido = listaPedidos.find((pedidoIndividual: Ventas) => pedidoIndividual.id === this.idPedido);
+  }
 
 
   async subirEncuesta(){
@@ -128,7 +140,6 @@ export class EncuestaClienteComponent  implements OnInit {
         let objetoASubir:any={};
         let listasURL= await this.subirFotos();
         objetoASubir=this.encuestaForm.value;
-        console.log(objetoASubir)
         if(listasURL.length>0){
           objetoASubir.fotos=listasURL;
         }
@@ -136,19 +147,18 @@ export class EncuestaClienteComponent  implements OnInit {
           objetoASubir.comentario = this.comentario;
         }
         await this.datosService.guardarDatos("encuestas clientes", objetoASubir);
-        let pedido:Ventas;
-        let listaPedidos =await this.datosService.ObtenerDatosAsync("Ventas");
-        listaPedidos.forEach(pedidoIndividual => {
-          if(pedidoIndividual==this.idPedido){
-            pedido=pedidoIndividual;
-            pedido.completoEncuesta=true;
-          }
-        });
+
         
-        // if(await this.datosService.guardarDatos("Ventas",pedido));
+        if (this.pedido) {
+          this.pedido.completoEncuesta = true;
+          await this.datosService.modificarDatoAsync(this.pedido.id,"Ventas", this.pedido);
+        }
+        
         this.succesMessage="Formulario subido con éxtio";
         this.resetCheckboxesManual();
         this.encuestaForm.reset();
+        this.router.navigate(['/mesa',this.idMesa]);
+
         // setTimeout(()=>this.router.navigateByUrl('mesas',pedido.mesaId),3000);
         // this.router.navigate(['/mesa', pedido.mesaId]);
         
@@ -164,8 +174,9 @@ export class EncuestaClienteComponent  implements OnInit {
     }
   }
   volverAtras(){
-    // this.router.navigate(['ingreso']);
-    this.router.navigateByUrl('ingreso');
+    console.log(this.pedido)
+    this.router.navigate(['/mesa',this.idMesa]);
+    // this.router.navigateByUrl('c');
   }
   eliminarUltimaFoto(){
     this.listaDeFotos.pop();

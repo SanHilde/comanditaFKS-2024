@@ -2,12 +2,12 @@
   <button 
     class="botonPrincipal" 
     *ngIf="estadoActual >= 1" 
-    (click)="navegarA('menu')">Menú</button>
-
+    (click)="navegarA('menu')">Iniciar pedido</button>
+<!-- 
   <button 
     class="botonPrincipal" 
     *ngIf="estadoActual >= 1" 
-    (click)="navegarA('pedir')">Pedir</button>
+    (click)="navegarA('pedir')">Pedir</button> -->
 
   <button 
     class="botonPrincipal" 
@@ -26,8 +26,8 @@
 
   <button 
     class="botonPrincipal" 
-    *ngIf="estadoActual >= 3" 
-    (click)="navegarA('resultadosEncuestas')">Completar encuesta</button>
+    *ngIf="estadoActual == 3" 
+    (click)="navegarA('completarEncuesta')">Completar encuesta</button>
 
   <button 
     class="botonPrincipal" 
@@ -48,3 +48,9 @@
     Escanea el código QR de propina y da la propina según la atención!
   </p>
 </div>
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 08)"
+  template="<img src='./../../../assets/logoConFondo.png' alt='logo' />"
+>
+  <!-- <p style="color: white; font-size: 40px">Cargando...</p> -->
+</ngx-spinner>

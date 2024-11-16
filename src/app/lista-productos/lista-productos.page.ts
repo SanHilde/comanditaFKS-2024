@@ -181,7 +181,7 @@ export class ListaProductosPage implements OnInit {
         usuarioId: this.personaLog.id,
         mesaId: this.QrMesaId,
         productosSeleccionados: [], // Inicializado como un array vacío
-        listoPago: false,
+        pago: false,
         precioPaga: 0,
         validacionMozo: false,
         completoEncuesta:false,

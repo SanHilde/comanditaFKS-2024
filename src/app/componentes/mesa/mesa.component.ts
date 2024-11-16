@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgxSpinnerModule, NgxSpinnerService, Spinner } from 'ngx-spinner';
+import { Subscription } from 'rxjs';
 import { Mesa } from 'src/app/interfaces/mesa.interface';
 import { Ventas } from 'src/app/interfaces/venta.interface';
+import { DatosVinculadosService } from 'src/app/services/datos-vinculados.service';
 import { DatosServiceService } from 'src/app/services/datos/datos-service.service';
 
 @Component({
@@ -14,37 +16,140 @@ import { DatosServiceService } from 'src/app/services/datos/datos-service.servic
   standalone:true,
   imports:[CommonModule,IonicModule,NgxSpinnerModule]
 })
-export class MesaComponent  implements OnInit {
-  estadoActual=1;
+export class MesaComponent  implements OnInit, OnChanges {
+  estadoActual=3;
   idMesa: string | null="";
   pedido!:Ventas;
   mesa!:Mesa
   huboCambio:boolean=false;
+  suscripcionAVenta=false;
+  listaDeVentas:any=false;
+  
 
-  constructor(private router: Router, private datosService: DatosServiceService, private route: ActivatedRoute) { }
+  constructor(private datosVinculados: DatosVinculadosService,private router: Router, private datosService: DatosServiceService, private route: ActivatedRoute, private spinner: NgxSpinnerService) { }
 
-  ngOnInit() {
+   ngOnInit() {
+    this.spinner.show();
     this.route.paramMap.subscribe((params) => {
       this.idMesa = params.get('idMesa');
     });
+    
+    // if (this.idMesa) {
+    //   this.datosVinculados.buscarDatoMesa(this.idMesa)
+    //     .then(() => {
+    //       this.datosVinculados.obtenerDatoPedidoDeMesa()
+    //         .then(() => {
+    //           this.analizarEstadoActual();
+    //         })
+    //         .catch((error) => {
+    //           console.error("Error al obtener el dato del pedido:", error);
+    //         });
+    //         this.spinner.hide()
+    //     })
+    //     .catch((error) => {
+    //       console.error("Error al buscar la mesa:", error);
+    //     });
+    // }
+    
+    
+
+    // this.traerDatosMesa();
     if(this.idMesa!="" ){
       this.datosService.ObtenerDatos("Mesa").subscribe((listaDeMesas:any)=>{
         listaDeMesas.forEach((mesaIndividual: Mesa) => {
-          if(this.idMesa!=null && mesaIndividual.numero ==  parseInt(this.idMesa)){
+          if(this.idMesa!=null && mesaIndividual.numero ==  this.idMesa){
             this.mesa=mesaIndividual;
-            if(this.mesa.pedido){
+            this.analizarEstadoActual();
+            this.spinner.hide();
+            // console.log(this.mesa)
+            console.log(this.pedido)
+
+            // if(this.mesa.pedido){
+            if(!this.suscripcionAVenta && this.mesa.pedido){
+              this.suscripcionAVenta= true;
               this.datosService.ObtenerDatos("Ventas").subscribe((listaDeVentas:any)=>{
                 listaDeVentas.forEach((ventaIndividual:Ventas) => {
-                  if(ventaIndividual.id==this.mesa.pedido)
+                  if(ventaIndividual.id==this.mesa.pedido){
                     this.pedido=ventaIndividual;
+                    this.analizarEstadoActual();
+                  }                 
                 });
               })
             }
+
+
+          }
+       });
+
+     })
+    } 
+    // this.traerDatos();
+  }
+  async traerDatos(){
+    if(this.idMesa){
+      this.mesa=await this.datosVinculados.traerDatosMesa(this.idMesa);
+      this.pedido= this.datosVinculados.getPedido();
+      console.log(this.mesa)
+      console.log(this.pedido)
+      this.spinner.hide();
+    }
+    
+  }
+  async traerDatosMesa(){
+    let listaDeMesas = await this.datosService.ObtenerDatosAsync("Mesa");
+    console.log(listaDeMesas)
+    listaDeMesas.forEach((mesaIdividual:Mesa) => {
+         if(mesaIdividual.numero==this.idMesa){
+            this.mesa=mesaIdividual;
+    };
+  })
+  if(this.mesa){
+    this.spinner.hide();
+    // this.suscribirAPedido();
+    this.buscarPedido();
+  }
+}
+
+ async buscarPedido(){
+    if(this.mesa.pedido){
+      let listaDePedidos = await this.datosService.ObtenerDatosAsync("Ventas");
+      console.log(listaDePedidos)
+      listaDePedidos.forEach((pedidoIndividual:Ventas) => {
+        
+           if(this.mesa.pedido==pedidoIndividual.id){
+            console.log("entre")
+            this.pedido=pedidoIndividual;
+            // this.analizarEstadoActual();
+      };
+    })
+    }
+  }
+  suscribirAPedido(){
+    if(this.mesa.pedido){
+      this.datosService.ObtenerDatos("Ventas").subscribe((listaDeVentasTraida:any)=>{
+        this.listaDeVentas=listaDeVentasTraida;
+        
+        let contador=0;
+        this.listaDeVentas.forEach((ventaIndividual:Ventas) => {
+          if(ventaIndividual.id==this.mesa.pedido){
+            this.pedido=ventaIndividual;
+            this.analizarEstadoActual();
+            contador++;
+            console.log(contador);
+            console.log("venta individual id:"+ ventaIndividual.id)
+            console.log("mesa pedido:"+ this.mesa.pedido)
           }
         });
+      });
+    }
 
-      })
-    } 
+  }
+
+
+  ngOnChanges(){
+    // this.analizarEstadoActual(); 
+    
+
   }
 
   navegarA(ruta:string){
@@ -62,28 +167,31 @@ export class MesaComponent  implements OnInit {
         // this.router.navigate(['/menu']);
       break;
       case "completarEncuesta":
-        this.router.navigate(['/encuestasClientes',this.pedido.id]);
+        this.router.navigate(['/encuestasClientes',this.idMesa]);
       break;
       case "juegos":
         // this.router.navigate(['/menu']);
       break;
       case "resultadosEncuestas":
-        this.router.navigate(['/resultadosEncuestas']);
+        this.router.navigate(['/resultadosEncuestas',this.idMesa]);
       break;
       case "confirmarRecepcion":
         this.pedido.confirmarRecepcion=true;
         this.huboCambio = true;
+        this.analizarEstadoActual();
       break;
       case "pedirCuenta":
-        this.router.navigate(['/detalle', this.pedido.id]);
+        this.router.navigate(['/detalle', this.idMesa]);
       break;
     }
-    this.analizarEstadoActual();
+    // console.log(this.mesa);
+    // console.log(this.pedido);
   }
   async analizarEstadoActual(){
 
-    this.estadoActual=1;
-    if(this.idMesa!=""){
+    this.estadoActual=3;
+    console.log("id mesa: " + this.idMesa)
+    if(this.idMesa!="" && this.pedido){
       if(this.pedido.validacionMozo){
         this.estadoActual++;
       }
@@ -94,9 +202,19 @@ export class MesaComponent  implements OnInit {
         this.estadoActual++;
       }
       if(this.huboCambio){
-        await this.datosService.guardarDatos("Ventas",this.pedido);
+
+         await this.datosService.modificarDatoAsync(this.pedido.id,"Ventas",this.pedido);
+         this.huboCambio=false;
+        //  if(pedidoGuardado){
+        //   console.log("se guardaron los datos correctamente")
+        //  }
+        console.log("entre")
       }
     }
+    this.estadoActual=5;
+
+    console.log("estado actual: " + this.estadoActual);
+
     }
 
 }

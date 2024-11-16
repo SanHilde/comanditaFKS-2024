@@ -41,6 +41,12 @@ export class HomeComponent {
         case 'MESA3':
           this.router.navigate(['/mesa',"3"]);
         break;
+        case 'MESA4':
+          this.router.navigate(['/mesa',"4"]);
+        break;
+        case 'MESA6':
+          this.router.navigate(['/mesa',"5"]);
+        break;
     }
   }
 
