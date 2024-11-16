@@ -12,7 +12,7 @@ import { Producto } from '../../../interfaces/producto.interface';
   templateUrl: './alta-producto.page.html',
   styleUrls: ['./alta-producto.page.scss'],
 })
-export class AltaProductoPage implements OnInit {
+export class AltaProductoPage {
   productoForm: FormGroup;
   codigoQR: string | null = null;
   fotos: string[] = []; // Almacena las URLs de las fotos del producto
@@ -30,13 +30,13 @@ export class AltaProductoPage implements OnInit {
       tiempoElaboracion: ['', Validators.required],
       precio: ['', [Validators.required, Validators.min(0)]],
       categoria: ['', Validators.required],
+      esPostre: [''],
     });
   }
 
-  ngOnInit() {}
-
   async tomarFoto() {
-    if (this.fotos.length < 3) { // Limita a 3 fotos
+    if (this.fotos.length < 3) {
+      // Limita a 3 fotos
       try {
         const fotoUrl = await this.fotoService.guardarFoto();
         if (fotoUrl) {
@@ -63,43 +63,58 @@ export class AltaProductoPage implements OnInit {
         fotos: this.fotos, // Guarda las URLs de las fotos
         codigoQR: '',
         categoria: productoData.categoria,
+        esUnPostre: productoData.esPostre,
         creadoPor: 'Admin', // O el usuario que crea el producto
-        cantidad:0 //AGREGUE CANTIDAD
+        cantidadSolicitada: 0, //AGREGUE CANTIDAD
       };
 
-      this.qrService.crearImagenQr(productoDataQR, tipoQr.Producto)
-        .then(qrImageUrl => {
+      this.qrService
+        .crearImagenQr(productoDataQR, tipoQr.Producto)
+        .then((qrImageUrl) => {
           this.codigoQR = qrImageUrl;
           productoDataQR.codigoQR = this.codigoQR;
 
           // Subir todas las fotos a Firebase Storage
           const uploadPromises = this.fotos.map((fotoUrl, index) => {
-            const nombreImagen = `producto_${productoDataQR.nombre}_${new Date().getTime()}_${index}.jpg`;
-            return this.datosService.subirImagenAsync2('productos', nombreImagen, fotoUrl);
+            const nombreImagen = `producto_${
+              productoDataQR.nombre
+            }_${new Date().getTime()}_${index}.jpg`;
+            return this.datosService.subirImagenAsync2(
+              'productos',
+              nombreImagen,
+              fotoUrl
+            );
           });
 
-          return Promise.all(uploadPromises).then(uploadedUrls => {
+          return Promise.all(uploadPromises).then((uploadedUrls) => {
             // Una vez que todas las fotos se han subido, actualizamos las URLs en el producto
             productoDataQR.fotos = uploadedUrls;
 
             // Guardamos los datos del producto en la base de datos
-            return this.datosService.guardarDatos("Producto", productoDataQR);
+            return this.datosService.guardarDatos('Producto', productoDataQR);
           });
         })
         .then(() => {
           this.toastService.openSuccessToast('Producto guardado con éxito.');
-          
+
           // Limpia el formulario y las fotos después de 5 segundos
           setTimeout(() => {
             this.limpiarFormulario();
           }, 5000);
         })
-        .catch(error => {
-          console.error('Error al generar el código QR o guardar el producto:', error);
-          this.toastService.openErrorToast('No se pudo generar el código QR o guardar el producto');
+        .catch((error) => {
+          console.error(
+            'Error al generar el código QR o guardar el producto:',
+            error
+          );
+          this.toastService.openErrorToast(
+            'No se pudo generar el código QR o guardar el producto'
+          );
         });
     } else {
-      this.toastService.openWarningToast('Por favor, complete todos los campos del formulario.');
+      this.toastService.openWarningToast(
+        'Por favor, complete todos los campos del formulario.'
+      );
     }
   }
 

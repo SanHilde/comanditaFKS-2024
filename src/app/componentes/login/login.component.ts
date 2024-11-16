@@ -95,7 +95,7 @@ export class LoginComponent {
         ) {
           this.router.navigate(['/listaClientes']);
         } else {
-          this.router.navigate(['/lista-productos']);
+          this.router.navigate(['/home']);
         }
       },
       error: (err: FirebaseError) => {

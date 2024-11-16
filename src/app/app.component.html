@@ -60,26 +60,20 @@
     <ion-router-outlet></ion-router-outlet>
   </ion-content>
 
-  <ion-list *ngIf="showList" class="custom-list">
-    <h3 class="list-title">Alta de Usuario</h3>
-    <ion-item
-      *ngIf="
-        this.authService.tipoUsuario === 'Dueño' ||
-        this.authService.tipoUsuario === 'Supervisor'
-      "
-      (click)="selectOption('Empleado')"
-    >
-      Empleado
-    </ion-item>
-    <ion-item
-      *ngIf="
-        this.authService.tipoUsuario === 'Dueño' ||
-        this.authService.tipoUsuario === 'Supervisor'
-      "
-      (click)="selectOption('Supervisor')"
-    >
+  <ion-list
+    *ngIf="
+      showList &&
+      (this.authService.tipoUsuario === 'Dueño' ||
+        this.authService.tipoUsuario === 'Supervisor')
+    "
+    class="custom-list"
+  >
+    <h3 class="list-title">Alta de usuario o producto</h3>
+    <ion-item (click)="selectOption('Empleado')"> Empleado </ion-item>
+    <ion-item (click)="selectOption('Supervisor')">
       Dueño o Supervisor
     </ion-item>
+    <ion-item (click)="selectOption('Producto')">Producto</ion-item>
   </ion-list>
 </ion-app>
 

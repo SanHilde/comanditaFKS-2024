@@ -23,6 +23,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'hacerPedido',
+    loadComponent: () =>
+      import('./componentes/hacer-pedido/hacer-pedido.component').then(
+        (m) => m.HacerPedidoComponent
+      ),
+  },
+  {
     path: 'asignarMesas',
     loadComponent: () =>
       import('./componentes/asignar-mesas/asignar-mesas.component').then(
@@ -47,9 +54,9 @@ const routes: Routes = [
   {
     path: 'encuesta-empleado',
     loadChildren: () =>
-      import('./componentes/encuestas/encuesta-empleado/encuesta-empleado.module').then(
-        (m) => m.EncuestaEmpleadoPageModule
-      ),
+      import(
+        './componentes/encuestas/encuesta-empleado/encuesta-empleado.module'
+      ).then((m) => m.EncuestaEmpleadoPageModule),
   },
   {
     path: 'alta-mesa',
@@ -68,9 +75,9 @@ const routes: Routes = [
   {
     path: 'encuesta-supervisor',
     loadChildren: () =>
-      import('./componentes/encuestas/encuesta-supervisor/encuesta-supervisor.module').then(
-        (m) => m.EncuestaSupervisorPageModule
-      ),
+      import(
+        './componentes/encuestas/encuesta-supervisor/encuesta-supervisor.module'
+      ).then((m) => m.EncuestaSupervisorPageModule),
   },
   {
     path: 'resultadosEncuestas/:idMesa',
@@ -82,9 +89,9 @@ const routes: Routes = [
   {
     path: 'encuestasClientes/:idMesa',
     loadComponent: () =>
-      import('./componentes/encuestas/encuesta-cliente/encuesta-cliente.component').then(
-        (m) => m.EncuestaClienteComponent
-      ),
+      import(
+        './componentes/encuestas/encuesta-cliente/encuesta-cliente.component'
+      ).then((m) => m.EncuestaClienteComponent),
   },
   {
     path: 'salaDeChats',
@@ -124,9 +131,7 @@ const routes: Routes = [
   {
     path: 'mesa/:idMesa',
     loadComponent: () =>
-      import(
-        './componentes/mesa/mesa.component'
-      ).then((m) => m.MesaComponent),
+      import('./componentes/mesa/mesa.component').then((m) => m.MesaComponent),
   },
 ];
 @NgModule({
