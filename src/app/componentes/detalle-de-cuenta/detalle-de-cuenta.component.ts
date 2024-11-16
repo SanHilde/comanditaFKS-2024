@@ -3,6 +3,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+import { Mesa } from 'src/app/interfaces/mesa.interface';
+import { Ventas } from 'src/app/interfaces/venta.interface';
+import { DatosVinculadosService } from 'src/app/services/datos-vinculados.service';
+import { DatosServiceService } from 'src/app/services/datos/datos-service.service';
 
 @Component({
   selector: 'app-detalle-de-cuenta',
@@ -14,7 +18,7 @@ import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 export class DetalleDeCuentaComponent  implements OnInit {
   
   // @Input() pedidoTraido!:any;
-  public idPedido!:string | null;
+  public idMesa!:string | null;
   public productosPedidos!:any;
   public descuentoTraido=10;
   public propinaTraida=15;
@@ -23,12 +27,14 @@ export class DetalleDeCuentaComponent  implements OnInit {
   public detalleArmado!:any;
   public descuentoCalculado=0;
   public propina=0;
+  public mesa:Mesa | false = false;
+  public pedido!:Ventas;
 
-  constructor(private router:Router,public spinner: NgxSpinnerService, private route: ActivatedRoute) { }
+  constructor(private router:Router,public spinner: NgxSpinnerService, private route: ActivatedRoute, private datosVinculados: DatosVinculadosService, private datosService: DatosServiceService) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
-      this.idPedido = params.get('idPedido');
+      this.idMesa = params.get('idMesa');
     });
 
     this.productosPedidos=[
@@ -41,6 +47,7 @@ export class DetalleDeCuentaComponent  implements OnInit {
         cantidad: 2
       }
     ];
+    this.pedirDatos();
     this.productosPedidos.forEach((productoIndividual:any) => {
       this.totalTraido= this.totalTraido+ productoIndividual.precio*productoIndividual.cantidad
     });
@@ -59,9 +66,19 @@ export class DetalleDeCuentaComponent  implements OnInit {
     }
 
   }
-  pagar(){
+  async pedirDatos(){
+    if(this.idMesa){
+      this.mesa = await this.datosVinculados.traerDatosMesa(this.idMesa);
+    }
+    if(this.mesa){
+      this.pedido= this.datosVinculados.pedido;
+    }
+  }
+  async pagar(){
     //cambiar estado de pago
-    this.router.navigate(['/home']);
+    // this.pedido.pago=true;
+    // await this.datosService.modificarDatoAsync(this.pedido.id,"Ventas",this.pedido);
+    this.router.navigate(['/mesa', this.idMesa]);
 
   }
 

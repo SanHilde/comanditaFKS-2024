@@ -73,14 +73,14 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'resultadosEncuestas',
+    path: 'resultadosEncuestas/:idMesa',
     loadComponent: () =>
       import(
         './componentes/resultados-encuestas/resultados-encuestas.component'
       ).then((m) => m.ResultadosEncuestasComponent),
   },
   {
-    path: 'encuestasClientes/:idPedido',
+    path: 'encuestasClientes/:idMesa',
     loadComponent: () =>
       import('./componentes/encuestas/encuesta-cliente/encuesta-cliente.component').then(
         (m) => m.EncuestaClienteComponent
@@ -115,7 +115,7 @@ const routes: Routes = [
       ).then((m) => m.ListasParaAceptarComponent),
   },
   {
-    path: 'detalle/:idPedido',
+    path: 'detalle/:idMesa',
     loadComponent: () =>
       import(
         './componentes/detalle-de-cuenta/detalle-de-cuenta.component'

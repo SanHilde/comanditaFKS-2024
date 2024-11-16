@@ -94,7 +94,7 @@ export type ChartOptionsRadial = {
 export class ResultadosEncuestasComponent implements OnInit {
   // public chatCollection: any[]=[];
   // private col:any;
-  public eleccion!: string;
+  public eleccion: 'torta' | 'columna' | 'radial' = 'torta';
   // public tareaSeleccionada: string = 'sinTarea';
   public datosEnviados: any;
   // private titulo:string="";
@@ -110,6 +110,7 @@ export class ResultadosEncuestasComponent implements OnInit {
   public clavesParaPromedios = ['velocidad', 'sabor', 'atencion', 'precio','mejoras']; //claves con las cuales se puede calcular promedios
   public clavesIgnoradas: string[] = ['fotos', 'comentario', 'id']; //claves que no queres que sean analizadas en grafico
   public eleccionIndividual = 'velocidad';
+  public idMesa: string | null=null;
 
   @ViewChild('chart') chart!: ChartComponent;
   public chartOptions: Partial<ChartOptions>=chartOptions;
@@ -160,13 +161,21 @@ export class ResultadosEncuestasComponent implements OnInit {
   //}
 
   async ngOnInit() {
-    let datos = await this.datosService.ObtenerDatosAsync(this.encuestaTraida);
+    this.route.paramMap.subscribe((params) => {
+      this.idMesa = params.get('idMesa');
+    });
+    let datos = await this.datosService.ObtenerDatosAsync("encuestas clientes");
     this.ordenarDatos(datos);
     this.calcularPromedios();
     this.eleccionIndividual = this.clavesParaPromedios[0];
+    this.generarDatosRadial();
   }
   volverAtras(){
-    this.router.navigateByUrl('ingreso');
+    if(this.idMesa!="sinMesa"){
+      this.router.navigate(['/mesa', this.idMesa]);
+    } else{
+      this.router.navigate(['/ingreso']);
+    }
   }
 
   generarDatosTorta(eleccionTomada: string) {

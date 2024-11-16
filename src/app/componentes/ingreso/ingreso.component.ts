@@ -114,7 +114,8 @@ export class IngresoComponent implements OnInit {
 
   irAResultadosDeLasEncuestas() {
     // TODO: Agregar pagina de los resultados
-    this.router.navigate(['/resultadosEncuestas']);
+    // this.router.navigate(['/resultadosEncuestas']);
+    this.router.navigate(['/resultadosEncuestas', "sinMesa"]);
   }
 
   // Si ya tiene una mesa asignada
@@ -122,7 +123,8 @@ export class IngresoComponent implements OnInit {
     if (!this.mesaAsignada) return;
     this.fotosServices.scan().then((resultado: string) => {
       if (this.mesaAsignada?.qrid == resultado) {
-        this.router.navigate(['/lista-productos']);
+        // this.router.navigate(['/lista-productos']);
+        this.router.navigate(['/mesa',this.mesaAsignada.numero]);
       } else {
         this.ToastService.openErrorToast('Error. Esta mesa no ha sido asignada para ti', 'bottom');
       }

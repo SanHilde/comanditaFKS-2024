@@ -82,6 +82,7 @@ async tomarFoto() {
         numeroRam: numero,
         qrid: "MESA1" + mesaData.numero + mesaData.tipo + mesaData.cantidadComensales + numero,
         pedido:"sinPedido",
+        listoPago:false
       };
 
       // Genera el código QR para la mesa
