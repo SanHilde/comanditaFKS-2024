@@ -26,13 +26,14 @@ export class ListasParaAceptarComponent  implements OnInit {
     this.route.paramMap.subscribe((params) => {
       this.tipoTraido = params.get('tipoLista');
     });
-    this.tipoTraido="usuarios";
+    // this.tipoTraido="usuarios";
     if(this.tipoTraido!=null){
       let lista = this.tipoTraido;
       if(this.tipoTraido=="pagos" || this.tipoTraido=="Ventas"){
-        lista = "pedidos";
+        lista = "Ventas";
       }
       this.datosService.ObtenerDatos(lista).subscribe((listasDeTipoTraido:any)=>{
+        console.log(listasDeTipoTraido)
         switch(this.tipoTraido){
           case "pagos":
             this.subtitulo = "Confirmar pago:";
@@ -64,6 +65,7 @@ export class ListasParaAceptarComponent  implements OnInit {
           if(this.tipoTraido=="pagos"){
             item.pago=true;
             let mesa = item.mesa;
+            // await this.datosService.modificarDatoAsync(this.pedido.id,"Ventas",this.pedido);
             let listaDeMesas = await this.datosService.ObtenerDatosAsync("Mesa");
             let mesaBuscada = listaDeMesas.find((mesaIndividual: any) => mesa.numero === mesaIndividual.numero);
             mesaBuscada.estado = "Disponible";

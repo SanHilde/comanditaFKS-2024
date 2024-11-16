@@ -13,9 +13,12 @@
 }
 img{
     // height: 100px;
-    border-radius: 10px;
+    // border-radius: 10px;
     // margin: 10px;
-    width: 100px;
+    width: 75px;
+    height: 75px;
+    object-fit: contain;
+    margin: 5px;
 }
 h2{
     width: 100%;
@@ -54,4 +57,5 @@ h3{
 }
 .container{
     justify-content: space-evenly;
+    
 }
