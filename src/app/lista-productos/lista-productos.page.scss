@@ -217,3 +217,51 @@ iframe {
     height: 60vh; /* Más grande en pantallas grandes */
   }
 }
+
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  gap: 20px;
+}
+
+ion-card {
+  min-height: fit-content;
+  display: flex;
+  flex-direction: column;
+  ion-button {
+    font-size: 25px;
+    text-transform: none;
+  }
+}
+
+ion-card-title {
+  color: white;
+  margin-bottom: 20px;
+}
+
+ion-card-subtitle {
+  color: var(--color-detalle-claro);
+}
+
+ion-card img {
+  width: 280px;
+  object-fit: cover;
+}
+
+ion-card-header,
+ion-card-content {
+  font-size: 25px;
+  color: beige;
+}
+
+ion-card-title,
+ion-card-subtitle {
+  font-size: 25px;
+}
+
+ion-card-content p {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
