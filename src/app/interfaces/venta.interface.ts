@@ -5,7 +5,7 @@ export interface Ventas {
     mesaId: string;              
     productosSeleccionados: Producto[]; 
     pago: boolean;      
-    precioPaga: number;
+    precio: number;
     validacionMozo:boolean;       
     completoEncuesta:boolean; 
     confirmarRecepcion:boolean;

@@ -64,6 +64,7 @@ export class AltaProductoPage implements OnInit {
         codigoQR: '',
         categoria: productoData.categoria,
         creadoPor: 'Admin', // O el usuario que crea el producto
+        cantidad:0 //AGREGUE CANTIDAD
       };
 
       this.qrService.crearImagenQr(productoDataQR, tipoQr.Producto)
