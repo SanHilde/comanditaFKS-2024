@@ -83,10 +83,10 @@ export class DetalleDeCuentaComponent  implements OnInit {
     if(this.productosPedidos.length>0){
       console.log("entre a la lista")
       this.productosPedidos.forEach((productoIndividual:Producto) => {
-        if(!productoIndividual.cantidad){
-          productoIndividual.cantidad=1;
+        if(!productoIndividual.cantidadSolicitada){
+          productoIndividual.cantidadSolicitada=1;
         } 
-        this.totalTraido= this.totalTraido+ productoIndividual.precio*productoIndividual.cantidad;
+        this.totalTraido= this.totalTraido+ productoIndividual.precio*productoIndividual.cantidadSolicitada;
         
       });
       this.descuentoCalculado = this.totalTraido * (this.descuentoTraido/100);
