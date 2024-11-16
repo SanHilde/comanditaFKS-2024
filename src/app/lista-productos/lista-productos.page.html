@@ -1,5 +1,4 @@
 <ion-content>
-
   <!-- Botón de escaneo de QR ocupa toda la pantalla -->
   <div *ngIf="botonQr" class="scan-button-container">
     <ion-button expand="block" fill="solid" color="primary" (click)="scanerDQrMesa()" class="full-screen-button">
@@ -9,53 +8,90 @@
 
   <!-- Lista de productos aparece solo si listarProductos es true -->
   <div *ngIf="listarProductos">
-    <div *ngIf="tiempoEstimado > 0" class="tiempo-estimado">
-      <p>Tiempo estimado de preparación: {{ tiempoEstimado }} minutos</p>
-      <p>Precio acumulado de todos los productos: {{ precioPagar }} Pesos</p>
-      <ion-button  (click)="finalizarVenta()" class="finalizar-venta-btn">
-        Finalizar Venta
-      </ion-button>
-    </div>
-    
     <h2 class="section-title">Bebidas</h2>
-    <div *ngFor="let bebida of bebidas" class="producto">
-      <h3 class="producto-name">{{ bebida.nombre }}</h3>
-      <!-- Iterar sobre las imágenes de cada bebida -->
-      <div *ngFor="let foto of bebida.fotos" class="producto-img-container">
-        <img [src]="foto" alt="Foto del producto" class="producto-img">
-      </div>
-      
-      <p class="producto-description">{{ bebida.descripcion }}</p>
-      <p class="producto-price">Precio: {{ bebida.precio | currency }}</p>
-      <p class="producto-time">Tiempo de elaboración: {{ bebida.tiempoElaboracion }} mins</p>
-      <ion-button class="seleccionar-btn" (click)="seleccionarProducto(bebida)">Seleccionar</ion-button>
-    </div>
-  
-    <h2 class="section-title">Comidas</h2>
-    <div *ngFor="let comida of comidas" class="producto">
-      <h3 class="producto-name">{{ comida.nombre }}</h3>
-      <!-- Iterar sobre las imágenes de cada comida -->
-      <div *ngFor="let foto of comida.fotos" class="producto-img-container">
-        <img [src]="foto" alt="Foto del producto" class="producto-img">
-      </div>
-      
-      <p class="producto-description">{{ comida.descripcion }}</p>
-      <p class="producto-price">Precio: {{ comida.precio | currency }}</p>
-      <p class="producto-time">Tiempo de elaboración: {{ comida.tiempoElaboracion }} Pesos</p>
-      <ion-button class="seleccionar-btn" (click)="seleccionarProducto(comida)">Seleccionar</ion-button>
-    </div>
-    
-  </div>
-  
-  
+    <ion-card *ngFor="let bebida of bebidas" class="producto">
+      <ion-item-sliding>
+        <ion-item-options side="start">
+          <ion-item-option>
+            <img alt="Imagen del producto" [src]="bebida.fotos[0]" />
+          </ion-item-option>
+        </ion-item-options>
 
+        <ion-item>
+          <img alt="Imagen del producto" [src]="bebida.fotos[1]" />
+        </ion-item>
+
+        <ion-item-options side="end">
+          <ion-item-option>
+            <img alt="Imagen del producto" [src]="bebida.fotos[2]" />
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+
+      <ion-card-header>
+        <ion-card-title>{{ bebida.nombre }}</ion-card-title>
+        <ion-card-subtitle>Precio: $ {{ bebida.precio }}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p>{{ bebida.descripcion }}</p>
+        <p>
+          <strong>Tiempo de elaboración: </strong>{{ bebida.tiempoElaboracion }} minutos
+        </p>
+        <ion-button fill="outline" (click)="seleccionarProducto(bebida)">
+          <ion-icon name="add-outline" size="large"></ion-icon>
+          Agregar
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <h2 class="section-title">Comidas</h2>
+    <ion-card *ngFor="let comida of comidas" class="producto">
+      <ion-item-sliding>
+        <ion-item-options side="start">
+          <ion-item-option>
+            <img alt="Imagen del producto" [src]="comida.fotos[0]" />
+          </ion-item-option>
+        </ion-item-options>
+
+        <ion-item>
+          <img alt="Imagen del producto" [src]="comida.fotos[1]" />
+        </ion-item>
+
+        <ion-item-options side="end">
+          <ion-item-option>
+            <img alt="Imagen del producto" [src]="comida.fotos[2]" />
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+
+      <ion-card-header>
+        <ion-card-title>{{ comida.nombre }}</ion-card-title>
+        <ion-card-subtitle>Precio: $ {{ comida.precio }}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p>{{ comida.descripcion }}</p>
+        <p>
+          <strong>Tiempo de elaboración: </strong>{{ comida.tiempoElaboracion }} minutos
+        </p>
+        <ion-button fill="outline" (click)="seleccionarProducto(comida)">
+          <ion-icon name="add-outline" size="large"></ion-icon>
+          Agregar
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>
 
-
-<div class="info-container"> 
-  <button class="chat-toggle-btn" (click)="chatConsultaMozo()">
-    {{ chat ? 'Cerrar Chat' : 'Abrir Chat' }}
-  </button>
+<div class="info-container">
+  <div *ngIf="tiempoEstimado > 0" class="tiempo-estimado">
+    <p>Tiempo estimado de preparación: {{ tiempoEstimado }} minutos</p>
+    <p>Precio acumulado de todos los productos: {{ precioPagar }} Pesos</p>
+    <ion-button (click)="finalizarVenta()" class="finalizar-venta-btn">
+      Finalizar Venta
+    </ion-button>
+  </div>
 </div>
 
 
