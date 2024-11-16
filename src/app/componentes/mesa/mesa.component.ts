@@ -17,7 +17,7 @@ import { DatosServiceService } from 'src/app/services/datos/datos-service.servic
   imports:[CommonModule,IonicModule,NgxSpinnerModule]
 })
 export class MesaComponent  implements OnInit, OnChanges {
-  estadoActual=3;
+  estadoActual=5;
   idMesa: string | null="";
   pedido!:Ventas;
   mesa!:Mesa
@@ -189,7 +189,7 @@ export class MesaComponent  implements OnInit, OnChanges {
   }
   async analizarEstadoActual(){
 
-    this.estadoActual=3;
+    this.estadoActual=5;
     console.log("id mesa: " + this.idMesa)
     if(this.idMesa!="" && this.pedido){
       if(this.pedido.validacionMozo){

@@ -24,6 +24,8 @@ h2{
     font-weight: bold;
     text-transform: uppercase;
     text-align: center;
+    color: white;
+
 }
 .detalle-adicional{
     display: flex;
@@ -42,10 +44,13 @@ h2{
 }
 p{
     font-size: 18px;
+    color: white;
 }
 h3{
     font-size: 25px;
     font-weight: bold;
+    color: white;
+
 }
 .container{
     justify-content: space-evenly;

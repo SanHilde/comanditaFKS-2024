@@ -94,7 +94,8 @@ export type ChartOptionsRadial = {
 export class ResultadosEncuestasComponent implements OnInit {
   // public chatCollection: any[]=[];
   // private col:any;
-  public eleccion: 'torta' | 'columna' | 'radial' = 'torta';
+  public eleccion: 'torta' | 'columna' | 'radial' = 'radial';
+  // public eleccion=rad;
   // public tareaSeleccionada: string = 'sinTarea';
   public datosEnviados: any;
   // private titulo:string="";

@@ -21,13 +21,15 @@
 
   <button 
     class="botonPrincipal" 
-    *ngIf="estadoActual == 2" 
+    *ngIf="estadoActual >= 2" 
     (click)="navegarA('confirmarRecepcion')">Confirmar recepción de pedido</button>
+    <!-- cambiar a igual -->
 
   <button 
     class="botonPrincipal" 
-    *ngIf="estadoActual == 3" 
+    *ngIf="estadoActual >= 3" 
     (click)="navegarA('completarEncuesta')">Completar encuesta</button>
+    <!-- cambiar a igual -->
 
   <button 
     class="botonPrincipal" 
