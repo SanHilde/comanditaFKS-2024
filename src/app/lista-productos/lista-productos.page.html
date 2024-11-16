@@ -53,9 +53,13 @@
 
 
 <div class="info-container"> 
-  <button class="chat-toggle-btn" (click)="chatConsultaMozo()">
-    {{ chat ? 'Cerrar Chat' : 'Abrir Chat' }}
-  </button>
+  <div *ngIf="tiempoEstimado > 0" class="tiempo-estimado">
+    <p>Tiempo estimado de preparación: {{ tiempoEstimado }} minutos</p>
+    <p>Precio acumulado de todos los productos: {{ precioPagar }} Pesos</p>
+    <ion-button  (click)="finalizarVenta()" class="finalizar-venta-btn">
+      Finalizar Venta
+    </ion-button>
+  </div>
 </div>
 
 
