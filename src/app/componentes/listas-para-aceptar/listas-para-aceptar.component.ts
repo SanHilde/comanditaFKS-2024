@@ -1,86 +1,106 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+import { Ventas } from 'src/app/interfaces/venta.interface';
 import { DatosServiceService } from 'src/app/services/datos/datos-service.service';
-import { ListaDeEsperaService } from 'src/app/services/lista-de-espera.service';
 
 @Component({
   selector: 'app-listas-para-aceptar',
   templateUrl: './listas-para-aceptar.component.html',
   styleUrls: ['./listas-para-aceptar.component.scss'],
-  standalone:true,
+  standalone: true,
   imports: [CommonModule, ReactiveFormsModule, IonicModule, NgxSpinnerModule],
-
 })
-export class ListasParaAceptarComponent  implements OnInit {
+export class ListasParaAceptarComponent implements OnInit {
   tipoTraido: string | null = null;
-  listaDeObjetos=[];
-  subtitulo!:string;
-  constructor(  private route: ActivatedRoute, private datosService: DatosServiceService, private spinner: NgxSpinnerService,private listaDeEsperaService: ListaDeEsperaService) { }
+  listaDeObjetos: Ventas[] = [];
+  titulo: string = '';
+  estaAbiertoElModal: boolean = false;
+  pedidoSeleccionado: Ventas | null = null;
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private datosService: DatosServiceService,
+    private spinner: NgxSpinnerService
+  ) {}
 
   ngOnInit() {
     this.spinner.show();
     this.route.paramMap.subscribe((params) => {
       this.tipoTraido = params.get('tipoLista');
     });
-    // this.tipoTraido="usuarios";
-    if(this.tipoTraido!=null){
-      let lista = this.tipoTraido;
-      if(this.tipoTraido=="pagos" || this.tipoTraido=="Ventas"){
-        lista = "Ventas";
-      }
-      this.datosService.ObtenerDatos(lista).subscribe((listasDeTipoTraido:any)=>{
-        console.log(listasDeTipoTraido)
-        switch(this.tipoTraido){
-          case "pagos":
-            this.subtitulo = "Confirmar pago:";
-            this.listaDeObjetos=listasDeTipoTraido.filter((pedido:any) => {pedido.pago==false});
-            break;
-          case "pedidos":
-            this.listaDeObjetos=listasDeTipoTraido.filter((pedido:any) => {pedido.confirmado==false});
-            this.subtitulo = "Confirmar pedido:";
+    if (!this.tipoTraido) return;
+
+    this.cargarListaDePedidos();
+  }
+
+  // Método para cargar la lista de pedidos desde el servicio
+  cargarListaDePedidos() {
+    this.datosService.ObtenerDatos('Ventas').subscribe((ventas: Ventas[]) => {
+      switch (this.tipoTraido) {
+        case 'pagos':
+          this.titulo = 'Confirmar pago de las mesas';
+          this.listaDeObjetos = ventas.filter((pedido: Ventas) => {
+            return (
+              !pedido.pago && pedido.validacionMozo && pedido.confirmarRecepcion
+            );
+          });
           break;
-          default:
-            this.subtitulo="Confirmar";
-            this.listaDeObjetos = listasDeTipoTraido;
-        }
-      this.spinner.hide();
-      })
-    } else{
-    this.spinner.hide();
 
-    }
-  }
-  seleccionarFila(item: any): void {
-    // this.itemSeleccionado.emit(item);
-  }
+        case 'pedidos':
+          this.titulo = 'Confirmar pedidos de las mesas';
+          this.listaDeObjetos = ventas.filter((pedido: Ventas) => {
+            return !pedido.validacionMozo;
+          });
+          break;
 
-  async aprobacion(orden:string, item:any){
-    item.aprobado=orden;
-      try {
-        if(this.tipoTraido!=null){
-          if(this.tipoTraido=="pagos"){
-            item.pago=true;
-            let mesa = item.mesa;
-            // await this.datosService.modificarDatoAsync(this.pedido.id,"Ventas",this.pedido);
-            let listaDeMesas = await this.datosService.ObtenerDatosAsync("Mesa");
-            let mesaBuscada = listaDeMesas.find((mesaIndividual: any) => mesa.numero === mesaIndividual.numero);
-            mesaBuscada.estado = "Disponible";
-            await this.datosService.modificarDatoAsync(item.id, this.tipoTraido, item );
-          }
-          if(this.tipoTraido=="pedidos"){
-            item.estado="Aprobado para cocina";//????
-            await this.datosService.modificarDatoAsync(item.id, this.tipoTraido, item );
-          }
-          // await this.datosService.modificarDatoAsync(item.id, this.tipoTraido, item );
-        }
-
-      } catch (error) {
-        console.error('Error al actualizar el item en la base de datos:', error);
+        default:
+          this.titulo = `Lista de ${this.tipoTraido} `;
+          this.listaDeObjetos = ventas;
       }
+      this.spinner.hide();
+    });
   }
 
+  verDetalleDelPedido(item: Ventas) {
+    this.pedidoSeleccionado = item;
+    this.setModalOpen(true);
+  }
+
+  setModalOpen(isOpen: boolean) {
+    this.estaAbiertoElModal = isOpen;
+  }
+
+  volverAtras() {
+    this.router.navigate(['/home']);
+  }
+
+  modificarPedido(pedidoActual: Ventas) {
+    if (!this.tipoTraido || !['pedidos', 'pagos'].includes(this.tipoTraido))
+      return;
+
+    this.spinner.show();
+    const pedidoModificado: Ventas =
+      this.tipoTraido === 'pedidos'
+        ? { ...pedidoActual, validacionMozo: true }
+        : { ...pedidoActual, pago: true };
+
+    this.datosService
+      .modificarDato(pedidoActual.id, 'Ventas', pedidoModificado)
+      .then(
+        () => {
+          // Recargar la lista actualizada después de modificar el pedido
+          this.cargarListaDePedidos();
+          this.spinner.hide();
+        },
+        (error) => {
+          console.error('Error al modificar el pedido', error);
+          this.spinner.hide();
+        }
+      );
+  }
 }

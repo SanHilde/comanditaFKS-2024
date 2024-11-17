@@ -4,55 +4,54 @@ import { Mesa } from '../interfaces/mesa.interface';
 import { Ventas } from '../interfaces/venta.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DatosVinculadosService {
+  constructor(private datosService: DatosServiceService) {}
+  public pedido!: Ventas;
+  public mesa!: Mesa;
+  suscripcionAVenta = false;
 
-  constructor(private datosService: DatosServiceService) { }
-  public pedido!:Ventas;
-  public mesa!:Mesa;
-  suscripcionAVenta=false;
-
-  getPedido(){
+  getPedido() {
     return this.pedido;
   }
 
-  getMesa(){
+  getMesa() {
     return this.mesa;
   }
 
-  suscribirseADatos(idMesa:string){
-    if(idMesa!="" ){
-      this.datosService.ObtenerDatos("Mesa").subscribe((listaDeMesas:any)=>{
+  suscribirseADatos(idMesa: string) {
+    if (idMesa != '') {
+      this.datosService.ObtenerDatos('Mesa').subscribe((listaDeMesas: any) => {
         listaDeMesas.forEach((mesaIndividual: Mesa) => {
-          if(idMesa!=null && mesaIndividual.numero ==  idMesa){
-            this.mesa=mesaIndividual;
-            if(!this.suscripcionAVenta && this.mesa.pedido){
-              this.suscripcionAVenta= true;
-              this.datosService.ObtenerDatos("Ventas").subscribe((listaDeVentas:any)=>{
-                listaDeVentas.forEach((ventaIndividual:Ventas) => {
-                  if(ventaIndividual.id==this.mesa.pedido){
-                    this.pedido=ventaIndividual;
-                    // resolve(true);
-                    return
-                  }                 
+          if (idMesa != null && mesaIndividual.numero == idMesa) {
+            this.mesa = mesaIndividual;
+            if (!this.suscripcionAVenta && this.mesa.qrid) {
+              this.suscripcionAVenta = true;
+              this.datosService
+                .ObtenerDatos('Ventas')
+                .subscribe((listaDeVentas: any) => {
+                  listaDeVentas.forEach((ventaIndividual: Ventas) => {
+                    if (ventaIndividual.id == this.mesa.qrid) {
+                      this.pedido = ventaIndividual;
+                      // resolve(true);
+                      return;
+                    }
+                  });
                 });
-              })
-            } else{
+            } else {
               // resolve(true);
-              return
+              return;
             }
           }
-       });
-
-     })
-    } 
+        });
+      });
+    }
   }
-
 
   buscarDatoMesa(idMesa: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      this.datosService.ObtenerDatos("Mesa").subscribe(
+      this.datosService.ObtenerDatos('Mesa').subscribe(
         (listaDeMesas: any) => {
           for (let mesaIndividual of listaDeMesas) {
             if (idMesa != null && mesaIndividual.numero === idMesa) {
@@ -74,11 +73,11 @@ export class DatosVinculadosService {
 
   obtenerDatoPedidoDeMesa(): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      this.datosService.ObtenerDatos("Ventas").subscribe(
+      this.datosService.ObtenerDatos('Ventas').subscribe(
         (listaDeVentas: any) => {
           for (let ventaIndividual of listaDeVentas) {
-            if(ventaIndividual.id==this.mesa.pedido){
-              this.pedido=ventaIndividual;
+            if (ventaIndividual.id == this.mesa.qrid) {
+              this.pedido = ventaIndividual;
               resolve(true);
               return; // Termina la suscripción si se encuentra la mesa
             }
@@ -94,39 +93,26 @@ export class DatosVinculadosService {
     });
   }
 
-  async traerDatosMesa(idMesa:string){
-    let listaDeMesas = await this.datosService.ObtenerDatosAsync("Mesa");
-    listaDeMesas.forEach((mesaIdividual:Mesa) => {
-         if(mesaIdividual.numero==idMesa){
-            this.mesa=mesaIdividual;
-    };
-  })
-  // await this.buscarPedido();
-  return this.mesa;
-}
+  async traerDatosMesa(idMesa: string) {
+    let listaDeMesas = await this.datosService.ObtenerDatosAsync('Mesa');
+    listaDeMesas.forEach((mesaIdividual: Mesa) => {
+      if (mesaIdividual.numero == idMesa) {
+        this.mesa = mesaIdividual;
+      }
+    });
+    // await this.buscarPedido();
+    return this.mesa;
+  }
 
- async buscarPedido(){
-    if(this.mesa.pedido){
-      let listaDePedidos = await this.datosService.ObtenerDatosAsync("Ventas");
-      listaDePedidos.forEach((pedidoIndividual:Ventas) => {
-           if(this.mesa.pedido==pedidoIndividual.id){
-            this.pedido=pedidoIndividual;
-      };
-    })
+  async buscarPedido() {
+    if (this.mesa.qrid) {
+      let listaDePedidos = await this.datosService.ObtenerDatosAsync('Ventas');
+      listaDePedidos.forEach((pedidoIndividual: Ventas) => {
+        if (this.mesa.qrid == pedidoIndividual.id) {
+          this.pedido = pedidoIndividual;
+        }
+      });
     }
     return this.pedido;
   }
-  
-  // obtenerDatoPedidoDeMesa(){
-  //   if(this.mesa){
-  //     this.datosService.ObtenerDatos("Ventas").subscribe((listaDeVentas:any)=>{
-  //       listaDeVentas.forEach((ventaIndividual:Ventas) => {
-  //         if(ventaIndividual.id==this.mesa.pedido)
-  //           this.pedido=ventaIndividual;
-  //       });
-  //     })
-  //   } else{
-  //     console.log("Primero buscar mesa");
-  //   }
-  // }
 }

@@ -1,67 +1,43 @@
-<div class="container" *ngIf="!habilitarPropina">
-  <button 
-    class="botonPrincipal" 
-    *ngIf="estadoActual >= 1 && estadoActual!=5" 
-    (click)="navegarA('menu')">Iniciar pedido</button>
-<!-- 
-  <button 
-    class="botonPrincipal" 
-    *ngIf="estadoActual >= 1" 
-    (click)="navegarA('pedir')">Pedir</button> -->
-
-  <button 
-    class="botonPrincipal" 
-    *ngIf="estadoActual >= 1 && estadoActual!=5" 
-    (click)="navegarA('chat')">Consultar al mozo</button>
-
-  <button 
-    class="botonPrincipal" 
-    *ngIf="estadoActual >= 2 && estadoActual!=5" 
-    (click)="navegarA('estadoPedido')">Estado del pedido</button>
-
-  <button 
-    class="botonPrincipal" 
-    *ngIf="estadoActual == 2" 
-    (click)="navegarA('confirmarRecepcion')">Confirmar recepción de pedido</button>
-    <!-- cambiar a igual -->
-
-  <button 
-    class="botonPrincipal" 
-    *ngIf="estadoActual == 3" 
-    (click)="navegarA('completarEncuesta')">Completar encuesta</button>
-    <!-- cambiar a igual -->
-
-  <button 
-    class="botonPrincipal" 
-    *ngIf="estadoActual >= 3 " 
-    (click)="navegarA('juegos')">Juegos</button>
-
-  <button 
-    class="botonPrincipal" 
-    *ngIf="estadoActual >= 3 && estadoActual!=5" 
-    (click)="navegarA('pedirCuenta')">Pedir cuenta</button>
-
-  <button 
-    class="botonPrincipal" 
-    *ngIf="estadoActual >= 4" 
-    (click)="navegarA('resultadosEncuestas')">Ver resultados de encuestas</button>
-
-  <p>
-    Escanea el código QR de propina y da la propina según la atención!
-  </p>
+<div class="container">
+  <!-- Clientes -->
+  <ng-container *ngIf="authService.tipoUsuario === 'Cliente'">
+    <h2>Escanea el QR</h2>
+    <button
+      id="escanearQrMesa"
+      class="botonPrincipal botonScan"
+      (click)="escanearQr()"
+    >
+      <ion-icon name="qr-code-outline" class="iconScan"></ion-icon>
+    </button>
+    <!-- El estado del pedido se muestra en todos los casos -->
+    <button
+      class="botonPrincipal"
+      (click)="navegarA('chat')"
+      *ngIf="estadoActual < 4"
+    >
+      Ver el estado del pedido
+    </button>
+    <ng-container *ngIf="estadoActual < 5 && estadoActual > 1">
+      <button class="botonPrincipal" (click)="navegarA('chat')">
+        Ir a completar encuesta
+      </button>
+      <button class="botonPrincipal" (click)="navegarA('chat')">
+        Ir a juegos
+      </button>
+    </ng-container>
+    <button
+      class="botonPrincipal"
+      (click)="navegarA('chat')"
+      *ngIf="estadoActual === 3"
+    >
+      Confirmar recepción del pedido
+    </button>
+    <button
+      class="botonPrincipal"
+      (click)="navegarA('chat')"
+      *ngIf="estadoActual === 4"
+    >
+      Pedir cuenta
+    </button>
+  </ng-container>
 </div>
-<div *ngIf="habilitarPropina" class="container">
-  <h2>Seleccione qué propina desea dar</h2>
-  <button class="botonPrincipal"(click)="propina('20')">Excelente (20%)</button>
-  <button class="botonPrincipal"(click)="propina('15')">Muy bueno (15%)</button>
-  <button class="botonPrincipal"(click)="propina('10')">Bueno (10%)</button>
-  <button class="botonPrincipal"(click)="propina('5')">Regular (5%)</button>
-  <button class="botonPrincipal"(click)="propina('0')">Malo (0%)</button>
-</div>
-
-<ngx-spinner
-  bdColor="rgba(0, 0, 0, 08)"
-  template="<img src='./../../../assets/logoConFondo.png' alt='logo' />"
->
-  <!-- <p style="color: white; font-size: 40px">Cargando...</p> -->
-</ngx-spinner>

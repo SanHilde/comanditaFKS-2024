@@ -1,3 +1,6 @@
+import { Producto } from './producto.interface';
+import { EstadoPedido } from './venta.interface';
+
 export type TipoDeUsuario =
   | 'Cliente'
   | 'Mozo'
@@ -5,6 +8,7 @@ export type TipoDeUsuario =
   | 'Dueño'
   | 'Supervisor'
   | 'Cocinero'
+  | 'Bartender'
   | 'Anónimo'
   | 'Sin asignar';
 
@@ -22,4 +26,11 @@ export interface UsuarioInterface {
   foto: string;
   nombre: string;
   tipoUsuario: TipoDeUsuario;
+}
+
+export interface TareaCocineroYBartender {
+  listaProductos: Producto[];
+  numeroDeMesa: string;
+  estadoPedido: EstadoPedido;
+  idDeLaVenta: string;
 }

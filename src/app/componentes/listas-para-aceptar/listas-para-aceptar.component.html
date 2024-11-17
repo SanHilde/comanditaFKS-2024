@@ -1,32 +1,78 @@
-<div class="container" *ngIf="tipoTraido!=null">
-  <!-- <div *ngFor="let lista of listas" [ngSwitch]="lista" class="cardLista"> -->
-    <h1>Lista de {{tipoTraido}}</h1>
-    <p *ngIf="listaDeObjetos.length === 0">No hay datos para mostrar</p>
-    
-    <div *ngFor="let item of listaDeObjetos" class="card" (click)="seleccionarFila(item)">
-      <img *ngIf="item['foto']" [src]="item['foto']" [alt]="item['nombre']" class="imgTabla">
-      <div class="bloque">
-        <h2 *ngIf="item['nombre']" class="">{{ item['nombre'] }} {{ item['apellido'] }}</h2>
-        <div class="fila">
-          <!-- <ion-fab-button color="danger" (click)="aprobacion('rechazado', item); $event.stopPropagation()">
-            <ion-icon name="close-circle-outline"></ion-icon>
-          </ion-fab-button> -->
-          <p class="textoBoton">{{subtitulo}}</p>
-          <ion-fab-button color="success" (click)="aprobacion('aprobado', item); $event.stopPropagation()">
-            <ion-icon name="checkmark-circle-outline"></ion-icon>
-          </ion-fab-button>
-        </div>
-      </div>
-    </div>
-  <!-- </div> -->
+<div class="container" *ngIf="tipoTraido !== null">
+  <h1>{{ titulo }}</h1>
+  <p class="sinDatos" *ngIf="!listaDeObjetos.length">
+    No hay datos para mostrar
+  </p>
+
+  <div *ngFor="let item of listaDeObjetos" class="listaVerPedidoMesa">
+    <h2>Mesa #{{ item.mesaNumero }}</h2>
+    <ion-fab-button
+      color="primary"
+      (click)="verDetalleDelPedido(item)"
+      size="small"
+    >
+      <ion-icon name="information-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button
+      color="success"
+      (click)="modificarPedido(item)"
+      size="small"
+    >
+      <ion-icon name="checkmark-circle-outline"></ion-icon>
+    </ion-fab-button>
+  </div>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="start">
+    <ion-fab-button class="iconos" (click)="volverAtras()">
+      <ion-icon name="arrow-back"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <!-- Modal para mostrar el detalle del pedido -->
+  <ion-modal #modal [isOpen]="estaAbiertoElModal" class="ionModal">
+    <ng-template>
+      <ion-content>
+        <ion-toolbar>
+          <ion-title>Detalle del Pedido</ion-title>
+          <ion-buttons slot="end">
+            <ion-button color="primary" (click)="setModalOpen(false)">
+              Cerrar
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+
+        <ion-list>
+          <!-- Aquí iteramos sobre la lista de productos en el pedido -->
+          <ion-item
+            *ngFor="let producto of pedidoSeleccionado?.productosSeleccionados"
+          >
+            <ion-avatar slot="start">
+              <ion-img [src]="producto.fotos[0]"></ion-img>
+            </ion-avatar>
+            <ion-label>
+              <h2>
+                {{ producto.nombre }} - Cantidad:
+                {{ producto.cantidadSolicitada }}
+              </h2>
+              <p>Tiempo de elaboración: {{ producto.tiempoElaboracion }} min</p>
+              <p>Precio unitario: ${{ producto.precio }}</p>
+            </ion-label>
+          </ion-item>
+
+          <ion-item>
+            <h2>Importe total: ${{ pedidoSeleccionado?.importeTotal }}</h2>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </div>
-<div class="container" *ngIf="tipoTraido==null">
-  <p>Error al acceder a lo que se solicitó</p>
+
+<div class="container" *ngIf="!tipoTraido">
+  <p class="sinDatos">Error al acceder a lo que se solicitó</p>
 </div>
 
 <ngx-spinner
   bdColor="rgba(0, 0, 0, 08)"
   template="<img src='./../../../assets/logoConFondo.png' alt='logo' />"
->
-  <!-- <p style="color: white; font-size: 40px">Cargando...</p> -->
-</ngx-spinner>
+/>
