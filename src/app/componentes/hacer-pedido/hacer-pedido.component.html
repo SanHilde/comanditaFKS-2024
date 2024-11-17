@@ -80,6 +80,7 @@
         color="success"
         class="rectangular-fab"
         (click)="mostrarDetallePedido()"
+        [disabled]="!listaProductosDelPedido.length"
       >
         <ion-label>Finalizar pedido</ion-label>
       </ion-fab-button>

@@ -81,7 +81,6 @@ async tomarFoto() {
         idCliente: '',
         numeroRam: numero,
         qrid: "MESA1" + mesaData.numero + mesaData.tipo + mesaData.cantidadComensales + numero,
-        pedido:"sinPedido",
         listoPago:false
       };
 

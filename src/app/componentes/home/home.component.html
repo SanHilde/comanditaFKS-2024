@@ -1,14 +1,14 @@
 <div class="container">
-  <!-- Ingreso de Clientes y Anonimos: Cuando escanea el qr los redirigue a la pagina de ingreso -->
+  <!-- CLIENTES, ANÓNIMOS -->
   <ng-container
     *ngIf="
       ['Cliente', 'Anónimo', 'Sin asignar'].includes(authService.tipoUsuario)
     "
   >
+    <!-- Va a la página de ingreso -->
     <h1>
       ¡Bienvenido {{ authService.usuarioLogeado?.nombre }} a La Comandita FKS!
     </h1>
-    <!-- INGRESO -->
     <ng-container *ngIf="authService.accionActual === 'INGRESO'">
       <h2>Para iniciar el proceso, escanea el QR de la entrada</h2>
       <button
@@ -21,7 +21,8 @@
     </ng-container>
 
     <!-- MESA -->
-    <div *ngIf="authService.accionActual === 'MESA'" class="listaColumna">
+    <!-- Comente esta parte porque despues de crear el pedido redirige a la pagina de la mesa donde tiene las acciones -->
+    <!-- <div *ngIf="authService.accionActual === 'MESA'" class="listaColumna">
       <button class="botonPrincipal">Menú</button>
       <button class="botonPrincipal">Pedir</button>
       <button class="botonPrincipal">Hablar con el mozo</button>
@@ -29,7 +30,7 @@
       <button class="botonPrincipal">Completar encuesta</button>
       <button class="botonPrincipal">Juegos</button>
       <p>Escanea el código QR de propina y da la propina según la atención!</p>
-    </div>
+    </div> -->
 
     <!-- PROPINA -->
     <div *ngIf="authService.accionActual === 'PROPINA'" class="listaColumna">
@@ -63,6 +64,7 @@
       </button>
     </div>
   </div>
+
   <!-- MOZO -->
   <div *ngIf="authService.tipoUsuario === 'Mozo'">
     <h1>¡Hola {{ authService.usuarioLogeado?.nombre }}!</h1>
@@ -84,4 +86,103 @@
       </button>
     </div>
   </div>
+
+  <!-- BARTENDER Y COCINERO -->
+  <div
+    *ngIf="
+      authService.tipoUsuario === 'Bartender' ||
+      authService.tipoUsuario === 'Cocinero'
+    "
+  >
+    <h1>¡Hola {{ authService.usuarioLogeado?.nombre }}!</h1>
+    <p *ngIf="!tareas.length">Por el momento no tienes tareas</p>
+
+    <div *ngIf="tareas.length > 0">
+      <h2>Lista de tareas</h2>
+      <div *ngFor="let tarea of tareas" class="listaVerPedidoMesa">
+        <h2 id="numeroMesa">
+          Mesa #{{ tarea.numeroDeMesa }} Estado:
+          {{ tarea.estadoPedido.toUpperCase() }}
+        </h2>
+        <ion-fab-button
+          color="primary"
+          (click)="verDetalleDelPedido(tarea)"
+          size="small"
+        >
+          <ion-icon name="information-outline"></ion-icon>
+        </ion-fab-button>
+      </div>
+    </div>
+
+    <!-- Modal para mostrar el detalle del pedido -->
+    <ion-modal #modal [isOpen]="estaAbiertoElModal" class="ionModal">
+      <ng-template>
+        <ion-content>
+          <ion-toolbar>
+            <ion-title>Detalle del Pedido</ion-title>
+            <ion-buttons slot="end">
+              <ion-button color="primary" (click)="setModalOpen(false)">
+                Cerrar
+              </ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+
+          <ion-list *ngIf="tareaSeleccionada !== undefined">
+            <!-- Aquí iteramos sobre la lista de productos en el pedido -->
+            <ion-item
+              *ngFor="let producto of tareaSeleccionada?.listaProductos"
+            >
+              <ion-avatar slot="start">
+                <ion-img [src]="producto.fotos[0]"></ion-img>
+              </ion-avatar>
+              <ion-label>
+                <h2 id="nombreProducto">
+                  {{ producto.nombre }}
+                </h2>
+                <p id="dataProducto">
+                  Cantidad:
+                  {{ producto.cantidadSolicitada }} Tiempo de elaboración:
+                  {{ producto.tiempoElaboracion }} min
+                </p>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+          <!-- Opciones para cambiar el estado -->
+          <ion-footer>
+            <ion-toolbar>
+              <p>Marcar pedido como:</p>
+              <div class="botonesCambioDeEstado">
+                <ion-button
+                  class="secondary"
+                  (click)="actualizarEstado('pendiente')"
+                  [disabled]="tareaSeleccionada?.estadoPedido === 'pendiente'"
+                >
+                  Pendiente
+                </ion-button>
+                <ion-button
+                  color="warning"
+                  (click)="actualizarEstado('en proceso')"
+                  [disabled]="tareaSeleccionada?.estadoPedido === 'en proceso'"
+                >
+                  En proceso
+                </ion-button>
+                <ion-button
+                  color="success"
+                  (click)="actualizarEstado('listo')"
+                  [disabled]="tareaSeleccionada?.estadoPedido === 'listo'"
+                >
+                  Listo
+                </ion-button>
+              </div>
+            </ion-toolbar>
+          </ion-footer>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+  </div>
 </div>
+
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  template="<img src='./../../../assets/logoConFondo.png' alt='logo' />"
+/>

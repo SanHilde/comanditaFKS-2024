@@ -1,6 +1,10 @@
-import { Ventas } from "./venta.interface";
+import { Ventas } from './venta.interface';
 
-export type EstadoMesaTipo = 'Disponible' | 'Ocupada' | 'Reservada' | 'procesoPago';
+export type EstadoMesaTipo =
+  | 'Disponible'
+  | 'Ocupada'
+  | 'Reservada'
+  | 'procesoPago';
 
 export interface Mesa {
   numero: string; // Número de mesa
@@ -15,6 +19,5 @@ export interface Mesa {
   idCliente: string;
   qrid: string;
   numeroRam: number;
-  pedido:string;
-  listoPago: boolean; 
+  listoPago: boolean;
 }

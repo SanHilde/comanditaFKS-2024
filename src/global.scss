@@ -112,26 +112,41 @@
   --color: var(--color-letra);
 }
 
+.ionModal {
+  --height: 50%;
+  --border-radius: 16px;
+  --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
 
+  ion-avatar {
+    margin-right: 20px;
+  }
 
+  ion-label {
+    h2,
+    p {
+      font-size: 20px;
+      margin-top: 10px;
+    }
+    p {
+      margin-bottom: 20px;
+    }
+  }
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.listaVerPedidoMesa {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-top: 20px;
+  background-color: var(--color-detalles);
+  padding: 10px;
+  border-radius: 8px;
+  transition: box-shadow 0.3s ease;
+}
 
 /*css para chat, necesito que este aca si o si*/
-
 
 .derecha {
   display: flex;
@@ -142,7 +157,7 @@
 #chat {
   position: relative;
   height: 80vh;
-  overflow-y: auto
+  overflow-y: auto;
 }
 
 .izquierda {
@@ -154,7 +169,7 @@
 
 .messages {
   flex: 1 1 auto;
-  color: rgba(255, 255, 255, .5);
+  color: rgba(255, 255, 255, 0.5);
   overflow: hidden;
   position: relative;
   width: 100%;
@@ -169,12 +184,12 @@
   margin-left: 10px;
   border-radius: 10px 10px 10px 0;
   // background: var(--color-activado);
-  background:var(--color-fondo);
+  background: var(--color-fondo);
   font-size: 18px;
   word-wrap: break-word;
   line-height: 1.4;
   color: white;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 }
 
 .timestamp {
@@ -190,7 +205,7 @@
   font-size: 18px;
   font-weight: bold;
   color: var(--color-letra);
-  margin-top:10px;
+  margin-top: 10px;
   margin-bottom: 0px;
   margin-left: 10px;
   margin-right: 10px;
@@ -207,7 +222,7 @@
   line-height: 1.4;
   word-wrap: break-word;
   color: white;
-  background:var(--ion-color-primary);
+  background: var(--ion-color-primary);
   border-radius: 10px 10px 0 10px;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 }
