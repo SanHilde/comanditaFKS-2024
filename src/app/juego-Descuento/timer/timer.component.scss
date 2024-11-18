@@ -1,0 +1,24 @@
+.timer {
+  display: flex; /* Asegura que los elementos estén en línea */
+  align-items: center; /* Centra verticalmente los elementos */
+  gap: 5px; /* Espaciado entre los elementos */
+}
+
+.timerNumber {
+  font-size: 20px; /* Tamaño de fuente más pequeño */
+  background-color: rgb(61, 61, 61);
+  color: white;
+  text-align: center;
+  padding: 5px; /* Añadido para consistencia en la caja */
+  border-radius: 5px; /* Bordes redondeados para un mejor diseño */
+}
+
+.timerNumber:hover {
+  background-color: #0f0f0f; /* Negro más claro al hacer hover */
+  transform: scale(1.02); /* Efecto de zoom más sutil */
+}
+
+.separator {
+  font-size: 20px; /* Asegura que el tamaño del separador sea similar al número */
+  color: #00c4ff; /* Azul eléctrico */
+}

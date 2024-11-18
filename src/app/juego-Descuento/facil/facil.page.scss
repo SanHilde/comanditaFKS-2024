@@ -1,0 +1,114 @@
+.bg {
+
+    background-repeat: no-repeat; /* No repetir la imagen */
+    background-size: cover; /* Hacer que la imagen de fondo cubra todo el contenedor */
+    background-color: #f0f4f8; /* Color de fondo claro para contraste */
+    height: 100%;
+    width: 100%;
+}
+
+.btnAnimales {
+    width: 150px; /* Ajusta el ancho deseado */
+    height: 150px; /* Ajusta la altura deseada */
+    padding: 20px;
+    margin: 15px; /* Espacio de 15 píxeles entre cada tarjeta */
+  }
+
+
+.btnAnimales:focus {
+    outline: none;
+}
+
+.btnAnimales img {
+    width: 80%; /* Ajusta el tamaño de la imagen para que se ajuste al botón */
+    height: 80%; /* Ajusta el tamaño de la imagen para que se ajuste al botón */
+    object-fit: contain; /* Mantener la relación de aspecto de la imagen */
+}
+
+.btnSeleccionado {
+    border: 2px solid blue; 
+    background-color: grey;
+    animation: flip-in-ver-right 0.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.1s both,
+               parpadeoAzul 1s infinite;   
+}
+
+.btnError {
+    border: 2px solid red; 
+    background-color: grey;
+}
+
+.btnEncontrado {
+    border: 2px solid greenyellow; 
+    background-color: grey;    
+}
+
+/* Resto de tu CSS */
+
+
+.alert-wrapper {
+    --background: midnightblue;
+    --background-color: midnightblue;
+}
+
+@keyframes flip-in-ver-right {
+    0% {
+        transform: rotateY(-80deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    100% {
+        transform: rotateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes parpadeoAzul {
+    0% {
+        border-color: blue; /* Color inicial del borde */
+    }
+    50% {
+        border-color: transparent; /* Cambiar a un color transparente a la mitad de la animación */
+    }
+    100% {
+        border-color: blue; /* Volver al color inicial al final de la animación */
+    }
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Ajusta el tamaño mínimo */
+    gap: 5px; /* Reduce el espaciado */
+    padding: 5px;
+    height: 100%;
+    width: 100%;
+  }.btnAnimales {
+    width: 80%; /* Ocupa el ancho disponible */
+    height: 80%;
+    aspect-ratio: 1; /* Mantiene las tarjetas cuadradas */
+    background-color: #000; /* Fondo negro para las tarjetas */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px; /* Bordes redondeados */
+    overflow: hidden; /* Asegura que el contenido no se desborde */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Añade sombra para mayor profundidad */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transición suave para efectos */
+  }
+  
+  .btnAnimales:hover {
+    transform: scale(1.05); /* Zoom ligero al pasar el mouse */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4); /* Aumenta la sombra al hacer hover */
+  }
+  
+  .btnAnimales img {
+    width: 90%; /* Ajusta la imagen dentro del botón */
+    height: auto;
+    object-fit: contain; /* Mantiene la relación de aspecto */
+    transition: transform 0.3s ease; /* Transición para la imagen */
+  }
+  
+  .btnAnimales:hover img {
+    transform: scale(1.05); /* Hace zoom en la imagen al hacer hover */
+  }
+  

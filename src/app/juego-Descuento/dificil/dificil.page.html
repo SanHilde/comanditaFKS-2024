@@ -1,0 +1,30 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button default-href="#"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <div><app-timer></app-timer></div>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Dificultad: Difícil <app-timer></app-timer></ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="bg w-100 h-100" style="overflow: hidden;">
+    <div class="grid-container">
+      <button *ngFor="let tarjeta of tarjetas" 
+        type="button" 
+        class="grid-item btn btn-dark btnAnimales" 
+        [ngClass]="{'btnSeleccionado': itemSeleccionado(tarjeta) && !itemError(tarjeta), 'btnEncontrado': itemEncontrado(tarjeta), 'btnError': itemError(tarjeta)}"
+        (click)="seleccionarItem(tarjeta)">
+        <img [src]="'../../../assets/frutas/' + tarjeta.valor + '.png'" *ngIf="itemSeleccionado(tarjeta) || itemEncontrado(tarjeta)">
+      </button>
+    </div>
+  </div>
+</ion-content>

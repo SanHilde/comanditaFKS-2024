@@ -76,7 +76,7 @@ export class MesaComponent implements OnInit {
         this.router.navigate(['/encuestasClientes', this.idMesa]);
         break;
       case 'juegos':
-        this.router.navigate(['/juegos']);
+        this.router.navigate(['/menu-juego']);
         break;
       case 'confirmarRecepcion':
         // mostrar sweet alert que confirme y luego si

@@ -1,0 +1,27 @@
+.bg {
+    background-position: center; /* Centrar la imagen de fondo */
+    background-repeat: no-repeat; /* No repetir la imagen */
+    background-size: cover; /* Cubrir todo el contenedor */
+    background-color: #f0f4f8; /* Color de fondo suave para contraste */
+    height: 100vh; /* Usar el 100% de la altura de la ventana */
+    width: 100%; /* Usar el 100% del ancho */
+    display: flex; /* Para permitir un mejor alineamiento de contenido */
+    align-items: center; /* Centrar contenido verticalmente */
+    justify-content: center; /* Centrar contenido horizontalmente */
+    padding: 2rem; /* Espaciado interno */
+    border-radius: 1rem; /* Bordes redondeados del contenedor */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra de contenedor */
+  }
+  .button-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Hace que los botones ocupen el 100% de la pantalla */
+    justify-content: space-between; /* Distribuye los botones equitativamente */
+  }
+  
+  .full-height-button {
+    flex-grow: 1; /* Permite que cada botón crezca y ocupe el mismo espacio vertical */
+    margin: 0; /* Elimina cualquier margen entre botones */
+    border-radius: 0; /* Elimina bordes redondeados para que no haya separación */
+  }
+  
