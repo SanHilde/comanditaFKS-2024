@@ -1,7 +1,7 @@
 <div class="container">
   <!-- Clientes -->
   <ng-container *ngIf="authService.tipoUsuario === 'Cliente'">
-    <h2>Escanea el QR</h2>
+    <h1>Escanea el QR de la mesa {{ mesa.numero }}</h1>
     <button
       id="escanearQrMesa"
       class="botonPrincipal botonScan"
@@ -9,33 +9,75 @@
     >
       <ion-icon name="qr-code-outline" class="iconScan"></ion-icon>
     </button>
-    <!-- El estado del pedido se muestra en todos los casos -->
+
+    <p id="estadoCero" *ngIf="stepActual === 0">
+      Podrás ver la información de tu mesa después de escanear su QR
+    </p>
+
+    <div *ngIf="stepActual > 0 && estadoDelPedido">
+      <p id="estadoDelPedido">Estado del pedido : {{ estadoDelPedido }}</p>
+      <iframe
+        *ngIf="estadoDelPedido === 'Pendiente'"
+        src="./../../../assets/gif/Pendiente.gif"
+        width="100%"
+        height="100%"
+        frameBorder="0"
+        allowFullScreen
+      ></iframe>
+      <iframe
+        *ngIf="estadoDelPedido === 'En proceso'"
+        src="./../../../assets/gif/Proceso.gif"
+        width="100%"
+        height="100%"
+        frameBorder="0"
+        allowFullScreen
+      ></iframe>
+      <iframe
+        *ngIf="estadoDelPedido === 'Listo'"
+        src="./../../../assets/gif/Listo.gif"
+        width="100%"
+        height="100%"
+        frameBorder="0"
+        allowFullScreen
+      ></iframe>
+    </div>
+
     <button
+      *ngIf="stepActual > 1 && stepActual < 5"
       class="botonPrincipal"
-      (click)="navegarA('chat')"
-      *ngIf="estadoActual < 4"
+      (click)="navegarA('juegos')"
     >
-      Ver el estado del pedido
+      Ir a juegos
     </button>
-    <ng-container *ngIf="estadoActual < 5 && estadoActual > 1">
-      <button class="botonPrincipal" (click)="navegarA('chat')">
-        Ir a completar encuesta
-      </button>
-      <button class="botonPrincipal" (click)="navegarA('chat')">
-        Ir a juegos
-      </button>
-    </ng-container>
+
     <button
+      *ngIf="stepActual > 1 && stepActual < 6 && !pedido.completoEncuesta"
       class="botonPrincipal"
-      (click)="navegarA('chat')"
-      *ngIf="estadoActual === 3"
+      (click)="navegarA('completarEncuesta')"
+    >
+      Ir a completar encuesta
+    </button>
+
+    <button
+      *ngIf="stepActual > 0 && pedido.completoEncuesta"
+      class="botonPrincipal"
+      (click)="navegarA('resultadosEncuestas')"
+    >
+      Ver los resultados de las encuestas
+    </button>
+
+    <button
+      *ngIf="stepActual === 3 && !confirmaRecepcionDelPedido"
+      class="botonPrincipal"
+      (click)="confirmarRecepcionDelPedido()"
     >
       Confirmar recepción del pedido
     </button>
+
     <button
+      *ngIf="stepActual === 4 && confirmaRecepcionDelPedido"
       class="botonPrincipal"
-      (click)="navegarA('chat')"
-      *ngIf="estadoActual === 4"
+      (click)="pedirCuenta()"
     >
       Pedir cuenta
     </button>
