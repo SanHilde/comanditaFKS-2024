@@ -1,0 +1,83 @@
+.bg {
+ 
+  background-repeat: no-repeat; /* No repetir la imagen */
+  background-size: cover; /* Hacer que la imagen de fondo cubra todo el contenedor */
+  background-color: #f7f9fc; /* Color de fondo claro */
+  height: 100%;
+  width: 100%;
+}
+
+.btnAnimales {
+  width: 70px; /* Ajusta el ancho deseado */
+  height: 60px; /* Ajusta la altura deseada */
+  padding: 10px;
+  margin: 5px; /* Espacio de 15 píxeles entre cada tarjeta */
+}
+
+.btnAnimales:focus {
+  outline: none;
+}
+
+.btnAnimales img {
+  width: 30px; /* Ajusta el ancho deseado */
+  height: 30px;
+  object-fit: contain; /* Mantiene la relación de aspecto */
+  transition: transform 0.3s ease; /* Transición para la imagen */
+}
+.btnSeleccionado {
+  border: 2px solid blue; 
+  background-color: grey;
+  animation: flip-in-ver-right 0.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.1s both,
+             parpadeoAzul 1s infinite;   
+}
+
+.btnError {
+  border: 2px solid red; 
+  background-color: grey;
+}
+
+.btnEncontrado {
+  border: 2px solid greenyellow; 
+  background-color: grey;    
+}
+
+/* Resto de tu CSS */
+
+@keyframes flip-in-ver-right {
+  0% {
+    transform: rotateY(-80deg);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: rotateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes parpadeoAzul {
+  0% {
+    border-color: #007bff; /* Color inicial del borde */
+  }
+  50% {
+    border-color: transparent; /* Cambiar a un color transparente a la mitad de la animación */
+  }
+  100% {
+    border-color: #007bff; /* Volver al color inicial al final de la animación */
+  }
+}
+
+
+.btnAnimales:hover {
+  transform: scale(1.05); /* Zoom ligero al pasar el mouse */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4); /* Aumenta la sombra al hacer hover */
+}
+
+
+.btnAnimales:hover img {
+  transform: scale(1.05); /* Hace zoom en la imagen al hacer hover */
+}
