@@ -99,7 +99,7 @@ export class MesaComponent implements OnInit {
   propina(eleccion: String) {
     let propina = eleccion;
     this.habilitarPropina = false;
-    this.router.navigate(['/detalle', this.idMesa, propina]);
+    this.router.navigate(['/detalle']);
   }
 
   async analizarEstadoActual() {

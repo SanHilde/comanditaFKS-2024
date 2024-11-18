@@ -8,6 +8,14 @@ import { Producto } from 'src/app/interfaces/producto.interface';
 import { Ventas } from 'src/app/interfaces/venta.interface';
 import { DatosVinculadosService } from 'src/app/services/datos-vinculados.service';
 import { DatosServiceService } from 'src/app/services/datos/datos-service.service';
+import { Descuento } from 'src/app/interfaces/descuentos.interface';
+import { UsuarioInterface } from 'src/app/interfaces/usuario.interface';
+import { AuthService } from 'src/app/services/auth.service';
+import { ToastService } from 'src/app/services/toast.service';
+
+
+
+
 
 @Component({
   selector: 'app-detalle-de-cuenta',
@@ -19,102 +27,163 @@ import { DatosServiceService } from 'src/app/services/datos/datos-service.servic
 export class DetalleDeCuentaComponent  implements OnInit {
   
   // @Input() pedidoTraido!:any;
-  public idMesa!:string | null;
-  public descuentoTraido=10;
-  public propinaTraida=15;
-  public totalTraido=0;
-  public totalFinal=0;
-  public detalleArmado!:any;
   public descuentoCalculado=0;
   public propinaCalculada=0;
-  public propina!: string | null;
-  // public productosPedidos: any[] = [];
-  public productosPedidos: any=false;
-  public mesa:Mesa | false = false;
-  public pedido!:Ventas;
+  public tiketDescuento: Descuento | undefined = undefined; 
+  public personaLog: UsuarioInterface | undefined;
+  public mesaActual: Mesa | undefined;
+  public VentaPago: Ventas| undefined;
+  public totalPago: number = 0;
+  public producto: Producto[] = [];
+  public propina = 5;
+  public totalPropinaCalculada = 0;
+  public totalPagoMasPropina=0;
+  public desplegarVentanaDePago: boolean = false;
+  metodoPagoSeleccionado: string | null = null;
+  public desplegarTicketVenta: boolean = true;
+  public ventanaPagoCbu: boolean = false;
 
-  constructor(private router:Router,public spinner: NgxSpinnerService, private route: ActivatedRoute, private datosVinculados: DatosVinculadosService, private datosService: DatosServiceService) { }
+  constructor(private router:Router,public spinner: NgxSpinnerService,
+     private route: ActivatedRoute, private datosVinculados: DatosVinculadosService, 
+     private datosService: DatosServiceService, private AuthService: AuthService,
+    private ToastService: ToastService, private Router: Router) { }
 
   ngOnInit() {
-    this.route.paramMap.subscribe((params) => {
-      this.idMesa = params.get('idMesa');
-      this.propina = params.get('porcentajePropina');
-      if(this.propina){
-        this.propinaTraida = parseInt(this.propina);
-        console.log(this.propinaTraida)
+    while (this.personaLog === undefined) {
+      this.personaLog = this.AuthService.usuarioLogeado;
+    }
+
+    if(this.personaLog)
+      {
+        this.obtenersilla();
+        this.obtenerTicketsDescuento();
+         this.obtenerVentas();
+       
+        
+      }
+  }
+  
+  obteneProductosVentas() {
+    // Verificar si el objeto VentaPago existe
+    if (this.VentaPago) {
+      // Acceder a la propiedad productosSeleccionados de la venta
+      this.VentaPago.productosSeleccionados.forEach((producto: Producto) => {
+        this.producto.push(producto);
+      });
+    } else {
+      alert('No hay datos de venta disponibles');
+    }
+  }
+
+   pagar(){
+    //cambiar estado de pago
+    this.setSoloUnaVentana('desplegarVentanaDePago');
+    // await this.datosService.modificarDatoAsync(this.pedido.id,"Ventas",this.pedido);
+    //this.router.navigate(['/mesa', this.mesaActual?.numero]);
+
+  }
+  obtenerTicketsDescuento() {
+    this.datosService.ObtenerDatos('ticketDescuento').subscribe((listaTikets: Descuento[]) => {
+      const ticketValido = listaTikets.find(
+        (ticket) => ticket.idMesaActual === this.mesaActual?.qrid && !ticket.estaUsado
+      );
+      if (ticketValido) {
+        this.tiketDescuento = ticketValido;
       }
     });
-
-    // this.productosPedidos=[
-    //   { nombre:"coca",
-    //     precio: "50",
-    //     cantidad: 2,
-    //   },
-    //   {nombre:"hamburguesa",
-    //     precio: "75",
-    //     cantidad: 2
-    //   }
-    // ];
-    this.pedirDatos();
-
-    // console.log(this.productosPedidos)
-   
-
   }
+  
 
-  async pedirDatos() {
-    try {
-      if (this.idMesa) {
-        this.mesa = await this.datosVinculados.traerDatosMesa(this.idMesa);  
-          if (this.mesa) {
-            this.pedido =await this.datosVinculados.buscarPedido();
+  obtenersilla()
+  {
+    this.datosService.ObtenerDatos('Mesa').subscribe((listaDeMesas: Mesa[]) => {
+      for (const mesa of listaDeMesas) {
+        if (mesa.idCliente === this.personaLog?.id && mesa.estado === "procesoPago") {
+          this.mesaActual = mesa;
+          break;
         }
-      if (this.pedido ) {
-        this.productosPedidos = [...this.pedido.productosSeleccionados];
       }
-      this.actualizarDatos();
+    });
+  }
+   obtenerVentas()
+  {
+    this.datosService.ObtenerDatos('Ventas').subscribe((listaVentas: Ventas[]) => {
+      const Venta = listaVentas.find(
+        (venta) => venta.usuarioId === this.personaLog?.id && !venta.pago
+      );
+      if (Venta) {
+        this.VentaPago = Venta;
+        this.obteneProductosVentas();
+        this.obtenerPrecio();
       }
-    } catch (error) {
-      console.error("Error al pedir datos:", error);
-    }
+    });
+    
   }
 
-  actualizarDatos(){
-    if(this.productosPedidos.length>0){
-      console.log("entre a la lista")
-      this.productosPedidos.forEach((productoIndividual:Producto) => {
-        if(!productoIndividual.cantidadSolicitada){
-          productoIndividual.cantidadSolicitada=1;
-        } 
-        this.totalTraido= this.totalTraido+ productoIndividual.precio*productoIndividual.cantidadSolicitada;
+  obtenerPrecio()
+  {
+    if(!this.VentaPago)return;
+            this.totalPago= this.VentaPago.importeTotal;
+      this.aplicarDescuento();
+  }
+
+  aplicarDescuento() {
+    if(!this.tiketDescuento)return;
+    switch (this.tiketDescuento.porcentajesDescuento) {
+      case 10:
         
-      });
-      this.descuentoCalculado = this.totalTraido * (this.descuentoTraido/100);
-      this.totalFinal =this.totalTraido- this.descuentoCalculado;
-      this.propinaCalculada = this.totalFinal * (this.propinaTraida/100);
-      
-      this.totalFinal=this.totalFinal+this.propinaCalculada;
-  
-       this.detalleArmado={
-        pedido:this.productosPedidos,
-        descuento:this.descuentoTraido,
-        propina:this.propinaTraida,
-        total:this.totalTraido,
-        totalFinal:this.totalFinal,
-      }
-    } else{
-      console.log("no entre a la lista")
+        this.descuentoCalculado = this.totalPago * 0.10;
+        break;
+      case 15:
+        
+        this.descuentoCalculado = this.totalPago* 0.15;
+        break;
+      case 20:
+        
+        this.descuentoCalculado = this.totalPago * 0.20;
+        break;
+      default:
+        this.descuentoCalculado = this.totalPago;
+        break;
     }
+    const pagoConDescuento = this.totalPago - this.descuentoCalculado;
+    this.totalPropinaCalculada = pagoConDescuento * 0.05
+    this.totalPagoMasPropina=  pagoConDescuento + this.totalPropinaCalculada;
   }
+
+
+  desplieguePagar()
+  {
+    if(this.mesaActual)
+      {
+        this.mesaActual.idCliente = "";
+        this.mesaActual.estado = "Disponible";
+        this.datosService.modificarDato(this.mesaActual?.id,"Mesa",this.mesaActual);
+      }
+      if(this.VentaPago)
+        {
+          this.VentaPago.pago = false;
+          this.datosService.modificarDato(this.VentaPago?.id,"Ventas",this.VentaPago);
+        }
+        if(this.tiketDescuento)
+          {
+            this.tiketDescuento.estaUsado = true;
+            this.datosService.modificarDato(this.tiketDescuento?.id,"ticketDescuento",this.tiketDescuento);
+          }
+          this.Router.navigate(['/mesa', this.mesaActual!.numero]);
+  }
+  seleccionarMetodoPago(metodo: string): void {
+    this.metodoPagoSeleccionado = metodo;
+    this.setSoloUnaVentana('ventanaPagoCbu');
+  }
+
+  setSoloUnaVentana(ventana: 'desplegarVentanaDePago' | 'desplegarTicketVenta' | 'ventanaPagoCbu'): void {
+    this.desplegarVentanaDePago = false;
+    this.desplegarTicketVenta = false;
+    this.ventanaPagoCbu = false;
   
-  async pagar(){
-    //cambiar estado de pago
-    this.pedido.pago=true;
-    // await this.datosService.modificarDatoAsync(this.pedido.id,"Ventas",this.pedido);
-    this.router.navigate(['/mesa', this.idMesa]);
-
+    // Activa la propiedad especificada
+    this[ventana] = true;
   }
-
-
 
 }

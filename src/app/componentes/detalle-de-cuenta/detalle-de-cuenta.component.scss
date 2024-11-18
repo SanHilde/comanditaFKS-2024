@@ -59,3 +59,113 @@ h3{
     justify-content: space-evenly;
     
 }
+
+.contenedor-botones {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espaciado entre botones */
+    padding: 20px;
+  }
+  
+  .boton-pago {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Espaciado entre el texto y la imagen */
+    width: 100%; /* Ocupa todo el ancho */
+    padding: 15px 20px; /* Espaciado interno */
+    background-color: black; /* Fondo negro */
+    color: white; /* Texto blanco */
+    font-weight: bold; /* Negrilla */
+    font-size: 18px; /* Tamaño del texto estilo título */
+    text-transform: uppercase; /* Texto en mayúsculas */
+    border-radius: 50px; /* Hacer los bordes redondos */
+    border: none; /* Sin borde */
+    cursor: pointer; /* Cambiar cursor al pasar sobre el botón */
+    transition: background-color 0.3s ease; /* Efecto suave al pasar sobre el botón */
+  }
+  
+  .boton-pago img {
+    width: 40px; /* Ajusta el tamaño de las imágenes */
+    height: 40px;
+    object-fit: contain; /* Asegura que la imagen mantenga sus proporciones */
+  }
+  
+  .boton-pago:hover {
+    background-color: #333333; /* Cambia el fondo a gris oscuro al pasar el cursor */
+  }
+
+  .ventana-pago {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Comienza desde la parte superior */
+    width: 100%;
+    height: 100vh; /* Ocupa toda la pantalla */
+    background-color: black; /* Fondo negro */
+    color: white; /* Texto blanco */
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto; /* Permite el scroll vertical */
+    scroll-behavior: smooth; /* Desplazamiento suave */
+  }
+  
+  .detalle-cuenta {
+    background-color: #333; /* Fondo gris oscuro */
+    border-radius: 15px;
+    padding: 20px;
+    margin-top: 20px;
+    width: 90%; /* Ocupa el 90% del ancho */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Sombra para resaltar */
+  }
+  
+  .detalle-cuenta img {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    background-color: #555; /* Fondo gris claro detrás de la imagen */
+    padding: 10px;
+    object-fit: contain;
+    margin-bottom: 15px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .detalle-cuenta p {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .detalle-cuenta p span {
+    color: #f9a825; /* Color amarillo para resaltar */
+    font-weight: 900; /* Más fuerte que bold */
+  }
+  
+  .btn-pagar {
+    margin-top: 20px;
+    padding: 15px 40px;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: black;
+    background: linear-gradient(45deg, #f9a825, #f57f17);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+  }
+  
+  .btn-pagar:hover {
+    transform: scale(1.1); /* Aumenta ligeramente el tamaño */
+    background: linear-gradient(45deg, #f57f17, #f9a825);
+  }
+  
+  .btn-pagar:active {
+    transform: scale(1); /* Restablece el tamaño al hacer clic */
+  }
+  

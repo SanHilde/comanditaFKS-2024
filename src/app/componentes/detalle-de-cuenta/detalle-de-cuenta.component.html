@@ -1,39 +1,39 @@
-<div class="container">
+<div class="container"  *ngIf="desplegarTicketVenta">
     <h2>Detalle del Pedido</h2>
   
     <!-- Lista de productos pedidos -->
-     <div *ngIf="detalleArmado">
-       <div class="miniCard listaFila" *ngFor="let producto of detalleArmado.pedido">
-         <!-- <img *ngIf="producto.fotos" [src]="producto.fotos[0]" alt="Imagen de {{ producto.producto }}"> -->
-         <p class="producto-nombre">{{ producto.nombre }} ({{ producto.cantidad }})</p>
-         <p>${{ producto.precio }}</p>
-       </div>
-     </div>
+    <div *ngIf="producto">
+      <div class="miniCard listaFila" *ngFor="let producto of producto">
+        <img *ngIf="producto.fotos" [src]="producto.fotos[0]" alt="Imagen de {{ producto.nombre }}">
+        <p class="producto-nombre">{{ producto.nombre }} ({{ producto.cantidadSolicitada }})</p>
+        <p>${{ producto.precio }}</p>
+      </div>
+    </div>
     
   
     <!-- Detalles adicionales -->
-    <div class="detalle-adicional" *ngIf="detalleArmado">
+    <div class="detalle-adicional" *ngIf="producto">
       <div class="listaFila">
         <p>Subotal</p> 
-          <p>${{ detalleArmado.total }}</p>
+          <p>${{ totalPago }}</p>
         </div>
-        <div *ngIf="detalleArmado.descuento" class="listaFila">
-        <p>Descuento aplicado ({{ detalleArmado.descuento }}%) </p> 
+        <div *ngIf="tiketDescuento" class="listaFila">
+        <p>Descuento aplicado ({{ tiketDescuento.porcentajesDescuento }}%) </p> 
         <p style="color:green">-${{descuentoCalculado}}</p>
       </div>
-      <div *ngIf="detalleArmado.propina" class="listaFila">
-        <p>Propina ({{ detalleArmado.propina }}%)</p> 
-        <p style="color: red;">+${{propinaCalculada}}</p>
+      <div *ngIf="totalPropinaCalculada" class="listaFila">
+        <p>Propina ({{ propina }}%)</p> 
+        <p style="color: red;">+${{totalPropinaCalculada}}</p>
       </div>
     </div>
     
-    <div class="listaFila" *ngIf="detalleArmado">
+    <div class="listaFila" *ngIf="producto">
       <h3>Total Final</h3> 
-      <h3>${{ detalleArmado.totalFinal }}</h3>
+      <h3>${{ totalPagoMasPropina }}</h3>
     </div>
 
-  <button *ngIf="detalleArmado" class="botonPrincipal" (click)="pagar()"><ion-icon name="cash-outline"></ion-icon> Pagar</button>
-  <p *ngIf="!detalleArmado">Error, no hay detalle cargado</p>
+  <button *ngIf="producto" class="botonPrincipal" (click)="pagar()"><ion-icon name="cash-outline"></ion-icon>Abrir pago</button>
+  <p *ngIf="!producto">Error, no hay detalle cargado</p>
 </div>
 <ngx-spinner
   bdColor="rgba(0, 0, 0, 08)"
@@ -41,3 +41,53 @@
 >
   <!-- <p style="color: white; font-size: 40px">Cargando...</p> -->
 </ngx-spinner>
+
+
+<div class="contenedor-botones" *ngIf="desplegarVentanaDePago">
+  <button class="boton-pago" (click)="seleccionarMetodoPago('mercadoPago')">
+    <img src="../../../assets/imgPagos/logo-mercado-pago.png" alt="Mercado Pago">
+    Mercado Pago
+  </button>
+  <button class="boton-pago" (click)="seleccionarMetodoPago('tarjetaCredito')">
+    <img src="../../../assets/imgPagos/logo-tarjeta-credito.png" alt="Tarjeta de Crédito">
+    Tarjeta de Crédito
+  </button>
+  <button class="boton-pago" (click)="seleccionarMetodoPago('tarjetaDebito')">
+    <img src="../../../assets/imgPagos/tarjeta-debitopng.png" alt="Tarjeta de Débito">
+    Tarjeta de Débito
+  </button>
+  <button class="boton-pago" (click)="seleccionarMetodoPago('bancoSantander')">
+    <img src="../../../assets/imgPagos/santandere.png" alt="Banco Santander">
+    Banco Santander
+  </button>
+</div>
+
+<!-- Ventana de selección de pago -->
+<div class="ventana-pago" *ngIf="ventanaPagoCbu">
+  <h3>{{ metodoPagoSeleccionado }}</h3>
+  <div class="detalle-cuenta">
+    <img 
+      *ngIf="metodoPagoSeleccionado === 'mercadoPago'" 
+      src="../../../assets/imgPagos/qr.png" 
+      alt="Mercado Pago">
+    <img 
+      *ngIf="metodoPagoSeleccionado === 'tarjetaCredito'" 
+      src="../../../assets/imgPagos/casillas.png" 
+      alt="Tarjeta de Crédito">
+    <img 
+      *ngIf="metodoPagoSeleccionado === 'tarjetaDebito'" 
+      src="../../../assets/imgPagos/casillas.png" 
+      alt="Tarjeta de Débito">
+    <img 
+      *ngIf="metodoPagoSeleccionado === 'bancoSantander'" 
+      src="../../../assets/imgPagos/casillas.png" 
+      alt="Banco Santander">
+
+    <p><span>Cuenta:</span> {{ personaLog?.dni }}</p>
+    <p><span>CBU:</span> {{ personaLog?.cuil }}</p>
+    <p><span>DNI:</span> {{ personaLog?.dni }}</p>
+    <p><span>Nombre:</span> {{ personaLog?.nombre }}</p>
+    <p><span>Apellido:</span> {{ personaLog?.apellido }}</p>
+  </div>
+  <button class="btn-pagar" (click)="desplieguePagar()">Pagar</button>
+</div>
