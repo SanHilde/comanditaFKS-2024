@@ -76,7 +76,9 @@ export class FacilPage implements OnInit, OnDestroy {
   verificarTicketDescuento(): Observable<boolean> {
     return new Observable<boolean>((observer) => {
       this.DatosServiceService.ObtenerDatos('ticketDescuento').subscribe((tickets) => {
-        const ticketDescuento = tickets.find(ticket => ticket.idCliente === this.usuario!.id);
+        const ticketDescuento = tickets.find(ticket => ticket.idCliente === this.usuario!.id
+          && ticket.estaUsado === false
+        );
         if (ticketDescuento ) {
           switch (ticketDescuento && !ticketDescuento.estaUsado) {
             case 10:
@@ -190,6 +192,7 @@ export class FacilPage implements OnInit, OnDestroy {
             this.subirTicketDescuento();
             console.log('win');
             this.onWin();
+            this.Router.navigate(['/mesa', this.mesaActual!.numero]);
           }
           this.botonesBloqueados = false;
         }, 100)

@@ -45,8 +45,8 @@ export class DificilPage implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.tarjetas = [...Array(3)].map((_, i) => new Tarjeta(i + 1, ''));
-    this.tarjetas.push(...[...Array(3)].map((_, i) => new Tarjeta(i + 1, '')));
+    this.tarjetas = [...Array(8)].map((_, i) => new Tarjeta(i + 1, ''));
+    this.tarjetas.push(...[...Array(8)].map((_, i) => new Tarjeta(i + 1, '')));
 
     this.shuffle(this.tarjetas);
 
@@ -76,7 +76,9 @@ export class DificilPage implements OnInit, OnDestroy {
   verificarTicketDescuento(): Observable<boolean> {
     return new Observable<boolean>((observer) => {
       this.DatosServiceService.ObtenerDatos('ticketDescuento').subscribe((tickets) => {
-        const ticketDescuento = tickets.find(ticket => ticket.idCliente === this.usuario!.id);
+        const ticketDescuento = tickets.find(ticket => ticket.idCliente === this.usuario!.id
+          && ticket.estaUsado === false
+        );
         if (ticketDescuento ) {
           switch (ticketDescuento && !ticketDescuento.estaUsado) {
             case 10:
@@ -190,6 +192,7 @@ export class DificilPage implements OnInit, OnDestroy {
             this.subirTicketDescuento();
             console.log('win');
             this.onWin();
+            this.Router.navigate(['/mesa', this.mesaActual!.numero]);
           }
           this.botonesBloqueados = false;
         }, 100)
@@ -299,7 +302,7 @@ export class DificilPage implements OnInit, OnDestroy {
       ventasIds: this.VentasActual.map(venta => venta.id),
       id: '',
       estaUsado: false,
-      porcentajesDescuento: 10
+      porcentajesDescuento: 20
     };
     console.log("DescuentoActual llenado correctamente:", this.DescuentoActual);
     return true;
