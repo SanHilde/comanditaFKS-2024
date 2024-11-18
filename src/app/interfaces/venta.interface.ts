@@ -14,4 +14,5 @@ export interface Ventas {
   id: string;
   mesaNumero: string;
   seEntregoElPedido?: boolean;
+  pidioLaCuenta?: boolean;
 }

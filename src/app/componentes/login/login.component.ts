@@ -89,13 +89,21 @@ export class LoginComponent {
         this.errorMessage = '';
         this.form.controls['email'].setValue('');
         this.form.controls['password'].setValue('');
-        if (
-          this.authService.tipoUsuario == 'Dueño' ||
-          this.authService.tipoUsuario == 'Supervisor'
-        ) {
-          this.router.navigate(['/listaClientes']);
-        } else {
-          this.router.navigate(['/home']);
+        const tipoUsuario = this.authService.tipoUsuario;
+
+        switch (tipoUsuario) {
+          case 'Dueño':
+          case 'Supervisor':
+            this.router.navigate(['/listaClientes']);
+            break;
+          case 'Anónimo':
+          case 'Cliente':
+          case 'Sin asignar':
+            this.router.navigate(['/ingreso']);
+            break;
+          default:
+            this.router.navigate(['/home']);
+            break;
         }
       },
       error: (err: FirebaseError) => {

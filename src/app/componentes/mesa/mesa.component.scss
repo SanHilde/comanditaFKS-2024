@@ -1,5 +1,31 @@
+h1 {
+  font-size: 40px;
+  color: white;
+  text-align: center;
+}
+
 .iconScan {
   height: 100%;
-  width: 80%;
-  min-height: 120px;
+  width: 100%;
+  min-height: 200px;
+}
+
+#estadoCero {
+  text-align: center;
+  font-size: 30px;
+  color: var(--color-detalle-claro);
+  margin-top: 20px;
+}
+
+#estadoDelPedido {
+  text-align: center;
+  font-size: 25px;
+  color: white;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+iframe {
+  height: 240px;
+  width: 100%;
 }

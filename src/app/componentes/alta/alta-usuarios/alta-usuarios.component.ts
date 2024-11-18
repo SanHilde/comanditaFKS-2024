@@ -13,7 +13,6 @@ import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from 'src/app/services/auth.service';
 import { DatosServiceService } from 'src/app/services/datos/datos-service.service';
 import { FotoService } from 'src/app/services/foto/foto.service';
-import { FotosService } from 'src/app/services/fotos.service';
 import { QrService } from 'src/app/services/qr.service';
 import { confirmarCalveValidator } from 'src/app/validadores/clave.validator';
 import { isNumberValidator } from 'src/app/validadores/numero.validator';
@@ -46,9 +45,7 @@ export class AltaUsuariosComponent implements OnInit {
     private router: Router,
     public authService: AuthService,
     private route: ActivatedRoute,
-    private qrService: QrService,
-    private scanService: FotosService,
-    
+    private qrService: QrService
   ) {
     this.formulario = this.formBuilder.group(
       {
@@ -265,12 +262,8 @@ export class AltaUsuariosComponent implements OnInit {
   }
 
   async escanearDatos() {
-    // let codigoLeido;
-    let traduccion;
-    // codigoLeido= await this.scanService.scan()
-    traduccion = await this.qrService.leerQr();
-    // this.succesMessage = traduccion;
-    this.parsearDatosDesdeString(traduccion);
+    const lecturaDelQr = await this.qrService.leerQr();
+    this.parsearDatosDesdeString(lecturaDelQr);
   }
 
   parsearDatosDesdeString(qrString: string) {

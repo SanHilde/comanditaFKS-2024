@@ -7,6 +7,9 @@ import { Mesa } from 'src/app/interfaces/mesa.interface';
 import { Ventas } from 'src/app/interfaces/venta.interface';
 import { AuthService } from 'src/app/services/auth.service';
 import { DatosServiceService } from 'src/app/services/datos/datos-service.service';
+import { FotosService } from 'src/app/services/fotos.service';
+import { ToastService } from 'src/app/services/toast.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-mesa',
@@ -16,21 +19,21 @@ import { DatosServiceService } from 'src/app/services/datos/datos-service.servic
   imports: [CommonModule, IonicModule, NgxSpinnerModule],
 })
 export class MesaComponent implements OnInit {
-  estadoActual = 1;
   idMesa: string | null = '';
-  pedido!: Ventas;
   mesa!: Mesa;
-  huboCambio: boolean = false;
-  suscripcionAVenta = false;
-  listaDeVentas: any = false;
-  habilitarPropina = false;
+  pedido!: Ventas;
+  stepActual = 0;
+  confirmaRecepcionDelPedido: boolean = false;
+  estadoDelPedido: 'Pendiente' | 'En proceso' | 'Listo' | undefined;
 
   constructor(
     public authService: AuthService,
     private router: Router,
     private datosService: DatosServiceService,
     private route: ActivatedRoute,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private fotosService: FotosService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit() {
@@ -49,85 +52,150 @@ export class MesaComponent implements OnInit {
       if (!mesaEncontrada) return;
 
       this.mesa = mesaEncontrada;
-      // Buscamos el pedido de la mesa
-      this.datosService
-        .ObtenerDatos('Ventas')
-        .subscribe((listaDeVentas: Ventas[]) => {
-          // Buscar el pedido correspondiente en ventas
-          const venta = listaDeVentas.find(
-            (venta) => venta.mesaId == this.mesa.qrid
-          );
-          if (venta) {
-            this.pedido = venta;
-            this.analizarEstadoActual();
-          }
-        });
-      this.analizarEstadoActual();
       this.spinner.hide();
     });
+    this.buscarPedidoActual();
   }
 
-  async navegarA(ruta: string) {
+  navegarA(ruta: string) {
     switch (ruta) {
-      case 'chat':
-        this.router.navigate(['/chat', this.mesa.numero]);
+      case 'juegos':
+        this.router.navigate(['/menu-juego']);
         break;
       case 'completarEncuesta':
         this.router.navigate(['/encuestasClientes', this.idMesa]);
         break;
-      case 'juegos':
-        this.router.navigate(['/menu-juego']);
-        break;
-      case 'confirmarRecepcion':
-        // mostrar sweet alert que confirme y luego si
-        this.pedido.confirmarRecepcion = true;
-        this.huboCambio = true;
-        this.analizarEstadoActual();
-        break;
       case 'resultadosEncuestas':
         this.router.navigate(['/resultadosEncuestas', this.idMesa]);
         break;
-      case 'pedirCuenta':
-        const lectura = 'PROPINA'; // se cambia
-        if (lectura == 'PROPINA') {
-          this.habilitarPropina = true;
+    }
+  }
+
+  buscarPedidoActual() {
+    this.spinner.show();
+
+    this.datosService
+      .ObtenerDatos('Ventas')
+      .subscribe((listaDeVentas: Ventas[]) => {
+        // Buscar el pedido correspondiente en ventas
+        const venta = listaDeVentas.find(
+          (venta) => venta.mesaId == this.mesa.qrid
+        );
+
+        if (!venta) return;
+        this.pedido = venta;
+        this.obtenerStepActual();
+        this.spinner.hide();
+      });
+  }
+
+  obtenerEstadoDelPedido() {
+    if (!this.pedido) return 'Pendiente';
+    const { estadoBartender, estadoCocinero } = this.pedido;
+    if (!estadoBartender && !estadoCocinero) return 'Pendiente';
+
+    const enProceso =
+      estadoBartender === 'en proceso' || estadoCocinero === 'en proceso';
+    const listo = estadoBartender === 'listo' && estadoCocinero === 'listo';
+
+    if (enProceso) return 'En proceso';
+    if (listo) return 'Listo';
+    return 'Pendiente';
+  }
+
+  obtenerStepActual() {
+    // Steps: 0, 1, 2, 3, 4, 5
+    // 1: Sólo ve el estado del pedido
+    // 2: Estado del pedido, Juegos, Completar encuesta (Este último ya tiene otra flag)
+    // 3: Estado del pedido, Juegos, Completar encuesta y Confirmar recepción del pedido
+    // 4: Estado del pedido, Juegos, Completar encuesta y Pedir cuenta
+    // 5: Estado del pedido y Completar encuesta
+    // Si ya pagó significa que se terminó su proceso, así que lo enviamos a la página de ingreso
+
+    if (!this.pedido) return;
+    if (!this.pedido.validacionMozo) {
+      this.stepActual = 0;
+    } else if (
+      (!this.pedido.confirmarRecepcion && !this.pedido.seEntregoElPedido) ||
+      (this.pedido.seEntregoElPedido && !this.pedido.confirmarRecepcion)
+    ) {
+      this.stepActual = 3;
+    } else if (this.pedido.validacionMozo) {
+      this.stepActual = 2;
+    } else if (
+      this.pedido.seEntregoElPedido &&
+      this.pedido.confirmarRecepcion
+    ) {
+      this.stepActual = 4;
+    } else if (this.pedido.confirmarRecepcion) {
+      this.stepActual = 5;
+    } else {
+      this.stepActual = 0;
+      this.router.navigate(['/ingreso']);
+    }
+    this.estadoDelPedido = this.obtenerEstadoDelPedido();
+  }
+
+  async escanearQr() {
+    this.fotosService
+      .scan()
+      .then((resultado: string) => {
+        if (resultado === this.mesa.qrid) {
+          this.buscarPedidoActual();
+        } else {
+          this.toastService.openErrorToast(
+            `Error. Esta mesa no está asignada a ti. Tu mesa el la número ${this.mesa.numero}`,
+            'bottom'
+          );
         }
-        break;
-    }
+      })
+      .catch((error) => {
+        console.error('Error al escanear el código QR:', error);
+        this.toastService.openErrorToast('No se pudo leer el código QR');
+      });
   }
 
-  propina(eleccion: String) {
-    let propina = eleccion;
-    this.habilitarPropina = false;
-    this.router.navigate(['/detalle']);
+  confirmarRecepcionDelPedido() {
+    Swal.fire({
+      title: '¿Recibiste tu pedido?',
+      text: 'Si lo recibiste, por favor presiona el botón correspondiente',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, confirmo',
+      cancelButtonText: 'No, cancelar',
+      heightAuto: false,
+    }).then((result) => {
+      this.confirmaRecepcionDelPedido = result.isConfirmed;
+      if (result.isConfirmed) {
+        const pedidoModificado = { ...this.pedido, confirmarRecepcion: true };
+        this.modificarVenta(pedidoModificado);
+        this.toastService.openSuccessToast(
+          'Gracias por confirmar que recibiste el pedido. ¡Esperamos disfrutes de la comida!'
+        );
+      }
+    });
   }
 
-  async analizarEstadoActual() {
-    // Inicializamos el estado como 1
-    this.estadoActual = 1;
-
-    // Si el mozo ya confirma el pedido se muestra: ver estado pedido, completar encuesta y juegos
-    if (this.pedido.validacionMozo) {
-      this.estadoActual = 2;
-    }
-
-    // Si el mozo entregó el pedido, se puede ver el botón de confirmar pedido, ver estado pedido, completar encuesta y juegos
-    if (this.pedido.seEntregoElPedido) {
-      this.estadoActual = 3;
-    }
-
-    // Si ya se ha confirmado la recepción, se puede completar encuesta, juegos y pedir la cuenta
-    if (this.pedido.confirmarRecepcion) {
-      this.estadoActual = 4;
-    }
-
-    // Si el pago está hecho, avanzamos al último paso
-    if (this.pedido.pago) {
-      this.estadoActual = 5;
-    }
-    console.log(this.estadoActual, 'estado actualll');
-    
+  pedirCuenta() {
+    const pedidoModificado = { ...this.pedido, pidioLaCuenta: true };
+    this.modificarVenta(pedidoModificado);
+    this.toastService.openSuccessToast(
+      'Espere unos minutos, ya le traemos la cuenta. ¡Gracias!'
+    );
   }
 
-  escanearQr() {}
+  modificarVenta(ventaModificada: Ventas) {
+    this.spinner.show();
+    this.datosService
+      .modificarDato(this.pedido.id, 'Ventas', ventaModificada)
+      .then(
+        () => {
+          this.spinner.hide();
+        },
+        (error) => {
+          console.error('Error al actualizar el la venta:', error);
+          this.spinner.hide();
+        }
+      );
+  }
 }

@@ -10,6 +10,8 @@ import { MesasService } from 'src/app/services/mesas.service';
 import { Mesa } from 'src/app/interfaces/mesa.interface';
 import { FotosService } from 'src/app/services/fotos.service';
 import { ToastService } from 'src/app/services/toast.service';
+import { DatosServiceService } from 'src/app/services/datos/datos-service.service';
+import { Ventas } from 'src/app/interfaces/venta.interface';
 
 @Component({
   selector: 'app-ingreso',
@@ -28,6 +30,7 @@ export class IngresoComponent implements OnInit {
     public authService: AuthService,
     public listaDeEsperaService: ListaDeEsperaService,
     public mesasService: MesasService,
+    private datosService: DatosServiceService,
     private router: Router,
     public spinner: NgxSpinnerService,
     public fotosServices: FotosService,
@@ -112,8 +115,6 @@ export class IngresoComponent implements OnInit {
   }
 
   irAResultadosDeLasEncuestas() {
-    // TODO: Agregar pagina de los resultados
-    // this.router.navigate(['/resultadosEncuestas']);
     this.router.navigate(['/resultadosEncuestas', 'sinMesa']);
   }
 
@@ -124,11 +125,10 @@ export class IngresoComponent implements OnInit {
       .scan()
       .then((resultado: string) => {
         if (this.mesaAsignada?.qrid == resultado) {
-          // this.router.navigate(['/lista-productos']);
           this.router.navigate(['/mesa', this.mesaAsignada.numero]);
         } else {
           this.ToastService.openErrorToast(
-            'Error. Esta mesa no ha sido asignada para ti',
+            `Error. Esta mesa no está asignada a ti. Tu mesa el la número ${this.mesaAsignada?.numero}`,
             'bottom'
           );
         }
