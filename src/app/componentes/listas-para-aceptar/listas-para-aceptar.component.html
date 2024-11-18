@@ -7,6 +7,7 @@
   <div *ngFor="let item of listaDeObjetos" class="listaVerPedidoMesa">
     <h2>Mesa #{{ item.mesaNumero }}</h2>
     <ion-fab-button
+      id="info"
       color="primary"
       (click)="verDetalleDelPedido(item)"
       size="small"
@@ -14,12 +15,23 @@
       <ion-icon name="information-outline"></ion-icon>
     </ion-fab-button>
     <ion-fab-button
+      *ngIf="tipoTraido !== 'pendientes'"
+      id="accion"
       color="success"
       (click)="modificarPedido(item)"
       size="small"
     >
       <ion-icon name="checkmark-circle-outline"></ion-icon>
     </ion-fab-button>
+    <ion-button
+      *ngIf="tipoTraido === 'pendientes'"
+      id="entregarPedido"
+      color="success"
+      (click)="modificarPedido(item)"
+      [disabled]="!puedeEntregarElPedido(item)"
+    >
+      Entregar pedido
+    </ion-button>
   </div>
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="start">
@@ -60,7 +72,12 @@
           </ion-item>
 
           <ion-item>
-            <h2>Importe total: ${{ pedidoSeleccionado?.importeTotal }}</h2>
+            <h2>
+              Importe total: ${{ pedidoSeleccionado?.importeTotal }}
+              <span *ngIf="tipoTraido === 'pendientes'">
+                Estado del pedido: {{ obtenerEstadoDelPedido() }}
+              </span>
+            </h2>
           </ion-item>
         </ion-list>
       </ion-content>
