@@ -50,17 +50,27 @@ export class ListasParaAceptarComponent implements OnInit {
             );
           });
           break;
-
         case 'pedidos':
           this.titulo = 'Confirmar pedidos de las mesas';
           this.listaDeObjetos = ventas.filter((pedido: Ventas) => {
             return !pedido.validacionMozo;
           });
           break;
-
+        case 'pendientes':
+          this.titulo = `Lista de pedidos pendientes`;
+          this.listaDeObjetos = ventas.filter((pedido) => {
+            return (
+              !pedido.pago &&
+              pedido.validacionMozo &&
+              !pedido.confirmarRecepcion &&
+              !pedido.seEntregoElPedido
+            );
+          });
+          break;
         default:
-          this.titulo = `Lista de ${this.tipoTraido} `;
-          this.listaDeObjetos = ventas;
+          this.titulo = '';
+          this.listaDeObjetos = [];
+          break;
       }
       this.spinner.hide();
     });
@@ -69,6 +79,33 @@ export class ListasParaAceptarComponent implements OnInit {
   verDetalleDelPedido(item: Ventas) {
     this.pedidoSeleccionado = item;
     this.setModalOpen(true);
+  }
+
+  puedeEntregarElPedido(item: Ventas) {
+    return item.estadoBartender === 'listo' && item.estadoCocinero === 'listo';
+  }
+
+  obtenerEstadoDelPedido() {
+    if (!this.pedidoSeleccionado) return 'Pendiente';
+    const estadoBartender = this.pedidoSeleccionado.estadoBartender;
+    const estadoCocinero = this.pedidoSeleccionado.estadoCocinero;
+
+    if (!estadoBartender && !estadoCocinero) {
+      return 'Pendiente';
+    }
+    if (estadoBartender === 'en proceso' && estadoCocinero === 'listo') {
+      return 'Bartender en proceso, cocinero listo';
+    }
+    if (estadoBartender === 'listo' && estadoCocinero === 'en proceso') {
+      return 'Bartender listo, cocinero en proceso';
+    }
+    if (estadoBartender === 'en proceso' && estadoCocinero === 'en proceso') {
+      return 'En proceso';
+    }
+    if (estadoBartender === 'listo' && estadoCocinero === 'listo') {
+      return 'Listo';
+    }
+    return 'Pendiente';
   }
 
   setModalOpen(isOpen: boolean) {
@@ -80,14 +117,22 @@ export class ListasParaAceptarComponent implements OnInit {
   }
 
   modificarPedido(pedidoActual: Ventas) {
-    if (!this.tipoTraido || !['pedidos', 'pagos'].includes(this.tipoTraido))
+    if (
+      !this.tipoTraido ||
+      !['pedidos', 'pagos', 'pendientes'].includes(this.tipoTraido)
+    )
       return;
 
     this.spinner.show();
-    const pedidoModificado: Ventas =
-      this.tipoTraido === 'pedidos'
-        ? { ...pedidoActual, validacionMozo: true }
-        : { ...pedidoActual, pago: true };
+    let pedidoModificado: Ventas = pedidoActual;
+    if (this.tipoTraido === 'pendientes') {
+      pedidoModificado = { ...pedidoActual, seEntregoElPedido: true };
+    } else {
+      pedidoModificado =
+        this.tipoTraido === 'pedidos'
+          ? { ...pedidoActual, validacionMozo: true }
+          : { ...pedidoActual, pago: true };
+    }
 
     this.datosService
       .modificarDato(pedidoActual.id, 'Ventas', pedidoModificado)
