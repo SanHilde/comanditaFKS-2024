@@ -61,19 +61,16 @@
     </button> -->
     <!-- Si es anónimo, solo puede ver resultados -->
     <button
-    class="botonPrincipal button"
-    (click)="irAResultadosDeLasEncuestas()"
-  >
-    <ion-icon name="stats-chart-outline" size="large"></ion-icon>
-    Ver resultados de encuestas previas
-  </button>
-     
+      class="botonPrincipal button"
+      (click)="irAResultadosDeLasEncuestas()"
+    >
+      <ion-icon name="stats-chart-outline" size="large"></ion-icon>
+      Ver resultados de encuestas previas
+    </button>
   </div>
 </div>
 
 <ngx-spinner
   bdColor="rgba(0, 0, 0, 0.8)"
-  template="<img src='./../../../assets/logoConFondo.png' alt='logo' />"
->
-  <p style="color: white; font-size: 40px">Cargando...</p>
-</ngx-spinner>
+  template="<img src='./../../../assets/spinner.png' alt='logo' />"
+></ngx-spinner>

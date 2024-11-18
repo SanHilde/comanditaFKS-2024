@@ -1,21 +1,50 @@
 <div class="container">
   <div *ngFor="let lista of listas" [ngSwitch]="lista" class="cardLista">
-    <h1 *ngIf="lista === 'pendientes' ">Lista de clientes Pendientes</h1>
-    <h1 *ngIf="lista === 'rechazados' ">Lista de clientes Rechazados</h1>
-    <h1 *ngIf="lista === 'aprobados' ">Lista de clientes Aprobados</h1>
-    <p *ngIf="lista === 'pendientes' && pendientes.length === 0">No hay clientes para mostrar</p>
-    <p *ngIf="lista === 'rechazados' && rechazados.length === 0">No hay clientes para mostrar</p>
-    <p *ngIf="lista === 'aprobados' && aprobados.length === 0">No hay clientes para mostrar</p>
-    
-    <div *ngFor="let item of (lista === 'pendientes' ? pendientes : lista === 'rechazados' ? rechazados : aprobados)" class="card" (click)="seleccionarFila(item)">
-      <img *ngIf="item['foto']" [src]="item['foto']" [alt]="item['nombre']" class="imgTabla">
+    <h1 *ngIf="lista === 'pendientes'">Lista de clientes Pendientes</h1>
+    <h1 *ngIf="lista === 'rechazados'">Lista de clientes Rechazados</h1>
+    <h1 *ngIf="lista === 'aprobados'">Lista de clientes Aprobados</h1>
+    <p *ngIf="lista === 'pendientes' && pendientes.length === 0">
+      No hay clientes para mostrar
+    </p>
+    <p *ngIf="lista === 'rechazados' && rechazados.length === 0">
+      No hay clientes para mostrar
+    </p>
+    <p *ngIf="lista === 'aprobados' && aprobados.length === 0">
+      No hay clientes para mostrar
+    </p>
+
+    <div
+      *ngFor="
+        let item of lista === 'pendientes'
+          ? pendientes
+          : lista === 'rechazados'
+          ? rechazados
+          : aprobados
+      "
+      class="card"
+      (click)="seleccionarFila(item)"
+    >
+      <img
+        *ngIf="item['foto']"
+        [src]="item['foto']"
+        [alt]="item['nombre']"
+        class="imgTabla"
+      />
       <div class="bloque">
-        <h2 *ngIf="item['nombre']" class="titulo w100">{{ item['nombre'] }} {{ item['apellido'] }}</h2>
+        <h2 *ngIf="item['nombre']" class="titulo w100">
+          {{ item["nombre"] }} {{ item["apellido"] }}
+        </h2>
         <div class="fila">
-          <ion-fab-button color="danger" (click)="aprobacion('rechazado', item); $event.stopPropagation()">
+          <ion-fab-button
+            color="danger"
+            (click)="aprobacion('rechazado', item); $event.stopPropagation()"
+          >
             <ion-icon name="close-circle-outline"></ion-icon>
           </ion-fab-button>
-          <ion-fab-button color="success" (click)="aprobacion('aprobado', item); $event.stopPropagation()">
+          <ion-fab-button
+            color="success"
+            (click)="aprobacion('aprobado', item); $event.stopPropagation()"
+          >
             <ion-icon name="checkmark-circle-outline"></ion-icon>
           </ion-fab-button>
         </div>
@@ -25,7 +54,6 @@
 </div>
 <ngx-spinner
   bdColor="rgba(0, 0, 0, 08)"
-  template="<img src='./../../../assets/logoConFondo.png' alt='logo' />"
+  template="<img src='./../../../assets/spinner.png' alt='logo' />"
 >
-  <!-- <p style="color: white; font-size: 40px">Cargando...</p> -->
 </ngx-spinner>

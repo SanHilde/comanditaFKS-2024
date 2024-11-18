@@ -1,28 +1,44 @@
 <ion-content>
+  <div *ngIf="mostrarAnimacion" class="marco-animacion">
+    <!-- Estado Cocinando -->
+    <div *ngIf="estadoPedido === 'cocinando'" class="paso activo">
+      <iframe
+        src="../../assets/gif/elaboracion.gif"
+        width="100%"
+        height="100%"
+        frameborder="0"
+        allowfullscreen
+      ></iframe>
+      <p>Cocinando...</p>
+    </div>
 
-<div *ngIf="mostrarAnimacion" class="marco-animacion">
-  <!-- Estado Cocinando -->
-  <div *ngIf="estadoPedido === 'cocinando'" class="paso activo">
-    <iframe src="../../assets/gif/elaboracion.gif" width="100%" height="100%" frameBorder="0" allowFullScreen></iframe>
-    <p>Cocinando...</p>
-  </div>
+    <!-- Estado Emplatando -->
+    <div *ngIf="estadoPedido === 'emplatando'" class="paso activo">
+      <iframe
+        src="../../assets/gif/chef.gif"
+        width="100%"
+        height="100%"
+        frameborder="0"
+        allowfullscreen
+      ></iframe>
+      <p>Emplatando...</p>
+    </div>
 
-  <!-- Estado Emplatando -->
-  <div *ngIf="estadoPedido === 'emplatando'" class="paso activo">
-    <iframe src="../../assets/gif/chef.gif" width="100%" height="100%" frameBorder="0" allowFullScreen></iframe>
-    <p>Emplatando...</p>
+    <!-- Estado Entregando -->
+    <div *ngIf="estadoPedido === 'entregando'" class="paso activo">
+      <iframe
+        src="../../assets/gif/entregando.gif"
+        width="100%"
+        height="100%"
+        frameborder="0"
+        allowfullscreen
+      ></iframe>
+      <p>Entregando...</p>
+    </div>
   </div>
-
-  <!-- Estado Entregando -->
-  <div *ngIf="estadoPedido === 'entregando'" class="paso activo">
-    <iframe src="../../assets/gif/entregando.gif" width="100%" height="100%" frameBorder="0" allowFullScreen></iframe>
-    <p>Entregando...</p>
-  </div>
-</div>
 </ion-content>
 <ngx-spinner
   bdColor="rgba(0, 0, 0, 0.8)"
-  template="<img src='./../../../assets/logoConFondo.png' alt='logo' />"
+  template="<img src='./../../../assets/spinner.png' alt='logo' />"
 >
-
 </ngx-spinner>
