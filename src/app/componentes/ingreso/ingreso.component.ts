@@ -47,10 +47,14 @@ export class IngresoComponent implements OnInit {
       (listaDeEspera) => {
         this.listaDeEsperaService.listaDeEsperaDelCliente = listaDeEspera;
         this.estaEnListaDeEspera = listaDeEspera.length > 0;
+
         if (listaDeEspera.length > 0) {
           this.yaTieneMesaAsignada =
             listaDeEspera.filter((item) => item.estado === 'LISTO').length > 0;
+
           if (this.yaTieneMesaAsignada) this.obtenerMesaDelCliente();
+
+          this.spinner.hide();
         } else {
           this.spinner.hide();
         }
@@ -64,36 +68,49 @@ export class IngresoComponent implements OnInit {
 
   obtenerMesaDelCliente() {
     if (!this.authService.usuarioLogeado?.id) return;
+
     this.mesasService
       .obtenerMesaPorCliente(this.authService.usuarioLogeado.id)
       .subscribe((mesa) => {
         this.mesaAsignada = mesa;
-        this.buscarSiTieneUnPedido();
+        //this.buscarSiTieneUnPedido();
       });
   }
 
-  buscarSiTieneUnPedido() {
-    if (!this.mesaAsignada || !this.authService.usuarioLogeado) return;
+  // buscarSiTieneUnPedido() {
+  //   console.log(this.mesaAsignada, 'mesa asignadaaa');
 
-    this.datosService.ObtenerDatos('Ventas').subscribe((ventas: Ventas[]) => {
-      // Verifica si existe una venta asociada a la mesa
-      const tieneUnaVenta = ventas.find(
-        (venta) =>
-          venta.mesaId === this.mesaAsignada?.qrid &&
-          venta.usuarioId === this.mesaAsignada.idCliente
-      );
-      if (
-        tieneUnaVenta &&
-        this.mesaAsignada?.numero &&
-        this.authService.usuarioLogeado &&
-        (this.authService.tipoUsuario === 'Cliente' ||
-          this.authService.tipoUsuario === 'Anónimo')
-      ) {
-        this.router.navigate(['/mesa', this.mesaAsignada?.numero]);
-      }
-      this.spinner.hide();
-    });
-  }
+  //   if (!this.mesaAsignada || !this.authService.usuarioLogeado) return;
+
+  //   this.datosService.ObtenerDatos('Ventas').subscribe((ventas: Ventas[]) => {
+  //     // Verifica si existe una venta asociada a la mesa
+  //     const tieneUnaVenta = ventas.find(
+  //       (venta) =>
+  //         venta.mesaId === this.mesaAsignada?.qrid &&
+  //         venta.usuarioId === this.mesaAsignada.idCliente
+  //     );
+
+  //     if (
+  //       tieneUnaVenta &&
+  //       this.mesaAsignada?.numero &&
+  //       this.authService.usuarioLogeado &&
+  //       (this.authService.tipoUsuario === 'Cliente' ||
+  //         this.authService.tipoUsuario === 'Anónimo')
+  //     ) {
+  //     console.log(tieneUnaVenta, 'tiene una ventaaa');
+
+  //       console.log('holaaaaaaaaaaaaaaaaaaaaa');
+
+  //       this.router.navigate(['/mesa', this.mesaAsignada?.numero]);
+  //     }
+  //     console.log(tieneUnaVenta, 'tiene una ventaaa 22222222');
+  //     console.log(this.mesaAsignada, 'mesaaa');
+
+  //     console.log('holaaaaaaaaaaaaaaaaaaaaa 222222222222');
+
+  //   });
+  //   this.spinner.hide();
+  // }
 
   async handleListaDeEspera(estado: boolean) {
     this.spinner.show();
