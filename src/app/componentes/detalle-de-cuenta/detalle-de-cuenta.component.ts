@@ -152,7 +152,9 @@ export class DetalleDeCuentaComponent implements OnInit {
   }
 
   desplieguePagar() {
+    this.spinner.show();
     if (this.mesaActual) {
+      // this.datosService.eliminarDato()ELIMINAR CHAT
       this.mesaActual.idCliente = '';
       this.mesaActual.estado = 'Disponible';
       this.datosService.modificarDato(
@@ -162,7 +164,7 @@ export class DetalleDeCuentaComponent implements OnInit {
       );
     }
     if (this.VentaPago) {
-      this.VentaPago.pago = false;
+      this.VentaPago.pago = true;
       this.datosService.modificarDato(
         this.VentaPago?.id,
         'Ventas',
@@ -177,7 +179,9 @@ export class DetalleDeCuentaComponent implements OnInit {
         this.tiketDescuento
       );
     }
+    this.spinner.hide();
     this.Router.navigate(['/mesa', this.mesaActual!.numero]);
+    
   }
   seleccionarMetodoPago(metodo: string): void {
     this.metodoPagoSeleccionado = metodo;

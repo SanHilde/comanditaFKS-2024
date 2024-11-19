@@ -201,10 +201,10 @@
       Ingresarás como anónimo pero es necesario que elijas una foto de perfil y
       un nombre para diferenciarte de otros clientes
     </h2>
-
+    <!-- *ngIf="tipoTraido !== 'Anónimo' && tipoTraido !== 'Cliente'" -->
     <div
       id="buttons"
-      *ngIf="tipoTraido !== 'Anónimo' && tipoTraido !== 'Cliente'"
+      *ngIf="tipoTraido !== 'Anónimo'"
     >
       <ion-fab-button class="iconos" (click)="volverLogin()">
         <!-- Volver al inicio -->
@@ -227,7 +227,7 @@
     </div>
     <div
       class="listaColumna"
-      *ngIf="tipoTraido === 'Anónimo' || tipoTraido === 'Cliente'"
+      *ngIf="tipoTraido === 'Anónimo'"
     >
       <button
         class="botonPrincipal"
@@ -242,10 +242,8 @@
         [disabled]="isSubmitting"
       >
         <ion-icon class="icon" name="save-outline"></ion-icon>Guardar
-        <!-- Dar de alta -->
       </button>
       <button class="botonPrincipal" (click)="volverLogin()">
-        <!-- Volver al inicio -->
         <ion-icon class="icon" name="arrow-back-outline"></ion-icon> Volver
       </button>
     </div>
