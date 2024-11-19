@@ -51,8 +51,9 @@ export class IngresoComponent implements OnInit {
           this.yaTieneMesaAsignada =
             listaDeEspera.filter((item) => item.estado === 'LISTO').length > 0;
           if (this.yaTieneMesaAsignada) this.obtenerMesaDelCliente();
+        } else {
+          this.spinner.hide();
         }
-        this.spinner.hide();
       },
       (error) => {
         console.error('Error al obtener la lista de espera', error);
@@ -74,7 +75,6 @@ export class IngresoComponent implements OnInit {
   buscarSiTieneUnPedido() {
     if (!this.mesaAsignada || !this.authService.usuarioLogeado) return;
 
-    this.spinner.show();
     this.datosService.ObtenerDatos('Ventas').subscribe((ventas: Ventas[]) => {
       // Verifica si existe una venta asociada a la mesa
       const tieneUnaVenta = ventas.find(
