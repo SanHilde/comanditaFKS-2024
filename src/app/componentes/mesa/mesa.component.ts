@@ -20,7 +20,7 @@ import Swal from 'sweetalert2';
 })
 export class MesaComponent implements OnInit {
   idMesa: string | null = '';
-  mesa!: Mesa;
+  mesa: Mesa | undefined;
   pedido!: Ventas;
   stepActual = 0;
   confirmaRecepcionDelPedido: boolean = false;
@@ -54,7 +54,6 @@ export class MesaComponent implements OnInit {
       this.mesa = mesaEncontrada;
       this.spinner.hide();
     });
-    this.buscarPedidoActual();
   }
 
   navegarA(ruta: string) {
@@ -77,9 +76,10 @@ export class MesaComponent implements OnInit {
     this.datosService
       .ObtenerDatos('Ventas')
       .subscribe((listaDeVentas: Ventas[]) => {
+        if (!this.mesa) return;
         // Buscar el pedido correspondiente en ventas
         const venta = listaDeVentas.find(
-          (venta) => venta.mesaId == this.mesa.qrid
+          (venta) => venta.mesaId == this.mesa?.qrid
         );
 
         if (!venta) return;
@@ -140,9 +140,10 @@ export class MesaComponent implements OnInit {
     this.fotosService
       .scan()
       .then((resultado: string) => {
+        if (!this.mesa) return;
         if (resultado === this.mesa.qrid) {
           this.buscarPedidoActual();
-        } else {
+        } else if (this.mesa.numero) {
           this.toastService.openErrorToast(
             `Error. Esta mesa no está asignada a ti. Tu mesa el la número ${this.mesa.numero}`,
             'bottom'
