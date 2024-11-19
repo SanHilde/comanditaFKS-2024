@@ -1,9 +1,9 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button default-href="#"></ion-back-button>
+      <ion-back-button (click)="volverAtras()"></ion-back-button>
     </ion-buttons>
-    <ion-title>Puntajes - {{dificultad | titlecase}}</ion-title>
+    <ion-title>Puntajes - {{ dificultad | titlecase}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -13,40 +13,72 @@
       <ion-title>Puntajes - {{dificultad | titlecase}}</ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-card color="primary">   
+  <ion-card color="primary">
     <ion-card-header>
-      <ion-card-title >5 Mejores</ion-card-title>      
-    </ion-card-header>    
+      <ion-card-title>
+        {{ scoresArr.length > 0 ?'5 Mejores' : 'No hay juegos todavía' }}
+      </ion-card-title>
+    </ion-card-header>
     <ion-card-content>
-      <ion-list color="primary">
+      <ion-list color="primary" *ngIf="scoresArr.length">
         <ion-item *ngFor="let score of scoresArr; let i=index" color="primary">
           <ion-thumbnail slot="start">
-            <img alt="Silhouette of mountains" [src]="'../../../assets/numeros/'+(i+1)+'.png'" style="background-color: white; border-radius: 50%;"/>
+            <img
+              alt="Silhouette of mountains"
+              [src]="'../../../assets/numeros/'+(i+1)+'.png'"
+              style="background-color: white; border-radius: 50%"
+            />
           </ion-thumbnail>
-          <ion-label style="font-size: 20px;">Puntuación: {{score.score}} <p style="font-size: 15px;">{{score.email}} - {{score.date.toDate().toLocaleDateString()}}</p></ion-label>
-        </ion-item>  
+          <ion-label style="font-size: 20px"
+            >Puntuación: {{score.score}}
+            <p style="font-size: 15px">
+              {{score.email}} - {{score.date.toDate().toLocaleDateString()}}
+            </p></ion-label
+          >
+        </ion-item>
       </ion-list>
     </ion-card-content>
-  </ion-card >
-  <ion-card color="secondary" style="display: flex;flex-direction: column; align-items: center;color:black;margin-top:2rem">
-  <ion-card-header>
-    <ion-card-title style="font-size: 25px;">¿Crees que puedes batirlo?</ion-card-title>
-    
-  </ion-card-header>
-  <ion-card-content style="font-size: 20px;">
-    Supera esta puntuación y aparece en la lista!
-  </ion-card-content>
+  </ion-card>
+  <ion-card
+    color="secondary"
+    style="
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: black;
+      margin-top: 2rem;
+    "
+  >
+    <ion-card-header>
+      <ion-card-title>
+        {{ scoresArr.length > 0 ? '¿Crees que puedes batirlo?' : '¡Sé el primero
+        en jugar!' }}
+      </ion-card-title>
+    </ion-card-header>
 
-  <ion-button fill="clear" (click)="irAJugar(dificultad)" style="font-size: 25px;color:black;">Jugar</ion-button>  
-</ion-card>
+    <ion-card-content style="font-size: 20px">
+      <ng-container *ngIf="scoresArr.length > 0; else noScores">
+        ¡Supera esta puntuación y aparece en la lista!
+      </ng-container>
+      <ng-template #noScores>
+        Empieza a jugar para aparecer en la lista
+      </ng-template>
+    </ion-card-content>
 
+    <ion-button
+      fill="clear"
+      (click)="irAJugar(dificultad)"
+      style="font-size: 25px; color: black"
+      >Jugar</ion-button
+    >
+  </ion-card>
 </ion-content>
 <ion-toolbar>
   <ion-tabs>
     <ion-tab-bar slot="bottom" class="custom-tab-bar">
       <ion-tab-button (click)="buscar('facil')">
         <ion-icon name="happy"></ion-icon>
-        Facil
+        Fácil
       </ion-tab-button>
       <ion-tab-button (click)="buscar('medio')">
         <ion-icon name="sad"></ion-icon>
