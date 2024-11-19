@@ -56,12 +56,12 @@
   background-color: var(--color-principal);
   color: var(--color-letra);
   border: none;
-  font-size: 30px;
+  font-size: 25px;
   margin: 10px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s;
-  border-radius: 40px;
-  padding: 25px 35px;
+  border-radius: 32.5px;
+  padding: 20px 20px;
   width: 75vw;
 
   &:hover {
@@ -74,6 +74,9 @@
     cursor: not-allowed;
     box-shadow: none; /* Elimina cualquier sombra */
     transform: scale(1); /* Elimina el efecto de hover (transformación) */
+  }
+  ion-icon{
+    font-size: 25px;
   }
 }
 

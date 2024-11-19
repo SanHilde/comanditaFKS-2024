@@ -135,6 +135,7 @@ export class HomeComponent implements OnInit {
     } else {
       this.router.navigate(['/asignarMesas']);
     }
+    
   }
 
   // MOZO
