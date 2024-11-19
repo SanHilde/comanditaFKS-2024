@@ -79,17 +79,24 @@
       </button>
       <button
         class="botonPrincipal"
-        (click)="navegarSiguienteAccionMozo('pagos')"
-      >
-        <ion-icon name="wallet-outline" size="large"></ion-icon>
-        Confirmar pagos hechos por clientes
-      </button>
-      <button
-        class="botonPrincipal"
         (click)="navegarSiguienteAccionMozo('pendientes')"
       >
         <ion-icon name="send-outline" size="large"></ion-icon>
         Pedidos pendientes por entregar
+      </button>
+      <button
+        class="botonPrincipal"
+        (click)="navegarSiguienteAccionMozo('entregarCuenta')"
+      >
+        <ion-icon name="checkbox-outline" size="large"></ion-icon>
+        Entregar cuenta
+      </button>
+      <button
+        class="botonPrincipal"
+        (click)="navegarSiguienteAccionMozo('pagos')"
+      >
+        <ion-icon name="wallet-outline" size="large"></ion-icon>
+        Confirmar pagos hechos por clientes
       </button>
     </div>
   </div>
@@ -190,6 +197,6 @@
 </div>
 
 <ngx-spinner
-  bdColor="rgba(0, 0, 0, 0.8)"
+  bdColor="black"
   template="<img src='./../../../assets/spinner.png' alt='logo' />"
 ></ngx-spinner>

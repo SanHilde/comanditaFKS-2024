@@ -85,7 +85,9 @@ export class IngresoComponent implements OnInit {
       if (
         tieneUnaVenta &&
         this.mesaAsignada?.numero &&
-        this.authService.usuarioLogeado
+        this.authService.usuarioLogeado &&
+        (this.authService.tipoUsuario === 'Cliente' ||
+          this.authService.tipoUsuario === 'Anónimo')
       ) {
         this.router.navigate(['/mesa', this.mesaAsignada?.numero]);
       }

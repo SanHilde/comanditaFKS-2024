@@ -46,7 +46,11 @@ export class ListasParaAceptarComponent implements OnInit {
           this.titulo = 'Confirmar pago de las mesas';
           this.listaDeObjetos = ventas.filter((pedido: Ventas) => {
             return (
-              !pedido.pago && pedido.validacionMozo && pedido.confirmarRecepcion
+              !pedido.pago &&
+              pedido.validacionMozo &&
+              pedido.confirmarRecepcion &&
+              pedido.pidioLaCuenta &&
+              pedido.tieneLaCuenta
             );
           });
           break;
@@ -64,6 +68,19 @@ export class ListasParaAceptarComponent implements OnInit {
               pedido.validacionMozo &&
               !pedido.confirmarRecepcion &&
               !pedido.seEntregoElPedido
+            );
+          });
+          break;
+        case 'entregarCuenta':
+          this.titulo = `Lista de mesas que solicitaron la cuenta`;
+          this.listaDeObjetos = ventas.filter((pedido) => {
+            return (
+              !pedido.pago &&
+              pedido.validacionMozo &&
+              pedido.confirmarRecepcion &&
+              pedido.seEntregoElPedido &&
+              pedido.pidioLaCuenta &&
+              !pedido.tieneLaCuenta
             );
           });
           break;
@@ -87,11 +104,18 @@ export class ListasParaAceptarComponent implements OnInit {
 
   obtenerEstadoDelPedido() {
     if (!this.pedidoSeleccionado) return 'Pendiente';
+
     const estadoBartender = this.pedidoSeleccionado.estadoBartender;
     const estadoCocinero = this.pedidoSeleccionado.estadoCocinero;
 
     if (!estadoBartender && !estadoCocinero) {
       return 'Pendiente';
+    }
+    if (estadoBartender === 'pendiente' && estadoCocinero === 'en proceso') {
+      return 'Bartender pendiente y cocinero en proceso';
+    }
+    if (estadoBartender === 'en proceso' && estadoCocinero === 'pendiente') {
+      return 'Cocinero pendiente y bartender en proceso';
     }
     if (estadoBartender === 'en proceso' && estadoCocinero === 'listo') {
       return 'Bartender en proceso, cocinero listo';
@@ -104,6 +128,12 @@ export class ListasParaAceptarComponent implements OnInit {
     }
     if (estadoBartender === 'listo' && estadoCocinero === 'listo') {
       return 'Listo';
+    }
+    if (estadoBartender === 'listo' && estadoCocinero === 'pendiente') {
+      return 'Bartender listo, cocinero pendiente';
+    }
+    if (estadoBartender === 'pendiente' && estadoCocinero === 'listo') {
+      return 'Bartender pendiente, cocinero listo';
     }
     return 'Pendiente';
   }
@@ -119,7 +149,9 @@ export class ListasParaAceptarComponent implements OnInit {
   modificarPedido(pedidoActual: Ventas) {
     if (
       !this.tipoTraido ||
-      !['pedidos', 'pagos', 'pendientes'].includes(this.tipoTraido)
+      !['pedidos', 'pagos', 'pendientes', 'entregarCuenta'].includes(
+        this.tipoTraido
+      )
     )
       return;
 
@@ -127,6 +159,8 @@ export class ListasParaAceptarComponent implements OnInit {
     let pedidoModificado: Ventas = pedidoActual;
     if (this.tipoTraido === 'pendientes') {
       pedidoModificado = { ...pedidoActual, seEntregoElPedido: true };
+    } else if (this.tipoTraido === 'entregarCuenta') {
+      pedidoModificado = { ...pedidoActual, tieneLaCuenta: true };
     } else {
       pedidoModificado =
         this.tipoTraido === 'pedidos'

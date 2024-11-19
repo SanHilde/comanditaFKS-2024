@@ -122,7 +122,7 @@ const routes: Routes = [
       ).then((m) => m.ListasParaAceptarComponent),
   },
   {
-    path: 'detalle',
+    path: 'detalleDeLaCuenta',
     loadComponent: () =>
       import(
         './componentes/detalle-de-cuenta/detalle-de-cuenta.component'
@@ -135,23 +135,38 @@ const routes: Routes = [
   },
   {
     path: 'menu-juego',
-    loadChildren: () => import('./juego-Descuento/menu-juego/menu-juego.module').then( m => m.MenuJuegoPageModule)
+    loadChildren: () =>
+      import('./juego-Descuento/menu-juego/menu-juego.module').then(
+        (m) => m.MenuJuegoPageModule
+      ),
   },
   {
     path: 'dificil',
-    loadChildren: () => import('../app/juego-Descuento/dificil/dificil.module').then( m => m.DificilPageModule)
+    loadChildren: () =>
+      import('../app/juego-Descuento/dificil/dificil.module').then(
+        (m) => m.DificilPageModule
+      ),
   },
   {
     path: 'facil',
-    loadChildren: () => import('../app/juego-Descuento/facil/facil.module').then( m => m.FacilPageModule)
+    loadChildren: () =>
+      import('../app/juego-Descuento/facil/facil.module').then(
+        (m) => m.FacilPageModule
+      ),
   },
   {
     path: 'medio',
-    loadChildren: () => import('../app/juego-Descuento/medio/medio.module').then( m => m.MedioPageModule)
+    loadChildren: () =>
+      import('../app/juego-Descuento/medio/medio.module').then(
+        (m) => m.MedioPageModule
+      ),
   },
   {
     path: 'scores',
-    loadChildren: () => import('../app/juego-Descuento/scores/scores.module').then( m => m.ScoresPageModule)
+    loadChildren: () =>
+      import('../app/juego-Descuento/scores/scores.module').then(
+        (m) => m.ScoresPageModule
+      ),
   },
 ];
 @NgModule({

@@ -1,86 +1,107 @@
-<div class="container"  *ngIf="desplegarTicketVenta">
-    <h2>Detalle del Pedido</h2>
-  
-    <!-- Lista de productos pedidos -->
-    <div *ngIf="producto">
-      <div class="miniCard listaFila" *ngFor="let producto of producto">
-        <img *ngIf="producto.fotos" [src]="producto.fotos[0]" alt="Imagen de {{ producto.nombre }}">
-        <p class="producto-nombre">{{ producto.nombre }} ({{ producto.cantidadSolicitada }})</p>
-        <p>${{ producto.precio }}</p>
-      </div>
-    </div>
-    
-  
-    <!-- Detalles adicionales -->
-    <div class="detalle-adicional" *ngIf="producto">
-      <div class="listaFila">
-        <p>Subotal</p> 
-          <p>${{ totalPago }}</p>
-        </div>
-        <div *ngIf="tiketDescuento" class="listaFila">
-        <p>Descuento aplicado ({{ tiketDescuento.porcentajesDescuento }}%) </p> 
-        <p style="color:green">-${{descuentoCalculado}}</p>
-      </div>
-      <div *ngIf="totalPropinaCalculada" class="listaFila">
-        <p>Propina ({{ propina }}%)</p> 
-        <p style="color: red;">+${{totalPropinaCalculada}}</p>
-      </div>
-    </div>
-    
-    <div class="listaFila" *ngIf="producto">
-      <h3>Total Final</h3> 
-      <h3>${{ totalPagoMasPropina }}</h3>
-    </div>
-
-  <button *ngIf="producto" class="botonPrincipal" (click)="pagar()"><ion-icon name="cash-outline"></ion-icon>Abrir pago</button>
-  <p *ngIf="!producto">Error, no hay detalle cargado</p>
-</div>
 <ngx-spinner
   bdColor="black"
   template="<img src='./../../../assets/spinner.png' alt='logo' />"
 >
 </ngx-spinner>
 
+<!-- Ticket de la venta -->
+<div class="container" *ngIf="desplegarTicketVenta">
+  <h2>Detalle del Pedido</h2>
+
+  <!-- Lista de productos pedidos -->
+  <div *ngIf="producto">
+    <div class="miniCard listaFila" *ngFor="let producto of producto">
+      <img
+        *ngIf="producto.fotos"
+        [src]="producto.fotos[0]"
+        alt="Imagen de {{ producto.nombre }}"
+      />
+      <p class="producto-nombre">
+        {{ producto.nombre }} ({{ producto.cantidadSolicitada }})
+      </p>
+      <p>${{ producto.precio }}</p>
+    </div>
+  </div>
+
+  <!-- Detalles adicionales -->
+  <div class="detalle-adicional" *ngIf="producto">
+    <div class="listaFila">
+      <p>Subotal</p>
+      <p>${{ totalPago }}</p>
+    </div>
+    <div *ngIf="tiketDescuento" class="listaFila">
+      <p>Descuento aplicado ({{ tiketDescuento.porcentajesDescuento }}%)</p>
+      <p style="color: green">-${{ descuentoCalculado }}</p>
+    </div>
+    <div *ngIf="totalPropinaCalculada" class="listaFila">
+      <p>Propina ({{ propina }}%)</p>
+      <p style="color: red">+${{ totalPropinaCalculada }}</p>
+    </div>
+  </div>
+
+  <div class="listaFila" *ngIf="producto">
+    <h3>Total Final</h3>
+    <h3>${{ totalPagoMasPropina }}</h3>
+  </div>
+
+  <button *ngIf="producto" class="botonPrincipal" (click)="pagar()">
+    <ion-icon name="cash-outline"></ion-icon>Abrir pago
+  </button>
+  <p *ngIf="!producto">Error, no hay detalle cargado</p>
+</div>
 
 <div class="contenedor-botones" *ngIf="desplegarVentanaDePago">
   <button class="boton-pago" (click)="seleccionarMetodoPago('mercadoPago')">
-    <img src="../../../assets/imgPagos/logo-mercado-pago.png" alt="Mercado Pago">
+    <img
+      src="../../../assets/imgPagos/logo-mercado-pago.png"
+      alt="Mercado Pago"
+    />
     Mercado Pago
   </button>
   <button class="boton-pago" (click)="seleccionarMetodoPago('tarjetaCredito')">
-    <img src="../../../assets/imgPagos/logo-tarjeta-credito.png" alt="Tarjeta de Crédito">
+    <img
+      src="../../../assets/imgPagos/logo-tarjeta-credito.png"
+      alt="Tarjeta de Crédito"
+    />
     Tarjeta de Crédito
   </button>
   <button class="boton-pago" (click)="seleccionarMetodoPago('tarjetaDebito')">
-    <img src="../../../assets/imgPagos/tarjeta-debitopng.png" alt="Tarjeta de Débito">
+    <img
+      src="../../../assets/imgPagos/tarjeta-debitopng.png"
+      alt="Tarjeta de Débito"
+    />
     Tarjeta de Débito
   </button>
   <button class="boton-pago" (click)="seleccionarMetodoPago('bancoSantander')">
-    <img src="../../../assets/imgPagos/santandere.png" alt="Banco Santander">
+    <img src="../../../assets/imgPagos/santandere.png" alt="Banco Santander" />
     Banco Santander
   </button>
 </div>
 
 <!-- Ventana de selección de pago -->
 <div class="ventana-pago" *ngIf="ventanaPagoCbu">
-  <h3>{{ metodoPagoSeleccionado }}</h3>
+  <h3>{{ obtenerTextoMetodoPago(metodoPagoSeleccionado) }}</h3>
   <div class="detalle-cuenta">
-    <img 
-      *ngIf="metodoPagoSeleccionado === 'mercadoPago'" 
-      src="../../../assets/imgPagos/qr.png" 
-      alt="Mercado Pago">
-    <img 
-      *ngIf="metodoPagoSeleccionado === 'tarjetaCredito'" 
-      src="../../../assets/imgPagos/casillas.png" 
-      alt="Tarjeta de Crédito">
-    <img 
-      *ngIf="metodoPagoSeleccionado === 'tarjetaDebito'" 
-      src="../../../assets/imgPagos/casillas.png" 
-      alt="Tarjeta de Débito">
-    <img 
-      *ngIf="metodoPagoSeleccionado === 'bancoSantander'" 
-      src="../../../assets/imgPagos/casillas.png" 
-      alt="Banco Santander">
+    <img
+      *ngIf="metodoPagoSeleccionado === 'mercadoPago'"
+      src="../../../assets/imgPagos/qr.png"
+      alt="Mercado Pago"
+    />
+    <img
+      *ngIf="metodoPagoSeleccionado === 'tarjetaCredito'"
+      src="../../../assets/imgPagos/casillas.png"
+      alt="Tarjeta de Crédito"
+    />
+    <img
+      *ngIf="metodoPagoSeleccionado === 'tarjetaDebito'"
+      src="../../../assets/imgPagos/casillas.png"
+      alt="Tarjeta de Débito"
+    />
+    <img
+      *ngIf="metodoPagoSeleccionado === 'bancoSantander'"
+      src="../../../assets/imgPagos/casillas.png"
+      alt="Banco Santander"
+    />
 
     <p><span>Cuenta:</span> {{ personaLog?.dni }}</p>
     <p><span>CBU:</span> {{ personaLog?.cuil }}</p>
@@ -88,5 +109,11 @@
     <p><span>Nombre:</span> {{ personaLog?.nombre }}</p>
     <p><span>Apellido:</span> {{ personaLog?.apellido }}</p>
   </div>
-  <button class="btn-pagar" (click)="desplieguePagar()">Pagar</button>
+  <button class="botonPrincipal" (click)="desplieguePagar()">Pagar</button>
 </div>
+
+<ion-fab slot="fixed" vertical="bottom" horizontal="start">
+  <ion-fab-button class="iconos" (click)="volverAtras()">
+    <ion-icon name="arrow-back"></ion-icon>
+  </ion-fab-button>
+</ion-fab>

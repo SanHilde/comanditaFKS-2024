@@ -26,7 +26,8 @@
         <ion-button
           *ngIf="
             this.authService.tipoUsuario === 'Dueño' ||
-            this.authService.tipoUsuario === 'Supervisor'
+            this.authService.tipoUsuario === 'Supervisor' ||
+            this.authService.tipoUsuario === 'Cocinero'
           "
           (click)="toggleList($event)"
         >
@@ -64,16 +65,29 @@
     *ngIf="
       showList &&
       (this.authService.tipoUsuario === 'Dueño' ||
-        this.authService.tipoUsuario === 'Supervisor')
+        this.authService.tipoUsuario === 'Supervisor' ||
+        this.authService.tipoUsuario === 'Cocinero')
     "
     class="custom-list"
   >
-    <h3 class="list-title">Alta de usuario o producto</h3>
-    <ion-item (click)="selectOption('Empleado')"> Empleado </ion-item>
-    <ion-item (click)="selectOption('Supervisor')">
+    <h3 class="list-title">Dar de alta</h3>
+    <ion-item
+      *ngIf="this.authService.tipoUsuario !== 'Cocinero'"
+      (click)="selectOption('Empleado')"
+    >
+      Empleado
+    </ion-item>
+    <ion-item
+      *ngIf="this.authService.tipoUsuario !== 'Cocinero'"
+      (click)="selectOption('Supervisor')"
+    >
       Dueño o Supervisor
     </ion-item>
-    <ion-item (click)="selectOption('Producto')">Producto</ion-item>
+    <ion-item
+      *ngIf="this.authService.tipoUsuario === 'Cocinero'"
+      (click)="selectOption('Producto')"
+      >Nuevo plato</ion-item
+    >
   </ion-list>
 </ion-app>
 

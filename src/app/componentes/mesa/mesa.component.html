@@ -69,7 +69,7 @@
     </button>
 
     <button
-      *ngIf="stepActual === 3 && !confirmaRecepcionDelPedido"
+      *ngIf="stepActual === 3 && !pedido.confirmarRecepcion"
       class="botonPrincipal"
       (click)="confirmarRecepcionDelPedido()"
     >
@@ -77,11 +77,21 @@
     </button>
 
     <button
-      *ngIf="stepActual === 4 && confirmaRecepcionDelPedido"
+      *ngIf="
+        stepActual === 4 && pedido.confirmarRecepcion && !pedido.pidioLaCuenta
+      "
       class="botonPrincipal"
       (click)="pedirCuenta()"
     >
       Pedir cuenta
+    </button>
+
+    <button
+      *ngIf="stepActual === 5 && pedido.tieneLaCuenta"
+      class="botonPrincipal"
+      (click)="navegarA('pagarCuenta')"
+    >
+      Ir a pagar cuenta
     </button>
   </ng-container>
 </div>

@@ -23,7 +23,6 @@ export class MesaComponent implements OnInit {
   mesa: Mesa | undefined;
   pedido!: Ventas;
   stepActual = 0;
-  confirmaRecepcionDelPedido: boolean = false;
   estadoDelPedido: 'Pendiente' | 'En proceso' | 'Listo' | undefined;
 
   constructor(
@@ -67,6 +66,9 @@ export class MesaComponent implements OnInit {
       case 'resultadosEncuestas':
         this.router.navigate(['/resultadosEncuestas', this.idMesa]);
         break;
+      case 'pagarCuenta':
+        this.router.navigate(['/detalleDeLaCuenta']);
+        break;
     }
   }
 
@@ -103,36 +105,54 @@ export class MesaComponent implements OnInit {
     return 'Pendiente';
   }
 
+  // Ver resultados de la encuesta aparece si completó la encuesta
+  // Steps: 0, 1, 2, 3, 4, 5
+  // 1: Sólo ve el estado del pedido
+  // 2: Estado del pedido, Juegos, Completar encuesta (Este último ya tiene otra flag)
+  // 3: Estado del pedido, Juegos, Completar encuesta y Confirmar recepción del pedido
+  // 4: Estado del pedido, Juegos, Completar encuesta y Pedir cuenta
+  // 5: Estado del pedido, Completar encuesta
+  // Si ya pagó significa que se terminó su proceso, así que lo enviamos a la página de ingreso
   obtenerStepActual() {
-    // Steps: 0, 1, 2, 3, 4, 5
-    // 1: Sólo ve el estado del pedido
-    // 2: Estado del pedido, Juegos, Completar encuesta (Este último ya tiene otra flag)
-    // 3: Estado del pedido, Juegos, Completar encuesta y Confirmar recepción del pedido
-    // 4: Estado del pedido, Juegos, Completar encuesta y Pedir cuenta
-    // 5: Estado del pedido y Completar encuesta
-    // Si ya pagó significa que se terminó su proceso, así que lo enviamos a la página de ingreso
-
-    if (!this.pedido) return;
-    if (!this.pedido.validacionMozo) {
+    // Validación de la existencia de pedido
+    if (!this.pedido) {
       this.stepActual = 0;
-    } else if (
-      (!this.pedido.confirmarRecepcion && !this.pedido.seEntregoElPedido) ||
-      (this.pedido.seEntregoElPedido && !this.pedido.confirmarRecepcion)
-    ) {
-      this.stepActual = 3;
-    } else if (this.pedido.validacionMozo) {
-      this.stepActual = 2;
-    } else if (
+      return;
+    }
+
+    const step1 = this.pedido.validacionMozo;
+    const step2 =
+      step1 &&
+      !this.pedido.confirmarRecepcion &&
+      !this.pedido.seEntregoElPedido;
+    const step3 =
+      step1 && !this.pedido.confirmarRecepcion && this.pedido.seEntregoElPedido;
+    const step4 =
+      step1 &&
       this.pedido.seEntregoElPedido &&
-      this.pedido.confirmarRecepcion
-    ) {
-      this.stepActual = 4;
-    } else if (this.pedido.confirmarRecepcion) {
-      this.stepActual = 5;
+      this.pedido.confirmarRecepcion &&
+      !this.pedido.pidioLaCuenta;
+    const step5 =
+      step1 &&
+      this.pedido.seEntregoElPedido &&
+      this.pedido.confirmarRecepcion &&
+      this.pedido.pidioLaCuenta;
+
+    // Evaluar en qué paso está
+    if (!step1) {
+      this.stepActual = 1;
+    } else if (step2) {
+      this.stepActual = 2; // Pedido recibido pero sin confirmar recepción, no se ha entregado
+    } else if (step3) {
+      this.stepActual = 3; // Pedido entregado pero falta confirmar recepción
+    } else if (step4) {
+      this.stepActual = 4; // Pedido entregado y confirmado recepción, falta pedir la cuenta
+    } else if (step5) {
+      this.stepActual = 5; // Pedido entregado, confirmado recepción y ya se pidió la cuenta
     } else {
       this.stepActual = 0;
-      this.router.navigate(['/ingreso']);
     }
+
     this.estadoDelPedido = this.obtenerEstadoDelPedido();
   }
 
@@ -166,7 +186,6 @@ export class MesaComponent implements OnInit {
       cancelButtonText: 'No, cancelar',
       heightAuto: false,
     }).then((result) => {
-      this.confirmaRecepcionDelPedido = result.isConfirmed;
       if (result.isConfirmed) {
         const pedidoModificado = { ...this.pedido, confirmarRecepcion: true };
         this.modificarVenta(pedidoModificado);
