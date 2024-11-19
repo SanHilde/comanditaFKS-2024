@@ -92,7 +92,12 @@ export class AuthService {
     this.tipoUsuario = 'Sin asignar';
     this.verificado = false;
     this.usuarioLogeado = undefined;
-    this.firebaseAuth.signOut().then(() => this.router.navigate(['login']));
+    this.firebaseAuth
+      .signOut()
+      .then(() => this.router.navigate(['login']))
+      .catch((err) => {
+        console.log(err, 'errorrrrr');
+      });
   }
 
   getCurrentUser(): Observable<UsuarioInterface | undefined> {

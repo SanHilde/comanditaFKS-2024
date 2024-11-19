@@ -67,7 +67,30 @@ export class IngresoComponent implements OnInit {
       .obtenerMesaPorCliente(this.authService.usuarioLogeado.id)
       .subscribe((mesa) => {
         this.mesaAsignada = mesa;
+        this.buscarSiTieneUnPedido();
       });
+  }
+
+  buscarSiTieneUnPedido() {
+    if (!this.mesaAsignada || !this.authService.usuarioLogeado) return;
+
+    this.spinner.show();
+    this.datosService.ObtenerDatos('Ventas').subscribe((ventas: Ventas[]) => {
+      // Verifica si existe una venta asociada a la mesa
+      const tieneUnaVenta = ventas.find(
+        (venta) =>
+          venta.mesaId === this.mesaAsignada?.qrid &&
+          venta.usuarioId === this.mesaAsignada.idCliente
+      );
+      if (
+        tieneUnaVenta &&
+        this.mesaAsignada?.numero &&
+        this.authService.usuarioLogeado
+      ) {
+        this.router.navigate(['/mesa', this.mesaAsignada?.numero]);
+      }
+      this.spinner.hide();
+    });
   }
 
   async handleListaDeEspera(estado: boolean) {
