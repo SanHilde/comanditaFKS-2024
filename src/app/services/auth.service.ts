@@ -37,7 +37,9 @@ export class AuthService {
     private router: Router,
     private datosService: DatosServiceService
   ) {
-    this.obtenerUsuarios();
+    if(this.usuarioLogeado?.tipoUsuario!="Anónimo"){
+      this.obtenerUsuarios();
+    }
   }
 
   obtenerUsuarios() {

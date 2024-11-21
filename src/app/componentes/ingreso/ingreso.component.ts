@@ -73,44 +73,34 @@ export class IngresoComponent implements OnInit {
       .obtenerMesaPorCliente(this.authService.usuarioLogeado.id)
       .subscribe((mesa) => {
         this.mesaAsignada = mesa;
-        //this.buscarSiTieneUnPedido();
+        this.buscarSiTieneUnPedido();
       });
   }
 
-  // buscarSiTieneUnPedido() {
-  //   console.log(this.mesaAsignada, 'mesa asignadaaa');
+  buscarSiTieneUnPedido() {
+    if (!this.mesaAsignada || !this.authService.usuarioLogeado) return;
 
-  //   if (!this.mesaAsignada || !this.authService.usuarioLogeado) return;
+    this.datosService.ObtenerDatos('Ventas').subscribe((ventas: Ventas[]) => {
+      // Verifica si existe una venta asociada a la mesa
+      const tieneUnaVenta = ventas.find(
+        (venta) =>
+          venta.mesaId === this.mesaAsignada?.qrid &&
+          venta.usuarioId === this.mesaAsignada.idCliente
+      );
 
-  //   this.datosService.ObtenerDatos('Ventas').subscribe((ventas: Ventas[]) => {
-  //     // Verifica si existe una venta asociada a la mesa
-  //     const tieneUnaVenta = ventas.find(
-  //       (venta) =>
-  //         venta.mesaId === this.mesaAsignada?.qrid &&
-  //         venta.usuarioId === this.mesaAsignada.idCliente
-  //     );
-
-  //     if (
-  //       tieneUnaVenta &&
-  //       this.mesaAsignada?.numero &&
-  //       this.authService.usuarioLogeado &&
-  //       (this.authService.tipoUsuario === 'Cliente' ||
-  //         this.authService.tipoUsuario === 'Anónimo')
-  //     ) {
-  //     console.log(tieneUnaVenta, 'tiene una ventaaa');
-
-  //       console.log('holaaaaaaaaaaaaaaaaaaaaa');
-
-  //       this.router.navigate(['/mesa', this.mesaAsignada?.numero]);
-  //     }
-  //     console.log(tieneUnaVenta, 'tiene una ventaaa 22222222');
-  //     console.log(this.mesaAsignada, 'mesaaa');
-
-  //     console.log('holaaaaaaaaaaaaaaaaaaaaa 222222222222');
-
-  //   });
-  //   this.spinner.hide();
-  // }
+      if (
+        tieneUnaVenta &&
+        this.mesaAsignada?.numero &&
+        this.authService.usuarioLogeado &&
+        (this.authService.tipoUsuario === 'Cliente' ||
+          this.authService.tipoUsuario === 'Anónimo')
+      ) {
+        console.log("redirijo desde ingreso")
+        this.router.navigate(['/mesa', this.mesaAsignada?.numero]);
+      }
+    });
+    this.spinner.hide();
+  }
 
   async handleListaDeEspera(estado: boolean) {
     this.spinner.show();

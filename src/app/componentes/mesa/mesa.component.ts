@@ -37,7 +37,7 @@ export class MesaComponent implements OnInit {
 
   ngOnInit() {
     this.spinner.show();
-
+    let mesaEncontrada:any=false;
     // Obtener el ID de la mesa
     this.route.paramMap.subscribe((params) => {
       this.idMesa = params.get('idMesa');
@@ -45,14 +45,18 @@ export class MesaComponent implements OnInit {
     if (!this.idMesa) return;
 
     this.datosService.ObtenerDatos('Mesa').subscribe((listaDeMesas: Mesa[]) => {
-      const mesaEncontrada = listaDeMesas.find(
+      mesaEncontrada = listaDeMesas.find(
         (mesa) => mesa.numero == this.idMesa
       );
       if (!mesaEncontrada) return;
-
       this.mesa = mesaEncontrada;
       this.spinner.hide();
     });
+    // if(this.idMesa=="" || mesaEncontrada){
+    //   this.spinner.hide();
+    //   this.toastService.openErrorToast("Error al encontrar la mesa",'bottom');
+    //   this.router.navigate(['/home']);
+    // }
   }
 
   navegarA(ruta: string) {
@@ -72,23 +76,44 @@ export class MesaComponent implements OnInit {
     }
   }
 
-  buscarPedidoActual() {
+  async buscarPedidoActual() {
     this.spinner.show();
 
-    this.datosService
-      .ObtenerDatos('Ventas')
-      .subscribe((listaDeVentas: Ventas[]) => {
-        if (!this.mesa) return;
-        // Buscar el pedido correspondiente en ventas
-        const venta = listaDeVentas.find(
-          (venta) => venta.mesaId == this.mesa?.qrid
-        );
+    // this.datosService
+    //   .ObtenerDatos('Ventas')
+    //   .subscribe((listaDeVentas: Ventas[]) => {
+    //     // if (!this.mesa) return;
+    //     // Buscar el pedido correspondiente en ventas
+    //     const venta = listaDeVentas.find(
+    //       (venta) => venta.mesaId == this.mesa?.qrid
+    //     );
 
-        if (!venta) return;
-        this.pedido = venta;
-        this.obtenerStepActual();
-        this.spinner.hide();
-      });
+    //     // if (!venta) return;
+    //     if(venta){
+    //       this.pedido = venta;
+    //       this.obtenerStepActual();
+    //       this.spinner.hide();
+    //     } 
+    //     else{
+    //       this.spinner.hide();
+    //       this.router.navigate(['/hacerPedido']);
+    //     }
+        
+    //   });
+    let listaDeVentas = await this.datosService.ObtenerDatosAsync("Ventas");
+    console.log(listaDeVentas)
+    const venta = listaDeVentas.find(
+            (venta) => venta.mesaId == this.mesa?.qrid
+          );
+        if(venta){
+          this.pedido = venta;
+          this.obtenerStepActual();
+          this.spinner.hide();
+        } 
+        else{
+          this.spinner.hide();
+          this.router.navigate(['/hacerPedido']);
+        }
   }
 
   obtenerEstadoDelPedido() {

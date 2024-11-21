@@ -33,7 +33,7 @@
       </ion-radio-group>
     </div>
 
-    <p *ngIf="!mesasDisponibles.length && mostrarMesas">
+    <p *ngIf="!mesasDisponibles.length || mesasDisponibles.length==0 ">
       No hay mesas disponibles
     </p>
 
