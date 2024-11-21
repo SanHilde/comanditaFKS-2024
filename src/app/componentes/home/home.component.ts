@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { Router, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { ModulosComunesModule } from 'src/app/modulos/modulos-comunes/modulos-comunes.module';
 import { AuthService } from 'src/app/services/auth.service';
 import { MesasService } from 'src/app/services/mesas.service';
@@ -10,6 +10,7 @@ import { EstadoPedido, Ventas } from 'src/app/interfaces/venta.interface';
 import { DatosServiceService } from 'src/app/services/datos/datos-service.service';
 import { TareaCocineroYBartender } from 'src/app/interfaces/usuario.interface';
 import Swal from 'sweetalert2';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -41,21 +42,52 @@ export class HomeComponent implements OnInit {
     ) {
       this.obtenerTareasBartenderyCocinero();
     }
-
-    if (this.authService.tipoUsuario === 'Cliente') {
-      const idUsuario = this.authService.usuarioLogeado?.id;
-      if (!idUsuario) return;
-      this.spinner.show();
-      this.mesasService.obtenerMesas().subscribe((mesas) => {
-        const mesaActualDelCliente = mesas.find(
-          (item) => item.idCliente === idUsuario
-        );
-        if (mesaActualDelCliente) {
-          this.router.navigate(['/mesa', mesaActualDelCliente.numero]);
-        }
-        this.spinner.hide();
-      });
+    this.router.events
+  .pipe(filter((event: any) => event instanceof NavigationEnd))
+  .subscribe(() => {
+    // Verifica que la ruta actual es '/home'
+    if (this.router.url === '/home' && 
+       (this.authService.usuarioLogeado?.tipoUsuario === 'Cliente' || this.authService.usuarioLogeado?.tipoUsuario === 'Anónimo')) {
+      this.checkearMesa();
     }
+  });
+
+    // if (this.authService.tipoUsuario === 'Cliente' || this.authService.tipoUsuario === 'Anónimo') {
+    //   const idUsuario = this.authService.usuarioLogeado?.id;
+    //   if (!idUsuario) return;
+    //   this.spinner.show();
+    //   this.mesasService.obtenerMesas().subscribe((mesas) => {
+    //     const mesaActualDelCliente = mesas.find(
+    //       (item) => item.idCliente === idUsuario
+    //     );
+    //     if (mesaActualDelCliente) {
+    //       this.router.navigate(['/mesa', mesaActualDelCliente.numero]);
+    //     }
+    //     this.spinner.hide();
+    //   });
+    // }
+    // this.checkearMesa();
+  }
+
+  async checkearMesa() {
+    this.spinner.show();
+    if (
+      this.authService.tipoUsuario === 'Cliente' ||
+      this.authService.tipoUsuario === 'Anónimo'
+    ) {
+      const idUsuario = this.authService.usuarioLogeado?.id;
+      let listasMesas = await this.datosService.ObtenerDatosAsync('Mesa');
+      const mesaActualDelCliente = listasMesas.find(
+        (item) => item.idCliente === idUsuario
+      );
+      if (mesaActualDelCliente) {
+        this.spinner.hide();
+        console.log("redirijo desde ho")
+        this.router.navigate(['/mesa', mesaActualDelCliente.numero]);
+      }
+      // this.spinner.hide();
+    }
+    this.spinner.hide();
   }
 
   obtenerTareasBartenderyCocinero() {
@@ -104,7 +136,7 @@ export class HomeComponent implements OnInit {
     let lectura = await this.qrService.leerQr();
 
     // TODO: Manejar los cambios de acción desde cada página donde se vaya hacer el cambio de acción
-    this.authService.accionActual = 'INGRESO';
+    // this.authService.accionActual = 'INGRESO';
     // switch(lectura){
     //     case 'INGRESO':
     //       this.router.navigate(['/ingreso']);
@@ -135,7 +167,6 @@ export class HomeComponent implements OnInit {
     } else {
       this.router.navigate(['/asignarMesas']);
     }
-    
   }
 
   // MOZO

@@ -1,7 +1,7 @@
 <div class="container">
   <!-- Clientes -->
   <ng-container
-    *ngIf="authService.tipoUsuario === 'Cliente' && mesa !== undefined"
+    *ngIf="(authService.tipoUsuario === 'Cliente' || authService.tipoUsuario === 'Anónimo') && mesa !== undefined"
   >
     <h1>Escanea el QR de la mesa {{ mesa.numero }}</h1>
     <button

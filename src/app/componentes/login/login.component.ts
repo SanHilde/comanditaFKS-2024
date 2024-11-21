@@ -90,7 +90,7 @@ export class LoginComponent {
         this.form.controls['email'].setValue('');
         this.form.controls['password'].setValue('');
         const tipoUsuario = this.authService.tipoUsuario;
-
+        console.log(tipoUsuario)
         switch (tipoUsuario) {
           case 'Dueño':
           case 'Supervisor':
@@ -99,7 +99,8 @@ export class LoginComponent {
           case 'Anónimo':
           case 'Cliente':
           case 'Sin asignar':
-            this.router.navigate(['/ingreso']);
+            this.router.navigate(['/home']);
+            // this.router.navigate(['/hacerPedido']);
             break;
           default:
             this.router.navigate(['/home']);
@@ -136,14 +137,14 @@ export class LoginComponent {
   }
 
   ingresoAnonimo() {
-    this.router.navigateByUrl('home');
-    this.authService.usuarioLogeado = {
-      id: 'Juan Anónimo',
+    this.authService.usuarioLogeado= {
+      id: `Usuario Anónimo Juan`,
       tipoUsuario: 'Anónimo',
       aprobado: 'anónimo',
       nombre: 'Juan',
       foto: 'https://firebasestorage.googleapis.com/v0/b/comanda-597db.appspot.com/o/Fotos%20de%20perfil%20anonimas%2FJuan-FotoDePerfil?alt=media&token=e1f51d01-225d-41b8-8f2e-54dfb308daaa',
     };
+    this.router.navigateByUrl('home');
   }
   handleQuickAccess(email: string, password: string) {
     this.errorMessage = '';
@@ -155,7 +156,7 @@ export class LoginComponent {
     this.errorMessage = '';
   }
   enviarCorreo() {
-    const to = 'santihilde@gmail.com';
+    const to = 'santyhilde@gmail.com';
     const subject = 'Asunto de prueba';
     const message = 'mensaje';
 

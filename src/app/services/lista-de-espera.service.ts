@@ -92,15 +92,22 @@ export class ListaDeEsperaService {
       return false;
     }
   }
+  eliminarDeListaDeEspera(id: string){
+    this.datosServices.eliminarDato(id,this.nombreDeColeccion);
+  }
 
   modificarListaDeEspera(id: string, estado: EstadoListaDeEspera): void {
     const itemListaRef = doc(this.firestore, this.nombreDeColeccion, id);
 
     // Realiza la actualización del estado de la lista de espera
+
     updateDoc(itemListaRef, {
       estado: estado,
     })
       .then(() => {
+        if(estado=="LISTO"){
+          setTimeout(()=>{this.eliminarDeListaDeEspera(id)},300000);
+        }
         return true;
       })
       .catch((error) => {
