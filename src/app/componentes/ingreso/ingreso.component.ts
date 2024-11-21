@@ -95,7 +95,7 @@ export class IngresoComponent implements OnInit {
         (this.authService.tipoUsuario === 'Cliente' ||
           this.authService.tipoUsuario === 'Anónimo')
       ) {
-        console.log("redirijo desde ingreso")
+        console.log('redirijo desde ingreso');
         this.router.navigate(['/mesa', this.mesaAsignada?.numero]);
       }
     });
@@ -157,10 +157,10 @@ export class IngresoComponent implements OnInit {
       .scan()
       .then((resultado: string) => {
         if (this.mesaAsignada?.qrid == resultado) {
-          this.router.navigate(['/mesa', this.mesaAsignada.numero]);
+          this.router.navigate(['/hacerPedido']);
         } else {
           this.ToastService.openErrorToast(
-            `Error. Esta mesa no está asignada a ti. Tu mesa el la número ${this.mesaAsignada?.numero}`,
+            `Error. Esta mesa no está asignada a ti. Tu mesa es la número ${this.mesaAsignada?.numero}`,
             'bottom'
           );
         }

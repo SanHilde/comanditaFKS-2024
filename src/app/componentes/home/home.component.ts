@@ -3,7 +3,6 @@ import { Auth } from '@angular/fire/auth';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { ModulosComunesModule } from 'src/app/modulos/modulos-comunes/modulos-comunes.module';
 import { AuthService } from 'src/app/services/auth.service';
-import { MesasService } from 'src/app/services/mesas.service';
 import { QrService } from 'src/app/services/qr.service';
 import { NgxSpinnerService, NgxSpinnerModule } from 'ngx-spinner';
 import { EstadoPedido, Ventas } from 'src/app/interfaces/venta.interface';
@@ -30,7 +29,6 @@ export class HomeComponent implements OnInit {
     public authService: AuthService,
     public router: Router,
     public qrService: QrService,
-    private mesasService: MesasService,
     public spinner: NgxSpinnerService,
     private datosService: DatosServiceService
   ) {}
@@ -43,14 +41,17 @@ export class HomeComponent implements OnInit {
       this.obtenerTareasBartenderyCocinero();
     }
     this.router.events
-  .pipe(filter((event: any) => event instanceof NavigationEnd))
-  .subscribe(() => {
-    // Verifica que la ruta actual es '/home'
-    if (this.router.url === '/home' && 
-       (this.authService.usuarioLogeado?.tipoUsuario === 'Cliente' || this.authService.usuarioLogeado?.tipoUsuario === 'Anónimo')) {
-      this.checkearMesa();
-    }
-  });
+      .pipe(filter((event: any) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        // Verifica que la ruta actual es '/home'
+        if (
+          this.router.url === '/home' &&
+          (this.authService.usuarioLogeado?.tipoUsuario === 'Cliente' ||
+            this.authService.usuarioLogeado?.tipoUsuario === 'Anónimo')
+        ) {
+          this.checkearMesa();
+        }
+      });
 
     // if (this.authService.tipoUsuario === 'Cliente' || this.authService.tipoUsuario === 'Anónimo') {
     //   const idUsuario = this.authService.usuarioLogeado?.id;
@@ -82,7 +83,6 @@ export class HomeComponent implements OnInit {
       );
       if (mesaActualDelCliente) {
         this.spinner.hide();
-        console.log("redirijo desde ho")
         this.router.navigate(['/mesa', mesaActualDelCliente.numero]);
       }
       // this.spinner.hide();

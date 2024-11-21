@@ -17,19 +17,17 @@ import { ToastService } from 'src/app/services/toast.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
-
 @Component({
   selector: 'app-dificil',
   templateUrl: './dificil.page.html',
   styleUrls: ['./dificil.page.scss'],
 })
 export class DificilPage implements OnInit, OnDestroy {
-
-  tarjeta!: Tarjeta
+  tarjeta!: Tarjeta;
   botonesBloqueados: boolean = false;
 
-  itemsSeleccionados: Tarjeta[] = []
-  itemsEncontrados: Tarjeta[] = []
+  itemsSeleccionados: Tarjeta[] = [];
+  itemsEncontrados: Tarjeta[] = [];
   itemsError: Tarjeta[] = [];
   public listaMesa: Mesa[] = [];
   public usuario: UsuarioInterface | undefined;
@@ -37,14 +35,16 @@ export class DificilPage implements OnInit, OnDestroy {
   public mesaActual: Mesa | undefined = undefined;
   public DescuentoActual: Descuento | undefined = undefined;
 
-
-  constructor(private alertController: AlertController, private scoresService: ScoresService,
-    private DatosServiceService: DatosServiceService, private authService: AuthService,
-    private ToastService: ToastService, private Router: Router
-  ) { }
+  constructor(
+    private alertController: AlertController,
+    private scoresService: ScoresService,
+    private DatosServiceService: DatosServiceService,
+    private authService: AuthService,
+    private ToastService: ToastService,
+    private Router: Router
+  ) {}
 
   ngOnInit() {
-
     this.tarjetas = [...Array(8)].map((_, i) => new Tarjeta(i + 1, ''));
     this.tarjetas.push(...[...Array(8)].map((_, i) => new Tarjeta(i + 1, '')));
 
@@ -60,56 +60,72 @@ export class DificilPage implements OnInit, OnDestroy {
         if (this.listaMesa.length > 0 && this.VentasActual.length > 0) {
           this.llenarDescuento();
         } else {
-          console.error("Datos incompletos para inicializar el descuento.");
+          console.error('Datos incompletos para inicializar el descuento.');
         }
       }, 1000);
     } else {
-      console.error("Usuario no inicializado");
+      console.error('Usuario no inicializado');
     }
     this.verificarTicketDescuento().subscribe((tieneTicket) => {
       if (tieneTicket) {
         this.Router.navigate(['/mesa', this.mesaActual!.numero]);
       }
     });
-
   }
   verificarTicketDescuento(): Observable<boolean> {
     return new Observable<boolean>((observer) => {
-      this.DatosServiceService.ObtenerDatos('ticketDescuento').subscribe((tickets) => {
-        const ticketDescuento = tickets.find(ticket => ticket.idCliente === this.usuario!.id
-          && ticket.estaUsado === false
-        );
-        if (ticketDescuento ) {
-          switch (ticketDescuento && !ticketDescuento.estaUsado) {
-            case 10:
-              this.ToastService.openSuccessToast('¡Ticket de descuento del 10% cargado correctamente!', 'top');
-              break;
-            case 15:
-              this.ToastService.openSuccessToast('¡Ticket de descuento del 15% cargado correctamente!', 'top');
-              break;
-            case 20:
-              this.ToastService.openSuccessToast('¡Ticket de descuento del 20% cargado correctamente!', 'top');
-              break;
-            default:
-              this.ToastService.openSuccessToast('¡Ticket de descuento cargado correctamente!', 'top');
-              break;
+      this.DatosServiceService.ObtenerDatos('ticketDescuento').subscribe(
+        (tickets) => {
+          const ticketDescuento = tickets.find(
+            (ticket) =>
+              ticket.idCliente === this.usuario!.id &&
+              ticket.estaUsado === false
+          );
+          if (ticketDescuento) {
+            switch (ticketDescuento && !ticketDescuento.estaUsado) {
+              case 10:
+                this.ToastService.openSuccessToast(
+                  '¡Ticket de descuento del 10% cargado correctamente!',
+                  'top'
+                );
+                break;
+              case 15:
+                this.ToastService.openSuccessToast(
+                  '¡Ticket de descuento del 15% cargado correctamente!',
+                  'top'
+                );
+                break;
+              case 20:
+                this.ToastService.openSuccessToast(
+                  '¡Ticket de descuento del 20% cargado correctamente!',
+                  'top'
+                );
+                break;
+              default:
+                this.ToastService.openSuccessToast(
+                  '¡Ticket de descuento cargado correctamente!',
+                  'top'
+                );
+                break;
+            }
+            observer.next(true); // Enviamos true porque se encontró un ticket
+          } else {
+            observer.next(false); // Enviamos false si no se encuentra el ticket
           }
-          observer.next(true);  // Enviamos true porque se encontró un ticket
-        } else {
-          this.ToastService.openErrorToast('No tienes un ticket de descuento cargado.', 'top');
-          observer.next(false); // Enviamos false si no se encuentra el ticket
+
+          observer.complete(); // Terminamos el observable
+        },
+        (error) => {
+          this.ToastService.openErrorToast(
+            'Error al obtener los datos del ticket.',
+            'top'
+          );
+          observer.next(false); // Si hay un error, enviamos false
+          observer.complete(); // Terminamos el observable
         }
-  
-        observer.complete(); // Terminamos el observable
-      }, (error) => {
-        this.ToastService.openErrorToast('Error al obtener los datos del ticket.', 'top');
-        observer.next(false);  // Si hay un error, enviamos false
-        observer.complete();  // Terminamos el observable
-      });
+      );
     });
   }
-  
-
 
   cargarDatosMesa() {
     this.DatosServiceService.ObtenerDatos('Mesa').subscribe((listaMesa) => {
@@ -133,12 +149,15 @@ export class DificilPage implements OnInit, OnDestroy {
   }
 
   shuffle(array: Array<Tarjeta>) {
-    let currentIndex = array.length, randomIndex;
+    let currentIndex = array.length,
+      randomIndex;
     while (currentIndex > 0) {
       randomIndex = Math.floor(Math.random() * currentIndex);
       currentIndex--;
       [array[currentIndex], array[randomIndex]] = [
-        array[randomIndex], array[currentIndex]];
+        array[randomIndex],
+        array[currentIndex],
+      ];
     }
     return array;
   }
@@ -154,11 +173,9 @@ export class DificilPage implements OnInit, OnDestroy {
     },
   ];
 
-  tarjetas: Tarjeta[] = []
+  tarjetas: Tarjeta[] = [];
   private timerSubscription!: Subscription;
   @ViewChild(TimerComponent) timerComponent!: TimerComponent;
-
-
 
   ngOnDestroy(): void {
     if (this.timerSubscription) {
@@ -166,28 +183,29 @@ export class DificilPage implements OnInit, OnDestroy {
     }
   }
 
-
   seleccionarItem(item: Tarjeta) {
-    if (this.botonesBloqueados)
-      return
+    if (this.botonesBloqueados) return;
     this.botonesBloqueados = true;
 
-
-    if (this.itemsSeleccionados.length == 0 && this.itemsEncontrados.length == 0) {
+    if (
+      this.itemsSeleccionados.length == 0 &&
+      this.itemsEncontrados.length == 0
+    ) {
       this.timerComponent.resetTimer();
       this.timerComponent.startTimer();
     }
     if (this.itemsSeleccionados.includes(item)) {
-      this.itemsSeleccionados
+      this.itemsSeleccionados;
     }
-    this.itemsSeleccionados.push(item)
+    this.itemsSeleccionados.push(item);
 
     if (this.itemsSeleccionados.length == 2) {
-      if (this.itemsSeleccionados[0].valor == this.itemsSeleccionados[1].valor) {
-
+      if (
+        this.itemsSeleccionados[0].valor == this.itemsSeleccionados[1].valor
+      ) {
         setTimeout(() => {
-          this.itemsEncontrados.push(...this.itemsSeleccionados)
-          this.itemsSeleccionados = []
+          this.itemsEncontrados.push(...this.itemsSeleccionados);
+          this.itemsSeleccionados = [];
           if (this.itemsEncontrados.length == this.tarjetas.length) {
             this.subirTicketDescuento();
             console.log('win');
@@ -195,15 +213,14 @@ export class DificilPage implements OnInit, OnDestroy {
             this.Router.navigate(['/mesa', this.mesaActual!.numero]);
           }
           this.botonesBloqueados = false;
-        }, 100)
-
+        }, 100);
       } else {
-        this.itemsError.push(...this.itemsSeleccionados)
+        this.itemsError.push(...this.itemsSeleccionados);
         setTimeout(() => {
-          this.itemsSeleccionados = []
-          this.itemsError = []
+          this.itemsSeleccionados = [];
+          this.itemsError = [];
           this.botonesBloqueados = false;
-        }, 700)
+        }, 700);
       }
     } else {
       this.botonesBloqueados = false;
@@ -211,103 +228,118 @@ export class DificilPage implements OnInit, OnDestroy {
   }
 
   itemSeleccionado(item: Tarjeta) {
-    return this.itemsSeleccionados.includes(item)
+    return this.itemsSeleccionados.includes(item);
   }
 
   itemEncontrado(item: Tarjeta) {
-    return this.itemsEncontrados.includes(item)
+    return this.itemsEncontrados.includes(item);
   }
 
   itemError(item: Tarjeta) {
-    return this.itemsError.includes(item)
+    return this.itemsError.includes(item);
   }
 
-
-
   reiniciar() {
-    this.itemsEncontrados = []
-    this.itemsError = []
-    this.itemsSeleccionados = []
-    this.botonesBloqueados = false
+    this.itemsEncontrados = [];
+    this.itemsError = [];
+    this.itemsSeleccionados = [];
+    this.botonesBloqueados = false;
     this.timerComponent.resetTimer();
-    this.shuffle(this.tarjetas)
+    this.shuffle(this.tarjetas);
   }
 
   subirScore(tiempo: number) {
-    let score = new Score('', '', tiempo, 'facil', Timestamp.now())
-    this.scoresService.add(score)
+    let score = new Score('', '', tiempo, 'facil', Timestamp.now());
+    this.scoresService.add(score);
   }
-
-
 
   subirTicketDescuento() {
     if (!this.DescuentoActual || !this.usuario || !this.mesaActual) {
-      this.ToastService.openErrorToast('Faltan datos de descuento o usuario.', 'top');
+      this.ToastService.openErrorToast(
+        'Faltan datos de descuento o usuario.',
+        'top'
+      );
       return;
     }
-    if (!this.DescuentoActual || this.DescuentoActual.porcentajesDescuento <= 0) {
-      this.ToastService.openErrorToast('El descuento actual no es válido.', 'top');
+    if (
+      !this.DescuentoActual ||
+      this.DescuentoActual.porcentajesDescuento <= 0
+    ) {
+      this.ToastService.openErrorToast(
+        'El descuento actual no es válido.',
+        'top'
+      );
       return;
     }
 
-    this.DatosServiceService.guardarDatos("ticketDescuento", this.DescuentoActual).then(() => {
-      this.ToastService.openSuccessToast('¡Enhorabuena! El ticket de descuento ha sido cargado.', 'top');
+    this.DatosServiceService.guardarDatos(
+      'ticketDescuento',
+      this.DescuentoActual
+    )
+      .then(() => {
+        this.ToastService.openSuccessToast(
+          '¡Enhorabuena! El ticket de descuento ha sido cargado.',
+          'top'
+        );
 
-      // Navegar después de que el toast se ha mostrado
-      setTimeout(() => {
-        this.Router.navigate(['/mesa', this.mesaActual!.numero]);
-      }, 8000); // Espera 3 segundos antes de navegar
-    }).catch((error) => {
-      this.ToastService.openErrorToast('Error al guardar el ticket de descuento. Por favor, inténtalo nuevamente.', 'top');
-    });
+        // Navegar después de que el toast se ha mostrado
+        setTimeout(() => {
+          this.Router.navigate(['/mesa', this.mesaActual!.numero]);
+        }, 8000); // Espera 3 segundos antes de navegar
+      })
+      .catch((error) => {
+        this.ToastService.openErrorToast(
+          'Error al guardar el ticket de descuento. Por favor, inténtalo nuevamente.',
+          'top'
+        );
+      });
   }
   async onWin() {
-
     let tiempo = this.timerComponent.stopTimer();
 
     const alert = await this.alertController.create({
       header: '¡Felicitaciones!',
-      subHeader: 'Ganaste en ' + this.timerComponent.totalSeconds + ' segundos!',
-      buttons: [{
-        text: 'Reiniciar',
-        cssClass: 'alert-button-ok',
-        handler: () => {
-          this.reiniciar();
-        }
-      }
+      subHeader:
+        'Ganaste en ' + this.timerComponent.totalSeconds + ' segundos!',
+      buttons: [
+        {
+          text: 'Reiniciar',
+          cssClass: 'alert-button-ok',
+          handler: () => {
+            this.reiniciar();
+          },
+        },
       ],
     });
 
     await alert.present();
   }
 
-
   llenarDescuento(): boolean {
     if (!this.mesaActual) {
-      console.warn("No se encontró una mesa asociada al usuario.");
+      console.warn('No se encontró una mesa asociada al usuario.');
       return false;
     }
     if (this.VentasActual.length === 0) {
-      console.warn("No hay ventas asociadas al usuario.");
+      console.warn('No hay ventas asociadas al usuario.');
       return false;
     }
     if (!this.usuario) {
-      console.warn("El usuario no está inicializado.");
+      console.warn('El usuario no está inicializado.');
       return false;
     }
 
     this.DescuentoActual = {
       idMesaActual: this.mesaActual.qrid,
       idCliente: this.usuario.id,
-      ventasIds: this.VentasActual.map(venta => venta.id),
+      ventasIds: this.VentasActual.map((venta) => venta.id),
       id: '',
       estaUsado: false,
-      porcentajesDescuento: 20
+      porcentajesDescuento: 20,
     };
-    console.log("DescuentoActual llenado correctamente:", this.DescuentoActual);
+    console.log('DescuentoActual llenado correctamente:', this.DescuentoActual);
     return true;
   }
-
 
   resetearDescuento() {
     this.DescuentoActual = {
@@ -316,7 +348,7 @@ export class DificilPage implements OnInit, OnDestroy {
       ventasIds: [],
       id: '',
       estaUsado: false,
-      porcentajesDescuento: 10
+      porcentajesDescuento: 10,
     };
   }
 }

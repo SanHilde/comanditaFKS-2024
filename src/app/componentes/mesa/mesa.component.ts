@@ -37,7 +37,7 @@ export class MesaComponent implements OnInit {
 
   ngOnInit() {
     this.spinner.show();
-    let mesaEncontrada:any=false;
+    let mesaEncontrada: any = false;
     // Obtener el ID de la mesa
     this.route.paramMap.subscribe((params) => {
       this.idMesa = params.get('idMesa');
@@ -45,9 +45,7 @@ export class MesaComponent implements OnInit {
     if (!this.idMesa) return;
 
     this.datosService.ObtenerDatos('Mesa').subscribe((listaDeMesas: Mesa[]) => {
-      mesaEncontrada = listaDeMesas.find(
-        (mesa) => mesa.numero == this.idMesa
-      );
+      mesaEncontrada = listaDeMesas.find((mesa) => mesa.numero == this.idMesa);
       if (!mesaEncontrada) return;
       this.mesa = mesaEncontrada;
       this.spinner.hide();
@@ -93,27 +91,26 @@ export class MesaComponent implements OnInit {
     //       this.pedido = venta;
     //       this.obtenerStepActual();
     //       this.spinner.hide();
-    //     } 
+    //     }
     //     else{
     //       this.spinner.hide();
     //       this.router.navigate(['/hacerPedido']);
     //     }
-        
+
     //   });
-    let listaDeVentas = await this.datosService.ObtenerDatosAsync("Ventas");
-    console.log(listaDeVentas)
+    let listaDeVentas = await this.datosService.ObtenerDatosAsync('Ventas');
+
     const venta = listaDeVentas.find(
-            (venta) => venta.mesaId == this.mesa?.qrid
-          );
-        if(venta){
-          this.pedido = venta;
-          this.obtenerStepActual();
-          this.spinner.hide();
-        } 
-        else{
-          this.spinner.hide();
-          this.router.navigate(['/hacerPedido']);
-        }
+      (venta) => venta.mesaId == this.mesa?.qrid
+    );
+    if (venta) {
+      this.pedido = venta;
+      this.obtenerStepActual();
+      this.spinner.hide();
+    } else {
+      this.spinner.hide();
+      this.router.navigate(['/hacerPedido']);
+    }
   }
 
   obtenerEstadoDelPedido() {
@@ -190,7 +187,7 @@ export class MesaComponent implements OnInit {
           this.buscarPedidoActual();
         } else if (this.mesa.numero) {
           this.toastService.openErrorToast(
-            `Error. Esta mesa no está asignada a ti. Tu mesa el la número ${this.mesa.numero}`,
+            `Error. Esta mesa no está asignada a ti. Tu mesa es la número ${this.mesa.numero}`,
             'bottom'
           );
         }

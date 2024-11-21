@@ -75,7 +75,7 @@
     box-shadow: none; /* Elimina cualquier sombra */
     transform: scale(1); /* Elimina el efecto de hover (transformación) */
   }
-  ion-icon{
+  ion-icon {
     font-size: 25px;
   }
 }
@@ -228,4 +228,9 @@
   background: var(--ion-color-primary);
   border-radius: 10px 10px 0 10px;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.miToast {
+  font-size: 25px;
+  font-weight: 500;
 }

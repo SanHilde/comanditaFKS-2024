@@ -108,7 +108,7 @@ export class DatosVinculadosService {
     if (this.mesa.qrid) {
       let listaDePedidos = await this.datosService.ObtenerDatosAsync('Ventas');
       listaDePedidos.forEach((pedidoIndividual: Ventas) => {
-        if (this.mesa.qrid == pedidoIndividual.id) {
+        if (this.mesa.qrid == pedidoIndividual.mesaId) {
           this.pedido = pedidoIndividual;
         }
       });
