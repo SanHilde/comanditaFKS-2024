@@ -73,8 +73,7 @@ export class HomeComponent implements OnInit {
       this.authService.tipoUsuario === 'Cocinero' ||
       this.authService.tipoUsuario === 'Bartender'
     ) {
-      this.obtenerTareasBartenderyCocinero();
-      this.router.navigate(['/encuestasClientes',"1"]);
+      this.obtenerTareasBartenderyCocinero();     
     }
   }
   // Método para eliminar todas las suscripciones
