@@ -7,6 +7,8 @@ import { Mesa } from "../../../interfaces/mesa.interface";
 import { DatosServiceService } from '../../../services/datos/datos-service.service';
 import { ToastService } from '../../../services/toast.service';
 import { FotosService } from '../../../services/fotos.service';
+import  {AuthService}  from '../../../services/auth.service';
+import { UsuarioInterface } from 'src/app/interfaces/usuario.interface';
 
 @Component({
   selector: 'app-alta-mesa',
@@ -15,18 +17,19 @@ import { FotosService } from '../../../services/fotos.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, IonicModule]
 })
-export class AltaMesaPage {
+export class AltaMesaPage implements OnInit{
   mesaForm: FormGroup;
   codigoQR: string | null = null;
   fotoUrl: string | null = null; // Para almacenar la URL de la foto
   fotoUrl2: string | null = null; // Para almacenar la URL de la foto
+  usuariolog: UsuarioInterface | undefined;
 
   constructor(
     private fb: FormBuilder,
     private qrService: QrService,
     private fotoService: FotosService, // Inyecta FotosService
     private datosServices: DatosServiceService,
-    private toastService: ToastService
+    private toastService: ToastService, private AuthService: AuthService
   ) {
     this.mesaForm = this.fb.group({
       numero: ['', Validators.required],
@@ -38,6 +41,13 @@ export class AltaMesaPage {
     this.mesaForm.get('numero')?.valueChanges.subscribe(value => {
       this.codigoQR = null;
     });
+  }
+
+  ngOnInit(): void {
+    while (this.usuariolog === undefined) {
+      this.usuariolog = this.AuthService.usuarioLogeado;
+    }
+    
   }
 
  // Método para capturar la foto

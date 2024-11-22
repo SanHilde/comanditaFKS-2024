@@ -6,23 +6,26 @@ import { DatosServiceService } from '../../../services/datos/datos-service.servi
 import { ToastService } from '../../../services/toast.service';
 import Swal from 'sweetalert2';
 import { Producto } from '../../../interfaces/producto.interface';
+import  {AuthService}  from '../../../services/auth.service';
+import { UsuarioInterface } from 'src/app/interfaces/usuario.interface';
 
 @Component({
   selector: 'app-alta-producto',
   templateUrl: './alta-producto.page.html',
   styleUrls: ['./alta-producto.page.scss'],
 })
-export class AltaProductoPage {
+export class AltaProductoPage implements OnInit {
   productoForm: FormGroup;
   codigoQR: string | null = null;
   fotos: string[] = []; // Almacena las URLs de las fotos del producto
+  usuariolog: UsuarioInterface | undefined;
 
   constructor(
     private fb: FormBuilder,
     private qrService: QrService,
     private fotoService: FotosService,
     private datosService: DatosServiceService,
-    private toastService: ToastService
+    private toastService: ToastService,  private AuthService: AuthService
   ) {
     this.productoForm = this.fb.group({
       nombre: ['', Validators.required],
@@ -33,7 +36,12 @@ export class AltaProductoPage {
       esPostre: [''],
     });
   }
-
+  ngOnInit(): void {
+    while (this.usuariolog === undefined) {
+      this.usuariolog = this.AuthService.usuarioLogeado;
+    }
+    
+  }
   async tomarFoto() {
     if (this.fotos.length < 3) {
       // Limita a 3 fotos
@@ -54,6 +62,15 @@ export class AltaProductoPage {
   onSubmit() {
     if (this.productoForm.valid) {
       const productoData = this.productoForm.value;
+      if (
+        (productoData.categoria === 'Bartender' && this.usuariolog?.tipoUsuario !== 'Bartender') ||
+        (productoData.categoria === 'Cocinero' && this.usuariolog?.tipoUsuario !== 'Cocinero')
+      ) {
+        this.toastService.openErrorToast(
+          `No tienes permisos para crear productos de la categoría ${productoData.categoria}.`
+        );
+        return;
+      }
       const productoDataQR: Producto = {
         id: '', // Se generará al guardar en la base de datos
         nombre: productoData.nombre,
@@ -64,7 +81,7 @@ export class AltaProductoPage {
         codigoQR: '',
         categoria: productoData.categoria,
         esUnPostre: productoData.esPostre,
-        creadoPor: 'Admin', // O el usuario que crea el producto
+        creadoPor: this.usuariolog?.tipoUsuario, // O el usuario que crea el producto
         cantidadSolicitada: 0, //AGREGUE CANTIDAD
       };
 

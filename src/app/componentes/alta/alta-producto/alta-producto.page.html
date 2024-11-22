@@ -5,8 +5,7 @@
 </ion-header>
 
 <ion-content class="container">
-  <form [formGroup]="productoForm" (ngSubmit)="onSubmit()">
-    <!-- Campos del formulario -->
+  <form [formGroup]="productoForm" (ngSubmit)="onSubmit()" class="contenedorCompleto">
     <ion-item>
       <ion-label position="stacked">Nombre del Producto:</ion-label>
       <ion-input formControlName="nombre" required></ion-input>
@@ -39,15 +38,13 @@
       </ion-select>
     </ion-item>
 
-    <!-- Mostrar checkbox "Es un postre" solo si la categoría es Cocinero -->
     <ion-item *ngIf="productoForm.controls['categoria'].value === 'Cocinero'">
       <ion-label>¿La comida es un postre?</ion-label>
       <ion-checkbox formControlName="esPostre"></ion-checkbox>
     </ion-item>
 
-    <!-- Botón para capturar fotos del producto -->
     <ion-button expand="full" (click)="tomarFoto()" class="btnImagen">
-      Capturar Foto del Producto
+      Capturar Foto
     </ion-button>
 
     <ion-button expand="full" type="submit" class="botonPrincipal">
@@ -55,16 +52,14 @@
     </ion-button>
   </form>
 
-  <!-- Mostrar las fotos capturadas -->
-  <div *ngIf="fotos.length > 0">
+  <div *ngIf="fotos.length > 0" class="img-container">
     <h3>Fotos del Producto:</h3>
     <div *ngFor="let foto of fotos">
       <img [src]="foto" alt="Foto del producto" />
     </div>
   </div>
 
-  <!-- Mostrar el código QR generado si está disponible -->
-  <div *ngIf="codigoQR">
+  <div *ngIf="codigoQR" class="qr-container">
     <h3>Código QR del Producto:</h3>
     <img [src]="codigoQR" alt="Código QR del producto" />
   </div>
