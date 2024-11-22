@@ -112,12 +112,14 @@ export class ResultadosEncuestasComponent implements OnInit {
   public clavesIgnoradas: string[] = ['fotos', 'comentario', 'id']; //claves que no queres que sean analizadas en grafico
   public eleccionIndividual = 'velocidad';
   public idMesa: string | null=null;
+  public titulo="";
+  public explicacion="";
 
   @ViewChild('chart') chart!: ChartComponent;
   public chartOptions: Partial<ChartOptions>=chartOptions;
   public chartOptionsColumn: Partial<chartOptionsColumn>=chartOptionsColumna;
   public chartOptionsRadial: Partial<ChartOptionsRadial>=chartOptionsRadial;
-
+  isModalOpen = false;
 
   public promedios: any = {
     velocidad: 0,
@@ -171,6 +173,13 @@ export class ResultadosEncuestasComponent implements OnInit {
     this.eleccionIndividual = this.clavesParaPromedios[0];
     this.generarDatosRadial();
   }
+
+  
+
+  setOpen(isOpen: boolean) {
+    this.isModalOpen = isOpen;
+  }
+
   volverAtras(){
     if(this.idMesa!="sinMesa"){
       this.router.navigate(['/mesa', this.idMesa]);
@@ -181,6 +190,8 @@ export class ResultadosEncuestasComponent implements OnInit {
 
   generarDatosTorta(eleccionTomada: string) {
     this.eleccion = 'torta';
+    this.titulo="Valores individuales";
+    this.explicacion="Resultados específicos de cada pregunta individualmente.";
     if (eleccionTomada == 'atención') {
       this.eleccionIndividual = 'atencion';
     } else {
@@ -229,6 +240,8 @@ export class ResultadosEncuestasComponent implements OnInit {
 
   generarDatosRadial() {
     this.eleccion = 'radial';
+    this.titulo="Resultados generales";
+    this.explicacion="Promedio calculado en base a la calificación general que te da cada encuesta, promediando las diferentes respuestas.";
     this.chartOptionsRadial.series = [];
     this.chartOptionsRadial.labels = [];
     const total = this.calcularTotalEncuestas(); // Calcula el total
@@ -283,6 +296,8 @@ export class ResultadosEncuestasComponent implements OnInit {
 
   generarDatosColuma() {
     this.eleccion = 'columna';
+    this.titulo="Resultados promedios";
+    this.explicacion="Promedio individual de cada respuesta, para demostrar cada punto.";
     // Aseguramos que series y xaxis existan antes de intentar acceder a ellos
     if (this.chartOptionsColumn) {
       // Si existe series y está definida la serie 0, limpiamos los datos

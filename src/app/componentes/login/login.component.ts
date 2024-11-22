@@ -144,6 +144,7 @@ export class LoginComponent {
       nombre: 'Juan',
       foto: 'https://firebasestorage.googleapis.com/v0/b/comanda-597db.appspot.com/o/Fotos%20de%20perfil%20anonimas%2FJuan-FotoDePerfil?alt=media&token=e1f51d01-225d-41b8-8f2e-54dfb308daaa',
     };
+    this.authService.tipoUsuario ='Anónimo'
     this.router.navigateByUrl('home');
   }
   handleQuickAccess(email: string, password: string) {

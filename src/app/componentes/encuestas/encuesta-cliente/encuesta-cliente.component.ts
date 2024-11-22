@@ -124,7 +124,9 @@ export class EncuestaClienteComponent  implements OnInit {
     if(this.idMesa){
       await this.datosVinculados.traerDatosMesa(this.idMesa);
       this.pedido = await this.datosVinculados.buscarPedido();
+      console.log(this.pedido)
     }
+
 
     // let listaPedidos = await this.datosService.ObtenerDatosAsync("Ventas");
     // this.pedido = listaPedidos.find((pedidoIndividual: Ventas) => pedidoIndividual.id === this.idPedido);
@@ -174,7 +176,6 @@ export class EncuestaClienteComponent  implements OnInit {
     }
   }
   volverAtras(){
-    console.log(this.pedido)
     this.router.navigate(['/mesa',this.idMesa]);
     // this.router.navigateByUrl('c');
   }
