@@ -16,4 +16,5 @@ export interface Ventas {
   seEntregoElPedido?: boolean;
   pidioLaCuenta?: boolean;
   tieneLaCuenta?: boolean;
+  mozoValidoPago?: boolean;
 }

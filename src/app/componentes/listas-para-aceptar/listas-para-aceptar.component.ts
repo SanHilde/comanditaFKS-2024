@@ -46,11 +46,12 @@ export class ListasParaAceptarComponent implements OnInit {
           this.titulo = 'Confirmar pago de las mesas';
           this.listaDeObjetos = ventas.filter((pedido: Ventas) => {
             return (
-              !pedido.pago &&
+              pedido.pago &&
               pedido.validacionMozo &&
               pedido.confirmarRecepcion &&
               pedido.pidioLaCuenta &&
-              pedido.tieneLaCuenta
+              pedido.tieneLaCuenta &&
+              !pedido.mozoValidoPago
             );
           });
           break;
@@ -157,15 +158,23 @@ export class ListasParaAceptarComponent implements OnInit {
 
     this.spinner.show();
     let pedidoModificado: Ventas = pedidoActual;
-    if (this.tipoTraido === 'pendientes') {
-      pedidoModificado = { ...pedidoActual, seEntregoElPedido: true };
-    } else if (this.tipoTraido === 'entregarCuenta') {
-      pedidoModificado = { ...pedidoActual, tieneLaCuenta: true };
-    } else {
-      pedidoModificado =
-        this.tipoTraido === 'pedidos'
-          ? { ...pedidoActual, validacionMozo: true }
-          : { ...pedidoActual, pago: true };
+
+    switch (this.tipoTraido) {
+      case 'pendientes':
+        pedidoModificado = { ...pedidoActual, seEntregoElPedido: true };
+        break;
+      case 'entregarCuenta':
+        pedidoModificado = { ...pedidoActual, tieneLaCuenta: true };
+        break;
+      case 'pedidos':
+        pedidoModificado = { ...pedidoActual, validacionMozo: true };
+        break;
+      case 'pagos':
+        pedidoModificado = { ...pedidoActual, mozoValidoPago: true };
+        break;
+      default:
+        this.spinner.hide();
+        return;
     }
 
     this.datosService

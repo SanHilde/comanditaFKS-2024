@@ -10,6 +10,9 @@ import { DatosServiceService } from 'src/app/services/datos/datos-service.servic
 import { Descuento } from 'src/app/interfaces/descuentos.interface';
 import { UsuarioInterface } from 'src/app/interfaces/usuario.interface';
 import { AuthService } from 'src/app/services/auth.service';
+import { ToastService } from 'src/app/services/toast.service';
+import { FotosService } from 'src/app/services/fotos.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-detalle-de-cuenta',
@@ -19,7 +22,6 @@ import { AuthService } from 'src/app/services/auth.service';
   imports: [CommonModule, IonicModule, NgxSpinnerModule],
 })
 export class DetalleDeCuentaComponent implements OnInit {
-  // @Input() pedidoTraido!:any;
   public descuentoCalculado = 0;
   public propinaCalculada = 0;
   public tiketDescuento: Descuento | undefined = undefined;
@@ -28,7 +30,7 @@ export class DetalleDeCuentaComponent implements OnInit {
   public VentaPago: Ventas | undefined;
   public totalPago: number = 0;
   public producto: Producto[] = [];
-  public propina = 5;
+  public propina = 0;
   public totalPropinaCalculada = 0;
   public totalPagoMasPropina = 0;
   public desplegarVentanaDePago: boolean = false;
@@ -39,9 +41,10 @@ export class DetalleDeCuentaComponent implements OnInit {
   constructor(
     private router: Router,
     public spinner: NgxSpinnerService,
-
+    private toastService: ToastService,
     private datosService: DatosServiceService,
     private AuthService: AuthService,
+    private fotosServices: FotosService,
     private Router: Router
   ) {}
 
@@ -72,10 +75,7 @@ export class DetalleDeCuentaComponent implements OnInit {
   }
 
   pagar() {
-    //cambiar estado de pago
     this.setSoloUnaVentana('desplegarVentanaDePago');
-    // await this.datosService.modificarDatoAsync(this.pedido.id,"Ventas",this.pedido);
-    //this.router.navigate(['/mesa', this.mesaActual?.numero]);
   }
 
   obtenerTicketsDescuento() {
@@ -94,15 +94,10 @@ export class DetalleDeCuentaComponent implements OnInit {
 
   obtenersilla() {
     this.datosService.ObtenerDatos('Mesa').subscribe((listaDeMesas: Mesa[]) => {
-      for (const mesa of listaDeMesas) {
-        if (
-          mesa.idCliente === this.personaLog?.id &&
-          mesa.estado === 'procesoPago'
-        ) {
-          this.mesaActual = mesa;
-          break;
-        }
-      }
+      const mesaEncontrada = listaDeMesas.find(
+        (item) => item.idCliente === this.personaLog?.id
+      );
+      if (mesaEncontrada) this.mesaActual = mesaEncontrada;
     });
   }
 
@@ -147,22 +142,13 @@ export class DetalleDeCuentaComponent implements OnInit {
         break;
     }
     const pagoConDescuento = this.totalPago - this.descuentoCalculado;
-    this.totalPropinaCalculada = pagoConDescuento * 0.05;
+    this.totalPropinaCalculada = pagoConDescuento * this.propina;
     this.totalPagoMasPropina = pagoConDescuento + this.totalPropinaCalculada;
   }
 
   desplieguePagar() {
     this.spinner.show();
-    if (this.mesaActual) {
-      // this.datosService.eliminarDato()ELIMINAR CHAT
-      this.mesaActual.idCliente = '';
-      this.mesaActual.estado = 'Disponible';
-      this.datosService.modificarDato(
-        this.mesaActual?.id,
-        'Mesa',
-        this.mesaActual
-      );
-    }
+    // Se libera la mesa cuando el mozo confirma el pago
     if (this.VentaPago) {
       this.VentaPago.pago = true;
       this.datosService.modificarDato(
@@ -180,9 +166,15 @@ export class DetalleDeCuentaComponent implements OnInit {
       );
     }
     this.spinner.hide();
-    this.Router.navigate(['/mesa', this.mesaActual!.numero]);
-    
+    this.toastService.openSuccessToast(
+      'Pago exitoso. ¡Muchas gracias!',
+      'bottom'
+    );
+    if (this.mesaActual?.numero) {
+      this.Router.navigate(['/mesa', this.mesaActual.numero]);
+    }
   }
+
   seleccionarMetodoPago(metodo: string): void {
     this.metodoPagoSeleccionado = metodo;
     this.setSoloUnaVentana('ventanaPagoCbu');
@@ -203,11 +195,7 @@ export class DetalleDeCuentaComponent implements OnInit {
   }
 
   volverAtras() {
-    if (
-      this.mesaActual &&
-      this.AuthService.usuarioLogeado &&
-      this.desplegarTicketVenta
-    ) {
+    if (this.mesaActual && this.desplegarTicketVenta) {
       this.router.navigate(['/mesa', this.mesaActual?.numero]);
     } else if (this.ventanaPagoCbu) {
       this.setSoloUnaVentana('desplegarVentanaDePago');
@@ -229,5 +217,88 @@ export class DetalleDeCuentaComponent implements OnInit {
       default:
         return 'Método de Pago No Seleccionado';
     }
+  }
+
+  escanearQr() {
+    this.fotosServices
+      .scan()
+      .then((resultado: string) => {
+        this.toastService.openSuccessToast(`${resultado}`, 'bottom');
+        if ('PROPINA' == resultado) {
+          this.mostrarAlertaPropina();
+        } else {
+          this.toastService.openErrorToast(
+            `Error. Este no es el QR para dar propina`,
+            'bottom'
+          );
+        }
+      })
+      .catch((error) => {
+        console.error('Error al escanear el código QR:', error);
+      });
+  }
+
+  mostrarAlertaPropina() {
+    Swal.fire({
+      title: 'Elija el nivel de satisfacción',
+      input: 'select',
+      inputOptions: {
+        Excelente: '20%',
+        'Muy Bueno': '15%',
+        Bueno: '10%',
+        Regular: '5%',
+        Malo: '0%',
+      },
+      inputPlaceholder: 'Seleccione una opción',
+      showCancelButton: true,
+      heightAuto: false,
+      confirmButtonText: 'Aceptar',
+      cancelButtonText: 'Cancelar',
+      inputValidator: (value) => {
+        if (!value) {
+          return '¡Debe seleccionar una opción!';
+        }
+        return;
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const nivel = result.value;
+        switch (nivel) {
+          case 'Excelente':
+            this.propina = 20;
+            break;
+          case 'Muy Bueno':
+            this.propina = 15;
+            break;
+          case 'Bueno':
+            this.propina = 10;
+            break;
+          case 'Regular':
+            this.propina = 5;
+            break;
+          case 'Malo':
+            this.propina = 0;
+            break;
+        }
+        this.totalPagoMasPropina = this.totalPago + this.propina;
+        Swal.close();
+      }
+    });
+  }
+
+  obtenerMensajePropina() {
+    switch (this.propina) {
+      case 0:
+        return 'Malo';
+      case 5:
+        return 'Regular';
+      case 10:
+        return 'Bueno';
+      case 15:
+        return 'Muy bueno';
+      case 20:
+        return 'Excelente';
+    }
+    return 'Malo';
   }
 }

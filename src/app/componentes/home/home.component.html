@@ -20,18 +20,6 @@
       </button>
     </ng-container>
 
-    <!-- MESA -->
-    <!-- Comente esta parte porque despues de crear el pedido redirige a la pagina de la mesa donde tiene las acciones -->
-    <!-- <div *ngIf="authService.accionActual === 'MESA'" class="listaColumna">
-      <button class="botonPrincipal">Menú</button>
-      <button class="botonPrincipal">Pedir</button>
-      <button class="botonPrincipal">Hablar con el mozo</button>
-      <button class="botonPrincipal">Estado del pedido</button>
-      <button class="botonPrincipal">Completar encuesta</button>
-      <button class="botonPrincipal">Juegos</button>
-      <p>Escanea el código QR de propina y da la propina según la atención!</p>
-    </div> -->
-
     <!-- PROPINA -->
     <div *ngIf="authService.accionActual === 'PROPINA'" class="listaColumna">
       <h2>Seleccione qué propina desea dar</h2>
