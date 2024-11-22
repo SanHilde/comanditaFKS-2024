@@ -47,20 +47,6 @@
     color: #333;
   }
 
-  ion-button {
-    margin-top: 20px;
-    border-radius: 10px;
-    font-weight: bold;
-    --background: #b26444;
-    --color: white;
-    --box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s ease, opacity 0.2s ease;
-  }
-
-  ion-button:active {
-    transform: scale(0.98);
-    opacity: 0.8;
-  }
 
   .img-container {
     display: grid;
