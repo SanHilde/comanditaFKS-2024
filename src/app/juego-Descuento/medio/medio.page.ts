@@ -164,7 +164,7 @@ export class MedioPage implements OnInit, OnDestroy {
 
   public alertButtons = [
     {
-      text: 'Reiniciar',
+      text: 'Cerrar',
       cssClass: 'alert-button-cancel',
     },
     {
@@ -303,7 +303,7 @@ export class MedioPage implements OnInit, OnDestroy {
         'Ganaste en ' + this.timerComponent.totalSeconds + ' segundos!',
       buttons: [
         {
-          text: 'Reiniciar',
+          text: 'Cerrar',
           cssClass: 'alert-button-ok',
           handler: () => {
             this.reiniciar();

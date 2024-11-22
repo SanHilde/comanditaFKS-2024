@@ -30,11 +30,11 @@
       <p>${{ totalPago }}</p>
     </div>
     <div *ngIf="tiketDescuento" class="listaFila">
-      <p>Descuento aplicado ({{ tiketDescuento.porcentajesDescuento }}%)</p>
+      <p>Descuento ({{ tiketDescuento.porcentajesDescuento }}%)</p>
       <p style="color: green">-${{ descuentoCalculado }}</p>
     </div>
-    <div *ngIf="totalPropinaCalculada" class="listaFila">
-      <p>Propina ({{ propina }}%)</p>
+    <div class="listaFila">
+      <p>Propina: {{ obtenerMensajePropina() }} ({{ propina }}%)</p>
       <p style="color: red">+${{ totalPropinaCalculada }}</p>
     </div>
   </div>
@@ -45,7 +45,11 @@
   </div>
 
   <button *ngIf="producto" class="botonPrincipal" (click)="pagar()">
-    <ion-icon name="cash-outline"></ion-icon>Abrir pago
+    <ion-icon name="cash-outline"></ion-icon>&nbsp;Abrir pago
+  </button>
+  <button *ngIf="producto" class="botonPrincipal" (click)="escanearQr()">
+    <ion-icon name="qr-code-outline" class="iconScan"></ion-icon>&nbsp; Escanear
+    QR para ingresar propina
   </button>
   <p *ngIf="!producto">Error, no hay detalle cargado</p>
 </div>
@@ -103,11 +107,11 @@
       alt="Banco Santander"
     />
 
-    <p><span>Cuenta:</span> {{ personaLog?.dni }}</p>
-    <p><span>CBU:</span> {{ personaLog?.cuil }}</p>
-    <p><span>DNI:</span> {{ personaLog?.dni }}</p>
-    <p><span>Nombre:</span> {{ personaLog?.nombre }}</p>
-    <p><span>Apellido:</span> {{ personaLog?.apellido }}</p>
+    <p><span>Cuenta:</span> 1234567891011</p>
+    <p><span>CBU:</span> 27-95932945-1</p>
+    <p><span>DNI:</span> 95932945</p>
+    <p><span>Alias:</span> comandita.fks</p>
+    <p><span>Nombre:</span>La Comandita FKS</p>
   </div>
   <button class="botonPrincipal" (click)="desplieguePagar()">Pagar</button>
 </div>

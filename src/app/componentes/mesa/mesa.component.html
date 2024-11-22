@@ -1,7 +1,11 @@
 <div class="container">
   <!-- Clientes -->
   <ng-container
-    *ngIf="(authService.tipoUsuario === 'Cliente' || authService.tipoUsuario === 'Anónimo') && mesa !== undefined"
+    *ngIf="
+      (authService.tipoUsuario === 'Cliente' ||
+        authService.tipoUsuario === 'Anónimo') &&
+      mesa !== undefined
+    "
   >
     <h1>Escanea el QR de la mesa {{ mesa.numero }}</h1>
     <button
@@ -87,7 +91,7 @@
     </button>
 
     <button
-      *ngIf="stepActual === 5 && pedido.tieneLaCuenta"
+      *ngIf="stepActual === 5 && pedido.tieneLaCuenta && !pedido.pago"
       class="botonPrincipal"
       (click)="navegarA('pagarCuenta')"
     >
