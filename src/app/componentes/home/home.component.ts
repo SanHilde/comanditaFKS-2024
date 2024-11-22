@@ -257,5 +257,9 @@ export class HomeComponent implements OnInit {
       }
     );
   }
+
+  navegarAltaProducto() {
+    this.router.navigate(['/alta-producto']);
+  }
 }
 
