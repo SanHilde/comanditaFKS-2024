@@ -68,3 +68,35 @@ ion-fab-button {
     font-size: 20px;
   }
 }
+
+
+
+.botonInformacion{
+  height: 60px;
+  width: 60px;
+  font-size: 50px;
+  border-radius: 30px;
+  background-color: var(--color-principal);
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
+  // flex-direction: row;
+  // object-position: center;
+  margin-left: 10px;
+  text-align: center;
+  
+}
+ion-icon{
+  margin-top: 5px;
+  width: 60px;
+}
+  ion-modal {
+    --height: 38%;
+    --width: 90%;
+    --border-radius: 16px;
+    --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      // --min-height: 30%;
+  // --height: auto;
+  // --width: 90%;
+  // overflow: hidden;
+  }

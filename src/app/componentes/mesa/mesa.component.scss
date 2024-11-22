@@ -2,12 +2,13 @@ h1 {
   font-size: 40px;
   color: white;
   text-align: center;
+  margin-top: 0px;
 }
 
 .iconScan {
   height: 100%;
   width: 100%;
-  min-height: 200px;
+  min-height: 80px;
 }
 
 #estadoCero {
@@ -29,3 +30,7 @@ iframe {
   height: 240px;
   width: 100%;
 }
+.botonScan {
+  height: 100%;
+}
+

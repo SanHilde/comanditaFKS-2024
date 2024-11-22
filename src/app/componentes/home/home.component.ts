@@ -9,7 +9,7 @@ import { EstadoPedido, Ventas } from 'src/app/interfaces/venta.interface';
 import { DatosServiceService } from 'src/app/services/datos/datos-service.service';
 import { TareaCocineroYBartender } from 'src/app/interfaces/usuario.interface';
 import Swal from 'sweetalert2';
-import { filter } from 'rxjs';
+import { filter, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit {
   estaAbiertoElModal: boolean = false;
   tareaSeleccionada: TareaCocineroYBartender | undefined;
   ventasLocal: Ventas[] = [];
+  private subscriptions: Subscription[] = []; // Lista para almacenar las suscripciones
 
   constructor(
     public auth: Auth,
@@ -34,55 +35,73 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    // Verificación inicial al arrancar el componente
+    this.spinner.show();
+    setTimeout(()=>{
+      if (this.router.url === '/home') {
+        console.log("entre aca")
+        this.ejecutarLogicaHome();
+      }
+      this.spinner.hide();
+    
+    },2000)
+    // Suscripción a eventos de navegación
+    const routerSubscription = this.router.events
+      .pipe(filter((event: any) => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        // Verifica si la ruta actual es '/home'
+        if (event.urlAfterRedirects === '/home') {
+          this.ejecutarLogicaHome();
+        } else {
+          // Si se sale de /home, elimina suscripciones
+          this.eliminarTodasLasSuscripciones();
+        }
+      });
+  
+    // Guarda la suscripción en la lista
+    this.subscriptions.push(routerSubscription);
+  }
+  
+  // Método para la lógica específica de la ruta /home
+  ejecutarLogicaHome() {
     if (
+      this.authService.usuarioLogeado?.tipoUsuario === 'Cliente' ||
+      this.authService.usuarioLogeado?.tipoUsuario === 'Anónimo'
+    ) {
+      console.log("checkeo mesa")
+      this.checkearMesa();
+    } else if (
       this.authService.tipoUsuario === 'Cocinero' ||
       this.authService.tipoUsuario === 'Bartender'
     ) {
+      console.log("obtengo tareas")
       this.obtenerTareasBartenderyCocinero();
     }
-    this.router.events
-      .pipe(filter((event: any) => event instanceof NavigationEnd))
-      .subscribe(() => {
-        // Verifica que la ruta actual es '/home'
-        if (
-          this.router.url === '/home' &&
-          (this.authService.usuarioLogeado?.tipoUsuario === 'Cliente' ||
-            this.authService.usuarioLogeado?.tipoUsuario === 'Anónimo')
-        ) {
-          this.checkearMesa();
-        }
-      });
-
-    // if (this.authService.tipoUsuario === 'Cliente' || this.authService.tipoUsuario === 'Anónimo') {
-    //   const idUsuario = this.authService.usuarioLogeado?.id;
-    //   if (!idUsuario) return;
-    //   this.spinner.show();
-    //   this.mesasService.obtenerMesas().subscribe((mesas) => {
-    //     const mesaActualDelCliente = mesas.find(
-    //       (item) => item.idCliente === idUsuario
-    //     );
-    //     if (mesaActualDelCliente) {
-    //       this.router.navigate(['/mesa', mesaActualDelCliente.numero]);
-    //     }
-    //     this.spinner.hide();
-    //   });
-    // }
-    // this.checkearMesa();
+  }
+  // Método para eliminar todas las suscripciones
+  eliminarTodasLasSuscripciones() {
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
+    this.subscriptions = []; // Limpia la lista de suscripciones
   }
 
   async checkearMesa() {
     this.spinner.show();
     if (
       this.authService.tipoUsuario === 'Cliente' ||
-      this.authService.tipoUsuario === 'Anónimo'
+      this.authService.usuarioLogeado?.tipoUsuario === 'Anónimo'
     ) {
+      console.log('aca entre');
       const idUsuario = this.authService.usuarioLogeado?.id;
       let listasMesas = await this.datosService.ObtenerDatosAsync('Mesa');
       const mesaActualDelCliente = listasMesas.find(
         (item) => item.idCliente === idUsuario
       );
+      console.log('aca tan entre');
+
       if (mesaActualDelCliente) {
         this.spinner.hide();
+        console.log('aca  y sastan entre');
+
         this.router.navigate(['/mesa', mesaActualDelCliente.numero]);
       }
       // this.spinner.hide();
@@ -92,14 +111,19 @@ export class HomeComponent implements OnInit {
 
   obtenerTareasBartenderyCocinero() {
     this.spinner.show();
-    this.datosService
+    const ventasSubscription = this.datosService
       .ObtenerDatos('Ventas')
       .subscribe((listaDeVentas: Ventas[]) => {
         this.ventasLocal = listaDeVentas;
+        console.log(listaDeVentas);
         this.filtrarTareas();
         this.spinner.hide();
       });
+
+    // Guarda la suscripción en la lista
+    this.subscriptions.push(ventasSubscription);
   }
+
 
   filtrarTareas() {
     const tipoUsuario = this.authService.tipoUsuario;
@@ -234,3 +258,4 @@ export class HomeComponent implements OnInit {
     );
   }
 }
+

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router,NavigationEnd, NavigationStart } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { Mesa } from 'src/app/interfaces/mesa.interface';
@@ -10,6 +10,7 @@ import { DatosServiceService } from 'src/app/services/datos/datos-service.servic
 import { FotosService } from 'src/app/services/fotos.service';
 import { ToastService } from 'src/app/services/toast.service';
 import Swal from 'sweetalert2';
+import { filter, pairwise } from 'rxjs/operators';
 
 @Component({
   selector: 'app-mesa',
@@ -24,6 +25,7 @@ export class MesaComponent implements OnInit {
   pedido!: Ventas;
   stepActual = 0;
   estadoDelPedido: 'Pendiente' | 'En proceso' | 'Listo' | undefined;
+  bandera=false;
 
   constructor(
     public authService: AuthService,
@@ -50,6 +52,22 @@ export class MesaComponent implements OnInit {
       this.mesa = mesaEncontrada;
       this.spinner.hide();
     });
+
+        this.router.events
+      .pipe(
+        filter((event: any) => event instanceof NavigationEnd),
+        pairwise()
+      )
+      .subscribe(([previous, current]: [NavigationEnd, NavigationEnd]) => {
+        if ( previous.url === `/encuestasClientes/${this.idMesa}`) {
+          this.buscarPedidoActual();
+          // this.pedido;
+          console.log('La ruta anterior antes de /home fue:', previous.url);
+          // Lógica adicional aquí si es necesario
+        }
+      });
+
+
     // if(this.idMesa=="" || mesaEncontrada){
     //   this.spinner.hide();
     //   this.toastService.openErrorToast("Error al encontrar la mesa",'bottom');
@@ -63,7 +81,7 @@ export class MesaComponent implements OnInit {
         this.router.navigate(['/menu-juego']);
         break;
       case 'completarEncuesta':
-        this.router.navigate(['/encuestasClientes', this.idMesa]);
+        this.router.navigate(['/encuestasClientes', this.idMesa]);        
         break;
       case 'resultadosEncuestas':
         this.router.navigate(['/resultadosEncuestas', this.idMesa]);
@@ -105,6 +123,7 @@ export class MesaComponent implements OnInit {
     );
     if (venta) {
       this.pedido = venta;
+      console.log(this.pedido);
       this.obtenerStepActual();
       this.spinner.hide();
     } else {
@@ -179,6 +198,7 @@ export class MesaComponent implements OnInit {
   }
 
   async escanearQr() {
+    // this.buscarPedidoActual();
     this.fotosService
       .scan()
       .then((resultado: string) => {

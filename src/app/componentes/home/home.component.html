@@ -105,13 +105,14 @@
           Mesa #{{ tarea.numeroDeMesa }} Estado:
           {{ tarea.estadoPedido.toUpperCase() }}
         </h2>
-        <ion-fab-button
+        <button
           color="primary"
           (click)="verDetalleDelPedido(tarea)"
           size="small"
+          class="botonInformacion"
         >
-          <ion-icon name="information-outline"></ion-icon>
-        </ion-fab-button>
+        <ion-icon name="information-circle-outline"></ion-icon>
+        </button>
       </div>
     </div>
 
