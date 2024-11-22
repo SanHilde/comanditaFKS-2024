@@ -134,3 +134,19 @@ ion-fab-button {
     z-index: 1;
   }
 }
+.botonInformacion{
+  height: 60px;
+    width: 60px;
+    font-size: 40px;
+    border-radius: 20px;
+    background-color: var(--color-principal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    ion-icon{
+      width: 60px;
+      }
+
+}
+

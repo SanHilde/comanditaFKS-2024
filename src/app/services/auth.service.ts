@@ -86,6 +86,7 @@ export class AuthService {
       password
     ).then(() => {
       this.buscarUsuario(email);
+      this.reproducir("login");
     });
     return from(promise);
   }
@@ -96,7 +97,9 @@ export class AuthService {
     this.usuarioLogeado = undefined;
     this.firebaseAuth
       .signOut()
-      .then(() => this.router.navigate(['login']))
+      .then(() => {
+        this.reproducir("logout");
+        this.router.navigate(['login'])})
       .catch((err) => {
         console.log(err, 'errorrrrr');
       });
@@ -135,4 +138,33 @@ export class AuthService {
         });
     });
   }
+
+  isAudioPlaying=false;
+  public audio: HTMLAudioElement = new Audio();
+
+  reproducir(audio:string){
+    // Si ya hay un audio reproduciéndose, no permitas iniciar otro
+    if (this.isAudioPlaying) {
+      return;
+    }
+  
+    // Inicia el nuevo audio y marca que el audio está en reproducción
+    this.isAudioPlaying = true;
+    this.audio.pause();
+    this.audio = new Audio(`assets/music/${audio}.mp3`);
+    this.audio.volume = 1;
+    this.audio.play()
+      .then(() => {
+        // Cuando el audio termina, liberamos el control
+        this.audio.onended = () => {
+          this.isAudioPlaying = false;
+        };
+      })
+      .catch((error) => {
+        console.error('Error al reproducir el audio:', error);
+        // Si hay un error, también liberamos el control
+        this.isAudioPlaying = false;
+      });
+}
+
 }
