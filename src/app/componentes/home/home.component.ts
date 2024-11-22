@@ -68,14 +68,13 @@ export class HomeComponent implements OnInit {
       this.authService.usuarioLogeado?.tipoUsuario === 'Cliente' ||
       this.authService.usuarioLogeado?.tipoUsuario === 'Anónimo'
     ) {
-      console.log("checkeo mesa")
       this.checkearMesa();
     } else if (
       this.authService.tipoUsuario === 'Cocinero' ||
       this.authService.tipoUsuario === 'Bartender'
     ) {
-      console.log("obtengo tareas")
       this.obtenerTareasBartenderyCocinero();
+      this.router.navigate(['/encuestasClientes',"1"]);
     }
   }
   // Método para eliminar todas las suscripciones
@@ -90,18 +89,14 @@ export class HomeComponent implements OnInit {
       this.authService.tipoUsuario === 'Cliente' ||
       this.authService.usuarioLogeado?.tipoUsuario === 'Anónimo'
     ) {
-      console.log('aca entre');
       const idUsuario = this.authService.usuarioLogeado?.id;
       let listasMesas = await this.datosService.ObtenerDatosAsync('Mesa');
       const mesaActualDelCliente = listasMesas.find(
         (item) => item.idCliente === idUsuario
       );
-      console.log('aca tan entre');
 
       if (mesaActualDelCliente) {
         this.spinner.hide();
-        console.log('aca  y sastan entre');
-
         this.router.navigate(['/mesa', mesaActualDelCliente.numero]);
       }
       // this.spinner.hide();
