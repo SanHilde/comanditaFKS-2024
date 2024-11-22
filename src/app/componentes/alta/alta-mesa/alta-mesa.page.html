@@ -15,6 +15,10 @@
         <ion-select-option value="3">Mesa 3</ion-select-option>
         <ion-select-option value="4">Mesa 4</ion-select-option>
         <ion-select-option value="5">Mesa 5</ion-select-option>
+        <ion-select-option value="6">Mesa 6</ion-select-option>
+        <ion-select-option value="7">Mesa 7</ion-select-option>
+        <ion-select-option value="8">Mesa 8</ion-select-option>
+        <ion-select-option value="9">Mesa 9</ion-select-option>
       </ion-select>
     </ion-item>
 
@@ -47,13 +51,13 @@
   </form>
 
   <!-- Mostrar el código QR generado -->
-  <div *ngIf="codigoQR">
+  <div class="qr-container" *ngIf="codigoQR">
     <h3>Código QR:</h3>
     <img [src]="codigoQR" alt="Código QR de la mesa" />
   </div>
 
   <!-- Mostrar la foto capturada -->
-  <div *ngIf="fotoUrl">
+  <div class="img-container" *ngIf="fotoUrl">
     <h3>Foto:</h3>
     <img [src]="fotoUrl" alt="Foto de la mesa" />
   </div>

@@ -27,7 +27,8 @@
           *ngIf="
             this.authService.tipoUsuario === 'Dueño' ||
             this.authService.tipoUsuario === 'Supervisor' ||
-            this.authService.tipoUsuario === 'Cocinero'
+            this.authService.tipoUsuario === 'Cocinero'||
+            this.authService.tipoUsuario === 'Bartender'
           "
           (click)="toggleList($event)"
         >
@@ -66,25 +67,36 @@
       showList &&
       (this.authService.tipoUsuario === 'Dueño' ||
         this.authService.tipoUsuario === 'Supervisor' ||
-        this.authService.tipoUsuario === 'Cocinero')
+        this.authService.tipoUsuario === 'Cocinero'||
+        this.authService.tipoUsuario === 'Bartender')
     "
     class="custom-list"
   >
     <h3 class="list-title">Dar de alta</h3>
     <ion-item
-      *ngIf="this.authService.tipoUsuario !== 'Cocinero'"
+      *ngIf="this.authService.tipoUsuario !== 'Cocinero' &&
+      this.authService.tipoUsuario !== 'Bartender'"
       (click)="selectOption('Empleado')"
     >
       Empleado
     </ion-item>
     <ion-item
-      *ngIf="this.authService.tipoUsuario !== 'Cocinero'"
+      *ngIf="this.authService.tipoUsuario !== 'Cocinero' &&
+      this.authService.tipoUsuario !== 'Bartender'"
       (click)="selectOption('Supervisor')"
     >
       Dueño o Supervisor
     </ion-item>
     <ion-item
-      *ngIf="this.authService.tipoUsuario === 'Cocinero'"
+      *ngIf="this.authService.tipoUsuario !== 'Cocinero' &&
+      this.authService.tipoUsuario !== 'Bartender'"
+      (click)="selectOption('Mesa')"
+    >
+      Nueva mesa
+    </ion-item>
+    <ion-item
+      *ngIf="this.authService.tipoUsuario === 'Cocinero'||
+      this.authService.tipoUsuario === 'Bartender'"
       (click)="selectOption('Producto')"
       >Nuevo plato</ion-item
     >
