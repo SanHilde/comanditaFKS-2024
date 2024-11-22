@@ -9,6 +9,7 @@ import { ToastService } from '../../../services/toast.service';
 import { FotosService } from '../../../services/fotos.service';
 import  {AuthService}  from '../../../services/auth.service';
 import { UsuarioInterface } from 'src/app/interfaces/usuario.interface';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-alta-mesa',
@@ -29,7 +30,8 @@ export class AltaMesaPage implements OnInit{
     private qrService: QrService,
     private fotoService: FotosService, // Inyecta FotosService
     private datosServices: DatosServiceService,
-    private toastService: ToastService, private AuthService: AuthService
+    private toastService: ToastService, private AuthService: AuthService,
+    private Router: Router
   ) {
     this.mesaForm = this.fb.group({
       numero: ['', Validators.required],
@@ -111,6 +113,7 @@ async tomarFoto() {
           setTimeout(() => {
             this.limpiarFormulario();
           }, 5000);
+          this.Router.navigate(['/home']);
         })
         .catch(error => {
           console.error('Error al generar el código QR o guardar los datos:', error);

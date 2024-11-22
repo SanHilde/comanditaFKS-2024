@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import { Producto } from '../../../interfaces/producto.interface';
 import  {AuthService}  from '../../../services/auth.service';
 import { UsuarioInterface } from 'src/app/interfaces/usuario.interface';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-alta-producto',
@@ -25,7 +26,8 @@ export class AltaProductoPage implements OnInit {
     private qrService: QrService,
     private fotoService: FotosService,
     private datosService: DatosServiceService,
-    private toastService: ToastService,  private AuthService: AuthService
+    private toastService: ToastService,  private AuthService: AuthService,
+    private Router: Router
   ) {
     this.productoForm = this.fb.group({
       nombre: ['', Validators.required],
@@ -66,6 +68,7 @@ export class AltaProductoPage implements OnInit {
         (productoData.categoria === 'Bartender' && this.usuariolog?.tipoUsuario !== 'Bartender') ||
         (productoData.categoria === 'Cocinero' && this.usuariolog?.tipoUsuario !== 'Cocinero')
       ) {
+        this.limpiarFormulario();
         this.toastService.openErrorToast(
           `No tienes permisos para crear productos de la categoría ${productoData.categoria}.`
         );
@@ -113,11 +116,10 @@ export class AltaProductoPage implements OnInit {
         })
         .then(() => {
           this.toastService.openSuccessToast('Producto guardado con éxito.');
-
-          // Limpia el formulario y las fotos después de 5 segundos
           setTimeout(() => {
             this.limpiarFormulario();
           }, 5000);
+          this.Router.navigate(['/home']);
         })
         .catch((error) => {
           console.error(

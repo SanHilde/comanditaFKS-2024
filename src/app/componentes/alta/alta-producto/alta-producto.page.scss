@@ -47,20 +47,7 @@
     color: #333;
   }
   
-  ion-button {
-    margin-top: 20px;
-    border-radius: 10px;
-    font-weight: bold;
-    --background: #b26444;
-    --color: white;
-    --box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-  }
-  
-  ion-button:hover {
-    transform: scale(1.02);
-    transition: transform 0.2s;
-  }
-  
+
   .img-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
@@ -92,17 +79,3 @@
     border-radius: 10px;
   }
   
-  ion-button,
-button {
-  margin-top: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
-ion-button:active,
-button:active {
-  transform: scale(0.98); /* Ligeramente más pequeño al hacer clic */
-  opacity: 0.8; /* Reduce la opacidad para un efecto de presión */
-}
