@@ -212,18 +212,7 @@ export class MesaComponent implements OnInit {
       .scan()
       .then((resultado: string) => {
         if (!this.mesa) return;
-        if (this.mesa.idCliente !== this.authService.usuarioLogeado?.id) {
-          this.toastService.openErrorToast(
-            `Error. No tienes mesa asignada. Escanea el QR de ingreso para ingresar a la lista de espera.`,
-            'bottom'
-          );
-          this.stepActual = -1;
-        } else if (resultado === this.mesa.qrid) {
-          this.buscarPedidoActual();
-        } else if (resultado == 'PROPINA') {
-          this.mostrarAlertaPropina();
-          return;
-        } else if (resultado == 'INGRESO') {
+        if (resultado == 'INGRESO') {
           if (
             !this.mesa.idCliente ||
             this.mesa.idCliente !== this.authService.usuarioLogeado?.id
@@ -236,11 +225,24 @@ export class MesaComponent implements OnInit {
             );
           }
           return;
+        } else if (resultado === this.mesa.qrid) {
+          if (this.mesa.idCliente !== this.authService.usuarioLogeado?.id) {
+            this.toastService.openErrorToast(
+              `Error. No tienes mesa asignada. Escanea el QR de ingreso para ingresar a la lista de espera.`,
+              'bottom'
+            );
+            this.stepActual = -1;
+          } else {
+            this.buscarPedidoActual();
+          }
         } else if (this.mesa.numero) {
           this.toastService.openErrorToast(
             `Error. Esta mesa no está asignada a ti. Tu mesa es la número ${this.mesa.numero}`,
             'bottom'
           );
+        } else if (resultado == 'PROPINA') {
+          this.mostrarAlertaPropina();
+          return;
         }
       })
       .catch((error) => {

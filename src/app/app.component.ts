@@ -71,14 +71,18 @@ export class AppComponent {
   }
 
   selectOption(option: string) {
-    if (option === 'Producto') {
-      this.router.navigate(['/alta-producto']);
-    } else if (option === 'Mesa') {
-      this.router.navigate(['/alta-mesa']);  // Make sure the route is correct for the "Mesa" page
-    } else {
-      this.router.navigate(['/altaUsuarios', option]);
+    switch (option) {
+      case 'Producto':
+        this.router.navigate(['/alta-producto']);
+        break;
+      case 'Mesa':
+        this.router.navigate(['/alta-mesa']); // Make sure the route is correct for the "Mesa" page
+        break;
+      default:
+        this.router.navigate(['/altaUsuarios', option]);
+        break;
     }
-  
+
     this.showList = false; // Cierra la lista al seleccionar una opción
   }
   @HostListener('document:click', ['$event'])

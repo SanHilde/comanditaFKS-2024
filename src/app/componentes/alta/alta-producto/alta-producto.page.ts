@@ -4,11 +4,11 @@ import { QrService, tipoQr } from '../../../services/qr.service';
 import { FotosService } from '../../../services/fotos.service';
 import { DatosServiceService } from '../../../services/datos/datos-service.service';
 import { ToastService } from '../../../services/toast.service';
-import Swal from 'sweetalert2';
+
 import { Producto } from '../../../interfaces/producto.interface';
-import  {AuthService}  from '../../../services/auth.service';
+import { AuthService } from '../../../services/auth.service';
 import { UsuarioInterface } from 'src/app/interfaces/usuario.interface';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-alta-producto',
@@ -20,36 +20,50 @@ export class AltaProductoPage implements OnInit {
   codigoQR: string | null = null;
   fotos: string[] = []; // Almacena las URLs de las fotos del producto
   usuariolog: UsuarioInterface | undefined;
+  titulo = 'Comida';
 
   constructor(
     private fb: FormBuilder,
     private qrService: QrService,
     private fotoService: FotosService,
     private datosService: DatosServiceService,
-    private toastService: ToastService,  private AuthService: AuthService,
+    private toastService: ToastService,
+    private AuthService: AuthService,
     private Router: Router
   ) {
+    // Inicialización del formulario
     this.productoForm = this.fb.group({
       nombre: ['', Validators.required],
       descripcion: ['', Validators.required],
       tiempoElaboracion: ['', Validators.required],
       precio: ['', [Validators.required, Validators.min(0)]],
-      categoria: ['', Validators.required],
+      categoria: ['', Validators.nullValidator],
       esPostre: [''],
     });
   }
+
   ngOnInit(): void {
-    while (this.usuariolog === undefined) {
-      this.usuariolog = this.AuthService.usuarioLogeado;
+    // Cargar el usuario logueado
+    this.usuariolog = this.AuthService.usuarioLogeado;
+    if (this.usuariolog) {
+      const defaultCategoria =
+        this.usuariolog.tipoUsuario === 'Bartender' ? 'Bartender' : 'Cocinero';
+
+      this.titulo =
+        this.usuariolog.tipoUsuario === 'Bartender' ? 'Bebida' : 'Plato';
+
+      this.productoForm.patchValue({
+        categoria: defaultCategoria,
+      });
     }
 
-    const defaultCategoria =
-    this.usuariolog?.tipoUsuario === 'Bartender' ? 'Bartender' : 'Cocinero';
+    // Asegurarse de que el usuario está cargado, si no, puedes redirigir o mostrar un error
+    if (!this.usuariolog) {
+      this.toastService.openErrorToast('Usuario no encontrado');
+      this.Router.navigate(['/login']);
+    }
+  }
 
-  this.productoForm = this.fb.group({
-    categoria: [defaultCategoria, Validators.required],
-  });
-}
   async tomarFoto() {
     if (this.fotos.length < 3) {
       // Limita a 3 fotos
@@ -70,9 +84,13 @@ export class AltaProductoPage implements OnInit {
   onSubmit() {
     if (this.productoForm.valid) {
       const productoData = this.productoForm.value;
+
+      // Verificar si el usuario tiene permisos para la categoría seleccionada
       if (
-        (productoData.categoria === 'Bartender' && this.usuariolog?.tipoUsuario !== 'Bartender') ||
-        (productoData.categoria === 'Cocinero' && this.usuariolog?.tipoUsuario !== 'Cocinero')
+        (productoData.categoria === 'Bartender' &&
+          this.usuariolog?.tipoUsuario !== 'Bartender') ||
+        (productoData.categoria === 'Cocinero' &&
+          this.usuariolog?.tipoUsuario !== 'Cocinero')
       ) {
         this.limpiarFormulario();
         this.toastService.openErrorToast(
@@ -80,6 +98,7 @@ export class AltaProductoPage implements OnInit {
         );
         return;
       }
+
       const productoDataQR: Producto = {
         id: '', // Se generará al guardar en la base de datos
         nombre: productoData.nombre,
@@ -91,7 +110,7 @@ export class AltaProductoPage implements OnInit {
         categoria: productoData.categoria,
         esUnPostre: productoData.esPostre,
         creadoPor: this.usuariolog?.tipoUsuario, // O el usuario que crea el producto
-        cantidadSolicitada: 0, //AGREGUE CANTIDAD
+        cantidadSolicitada: 0, // AGREGUE CANTIDAD
       };
 
       this.qrService
