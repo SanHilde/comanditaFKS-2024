@@ -347,8 +347,8 @@ Se marcaran en negrita aquellas tareas que hayan tenido un cambio de una semana 
 ### **Proceso de pedido de cliente o anónimo**
 Primero inicio, como aparece cuando se ingresa a la app, luego el ingreso, cuando se escanea el qr de la entrada, luego cuando se escanea el qr de la mesa y por ultimo el qr de la propina.
 ![Inicio](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Anónimo-cliente-inicio.JPG)
-![Ingreso](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Anónimo-cliente-ingreso.JPG)
-![Mesa](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Anónimo-cliente-mesa.JPG)
+![Ingreso](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Cliente-ingreso.jpeg)
+![Mesa](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/An%C3%B3nimo-cliente-mesa.jpeg)
 ![Propina](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Anónimo-cliente-propina.JPG)
 
 
@@ -362,7 +362,8 @@ Primero inicio, como aparece cuando se ingresa a la app, luego el ingreso, cuand
 ![Aprobar-listaDeEspera](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Maitre-listadeespera.JPG)
 
 ### **Cliente armado de Pedido**
-![Menu](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Menu)
+![Menu](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Menu.jpeg)
+![Menu2](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Menu2.jpeg)
 
 ### **Bartender y cocinero**
 ![Pedido](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Bartender-aceptar.JPG)
@@ -379,14 +380,14 @@ Primero inicio, como aparece cuando se ingresa a la app, luego el ingreso, cuand
 
 ### **Cliente Encuestas**
 ![Resultados-encuestas](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Encuesta-cliente.JPG) 
-![Resultados-detalles](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Resultados-encuestas-detalles.JPG) 
+![Resultados-detalles](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Resultados-encuestas-detalles.jpeg) 
 <!-- 
 ### **Estadísticas**
 ![Estadisticas](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/juegodificil.png)  -->
 
 ### **Juegos**
-![Juego](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/juego-nivel.JPG)
-![Niveles](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/juego-dificultad.JPG)
+![Juego](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Juego-nivel.jpeg)
+![Niveles](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Juego-dificultad.jpeg)
 <!-- ![Juegos-dificil](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/juegodificil.png)
 ![Juegos-medio](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/juego-medio.png) -->
 

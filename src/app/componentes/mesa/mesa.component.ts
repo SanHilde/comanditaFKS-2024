@@ -82,6 +82,7 @@ export class MesaComponent implements OnInit {
     //   this.toastService.openErrorToast("Error al encontrar la mesa",'bottom');
     //   this.router.navigate(['/home']);
     // }
+    
   }
 
   navegarA(ruta: string) {
