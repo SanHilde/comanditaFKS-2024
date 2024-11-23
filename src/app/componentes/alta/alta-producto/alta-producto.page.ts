@@ -42,8 +42,14 @@ export class AltaProductoPage implements OnInit {
     while (this.usuariolog === undefined) {
       this.usuariolog = this.AuthService.usuarioLogeado;
     }
-    
-  }
+
+    const defaultCategoria =
+    this.usuariolog?.tipoUsuario === 'Bartender' ? 'Bartender' : 'Cocinero';
+
+  this.productoForm = this.fb.group({
+    categoria: [defaultCategoria, Validators.required],
+  });
+}
   async tomarFoto() {
     if (this.fotos.length < 3) {
       // Limita a 3 fotos
