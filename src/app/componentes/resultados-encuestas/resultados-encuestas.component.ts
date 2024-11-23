@@ -39,6 +39,7 @@ import { chartOptions, chartOptionsColumna, chartOptionsRadial } from './chart-c
 import { IonicModule } from '@ionic/angular';
 
 
+
 type ApexXAxis = {
   type?: 'category' | 'datetime' | 'numeric';
   categories?: any;
