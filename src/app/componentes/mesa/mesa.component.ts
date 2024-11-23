@@ -212,7 +212,13 @@ export class MesaComponent implements OnInit {
       .scan()
       .then((resultado: string) => {
         if (!this.mesa) return;
-        if (resultado === this.mesa.qrid) {
+        if (this.mesa.idCliente !== this.authService.usuarioLogeado?.id) {
+          this.toastService.openErrorToast(
+            `Error. No tienes mesa asignada. Escanea el QR de ingreso para ingresar a la lista de espera.`,
+            'bottom'
+          );
+          this.stepActual = -1;
+        } else if (resultado === this.mesa.qrid) {
           this.buscarPedidoActual();
         } else if (resultado == 'PROPINA') {
           this.mostrarAlertaPropina();
