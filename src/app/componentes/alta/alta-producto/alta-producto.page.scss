@@ -1,81 +1,150 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #2e1616; /* Fondo más claro */
+    color: #121212; /* Letras oscuras para contraste */
+}
+
 .container {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    padding: 15px;
-    background-color: #f4f4f4;
-    height: 100%;
-  }
-  
-  ion-toolbar {
-    --background: #b26444;
-    color: white;
-  }
-  
-  h3 {
+    padding: 20px;
+    background-color: #FFFFFF; /* Fondo más claro */
+    height: 100vh;
+    overflow-y: auto;
+}
+
+ion-toolbar {
+    --background: #E0E0E0; /* Fondo más claro */
+    color: #121212; /* Letras oscuras */
+    font-size: 18px;
+}
+
+h3 {
     text-align: center;
-    margin-top: 15px;
-    color: #333;
-  }
-  
-  form {
+    margin-top: 20px;
+    color: #333333; /* Texto oscuro para contraste */
+    font-weight: bold;
+}
+
+form {
     width: 100%;
     max-width: 600px;
-    background: white;
-    padding: 15px;
+    background: #FFFFFF; /* Fondo más claro */
+    padding: 30px; /* Incrementado para mayor separación */
     border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  ion-item {
-    --background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    border: 1px solid #CCCCCC; /* Borde claro */
+}
+
+ion-item {
+    --background: #F8F8F8; /* Fondo más claro */
     border-radius: 10px;
-    margin-bottom: 15px;
-  }
-  
-  ion-label {
+    margin-bottom: 20px; /* Incrementado para mayor separación */
+    border: 1px solid #DDDDDD; /* Borde claro */
+    padding: 20px; /* Incrementado para mejorar la visibilidad */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+ion-label {
     font-weight: bold;
     font-size: 14px;
-  }
-  
-  ion-input,
-  ion-textarea,
-  ion-select {
-    --padding-start: 10px;
-    font-size: 16px;
-    color: #333;
-  }
-  
+    color: #333333; /* Texto oscuro */
+    margin-bottom: 10px; /* Incrementado para separación con el input */
+}
 
-  .img-container {
+ion-input,
+ion-textarea,
+ion-select {
+    --padding-start: 20px; /* Incrementado para mayor claridad */
+    font-size: 16px;
+    color: #121212; /* Texto oscuro */
+    background-color: #FFFFFF; /* Fondo claro */
+    border-radius: 5px;
+    border: 1px solid #CCCCCC; /* Borde claro */
+    height: 55px; /* Incrementado para mejor visibilidad */
+    width: 100%;
+    box-sizing: border-box; /* Asegura espaciado correcto */
+}
+
+ion-input::placeholder,
+ion-textarea::placeholder,
+ion-select::placeholder {
+    color: #888888; /* Placeholder gris */
+}
+
+button {
+    width: 100%;
+    padding: 12px 20px; /* Ajustado para consistencia */
+    background-color: #5E35B1;
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: #7C4DFF;
+    box-shadow: 0px 4px 10px rgba(124, 77, 255, 0.5);
+}
+
+.img-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 10px;
-    margin-top: 15px;
-    padding: 10px;
-    background: #fff;
+    gap: 15px;
+    margin-top: 20px;
+    padding: 15px;
+    background: #FFFFFF; /* Fondo claro */
     border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .img-container img {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    border: 1px solid #CCCCCC; /* Borde claro */
+}
+
+.img-container img {
     width: 100%;
     border-radius: 10px;
     object-fit: cover;
-    height: 100px;
-  }
-  
-  .qr-container {
+    height: 120px;
+    transition: transform 0.3s ease;
+}
+
+.img-container img:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.qr-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 20px;
-  }
-  
-  .qr-container img {
+    margin-top: 30px;
+}
+
+.qr-container img {
     max-width: 150px;
-    border: 2px solid #b26444;
+    border: 2px solid #5E35B1;
     border-radius: 10px;
-  }
-  
+    transition: all 0.3s ease;
+}
+
+.qr-container img:hover {
+    border-color: #7C4DFF;
+    box-shadow: 0px 4px 10px rgba(124, 77, 255, 0.5);
+}
+
+
+.footer {
+  text-align: center;
+  margin-top: 20px;
+  color: #B0B0B0;
+  font-size: 12px;
+}

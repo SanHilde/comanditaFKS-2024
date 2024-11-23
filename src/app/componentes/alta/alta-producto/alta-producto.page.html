@@ -8,16 +8,19 @@
   <form [formGroup]="productoForm" (ngSubmit)="onSubmit()" class="contenedorCompleto">
     <ion-item>
       <ion-label position="stacked">Nombre del Producto:</ion-label>
+      <br>
       <ion-input formControlName="nombre" required></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label position="stacked">Descripción:</ion-label>
+      <br>
       <ion-textarea formControlName="descripcion" required></ion-textarea>
     </ion-item>
 
     <ion-item>
       <ion-label position="stacked">Tiempo de Elaboración (minutos):</ion-label>
+      <br>
       <ion-input
         formControlName="tiempoElaboracion"
         type="number"
@@ -27,6 +30,7 @@
 
     <ion-item>
       <ion-label position="stacked">Precio:</ion-label>
+      <br>
       <ion-input formControlName="precio" type="number" required></ion-input>
     </ion-item>
 
