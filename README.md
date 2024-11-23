@@ -160,20 +160,19 @@ Se marcaran en negrita aquellas tareas que hayan tenido un cambio de una semana 
 | **65**  | **Juego para obtener un 20% de descuento.**            | **P3**           | **Kervin**               | **🟡 En curso**   | **14/11/2024**         |                          |                                                             |
 
 ## Cuarta entrega: Pre entrega hasta 19/11/2024
-
 | N° | 📋 Tareas                                           | 🔝 Prioridad | 👤 Propietario | 📊 Estado     | 📅 Fecha de inicio | 📅 Fecha de finalización | 📌 Notas                                                     |
 |----|-----------------------------------------------------|--------------|----------------|---------------|--------------------|--------------------------|-------------------------------------------------------------|
 | 1  | Crear la estructura básica del proyecto             | P0           | Santiago       | 🟢 Completada | 26/10/2024         | 26/10/2024               |                                                             |
 | 2  | Crear la página de inicio de sesión                 | P0           | Fabiola        | 🟢 Completada | 26/10/2024         | 27/10/2024               |                                                             |
 | 3  | Crear icono                                         | P0           | Kervin         | 🟢 Completada | 26/10/2024         | 27/10/2024               |                                                             |
 | 4  | Crear Splash dinámico y estático                    | P0           | Fabiola        | 🟢 Completada | 26/10/2024         | 27/10/2024               |                                                             |
-| 5  | Crear loader                                        | P0           | Fabiola        | 🟢 **Completada**|   | 26/10/2024         |                          |        |
+| 5  | Crear loader                                        | P0           | Fabiola        | 🟢 **Completada** | 26/10/2024     |  19/11/2024               |                                                             |
 | 6  | Crear base de datos y autenticación en Firebase     | P0           | Santiago       | 🟢 Completada | 26/10/2024         | 26/10/2024               |                                                             |
 | 7  | Implementar la funcionalidad de Inicio de sesión    | P0           | Fabiola        | 🟢 Completada | 26/10/2024         | 11/07/2024               |                                                             |
 | 8  | Crear sistema de roles y permisos                   | P0           | Santiago       | 🟢 Completada | 26/10/2024         | 11/02/2024               |                                                             |
-| 9  | Diseñar QRs usados                                  | P0           | Santiago       | 🟢 **Completada**|  | 26/10/2024         | 26/10/2024               |           |
+| 9  | Diseñar QRs usados                                  | P0           | Santiago       | 🟢 **Completada** | 26/10/2024       | 26/10/2024               |                                                             |
 | 10 | Implementar servicio de QR                          | P0           | Kervin         | 🟢 Completada | 26/10/2024         | 2/11/2024                |                                                             |
-| 11 | Implementar servicio de push notification           | P0           | Fabiola        | 🟢 **Completada**|   | 26/10/2024         |                          |                                                             |
+| 11 | Implementar servicio de push notification           | P0           | Fabiola        | 🟢 **Completada** | 26/10/2024       |    19/11/2024           |                                                             |
 | 12 | Implementar servicio de correo automático           | P0           | Kervin         | 🟢 Completada | 26/10/2024         | 5/11/2024                |                                                             |
 | 13 | Crear sistema de altas                              | P1           | Santiago       | 🟢 Completada | 26/10/2024         | 27/10/2024               |                                                             |
 | 14 | Alta de dueño / supervisor                          | P1           | Santiago       | 🟢 Completada | 26/10/2024         | 27/10/2024               |                                                             |
@@ -181,14 +180,15 @@ Se marcaran en negrita aquellas tareas que hayan tenido un cambio de una semana 
 | 16 | Alta de clientes                                    | P1           | Santiago       | 🟢 Completada | 26/10/2024         | 11/11/2024               |                                                             |
 | 17 | Alta de mesa                                        | P1           | Kervin         | 🟢 Completada | 26/10/2024         | 2/11/2024                |                                                             |
 | 18 | Alta de productos                                   | P1           | Fabiola        | 🟢 Completada | 26/10/2024         | 2/11/2024                |                                                             |
-| 19 | QR de ingreso al local                              | P1           | Fabiola        | 🟢 Completada | 4/11/2024          | 6/11/2024                |                                 |
-| 20 | QR de la mesa                                       | P1           | Kervin         | 🟢 **Completada**|   | 4/11/2024          |  19/11/2024                        |                                                             |
-| 21 | QR de propina                                       | P1           | Santiago       | 🟢 **Completada**|   | 4/11/2024          |                          |                                           |
+| 19 | QR de ingreso al local                              | P1           | Fabiola        | 🟢 Completada | 4/11/2024          | 6/11/2024                |                                                             |
+| 20 | QR de la mesa                                       | P1           | Kervin         | 🟢 **Completada** | 4/11/2024         | 19/11/2024               |                                                             |
+| 21 | QR de propina                                       | P1           | Santiago       | 🟢 **Completada** | 4/11/2024         |    19/11/2024              |                                                             |
 | 22 | Encuesta cliente                                    | P2           | Fabiola        | 🟢 Completada | 4/11/2024          | 10/11/2024               |                                                             |
-| 23 | Encuesta empleado                                   | P2           | Kervin         | 🟢 **Completada**|   | 4/11/2024          |                          |                                                             |
-| 24 | Encuesta supervisor                                 | P4           | Santiago       | 🔴 No iniciada | 4/11/2024          |                          |                                                             |
-| 25 | Agregar un nuevo cliente registrado                 | P2           | Santiago       | 🟢 **Completada**|   | 27/10/2024         |                          | L                                 |
-| 26 | Ingresar al local                                   | P2           | Fabiola        | 🟢 **Completada**|  | 4/11/2024          |                          |                              |
+| 23 | Encuesta empleado                                   | P2           | Kervin         | 🟢 **Completada** | 4/11/2024         |   19/11/2024             |                                                             |
+| 24 | Encuesta supervisor                                 | P4           | Santiago       | 🔴 No iniciada |                      |                          |                                                             |
+| 25 | Agregar un nuevo cliente registrado                 | P2           | Santiago       | 🟢 **Completada** | 27/10/2024        |  19/11/2024                |                                                             |
+| 26 | Ingresar al local                                   | P2           | Fabiola        | 🟢 Completada| 4/11/2024          |  19/11/2024                    |                              |
+| 26 | Ingresar al local                                   | P2           | Fabiola        | 🟢 **Completada**| 4/11/2024          | 19/11/2024                         |                              |
 | 27  | 6-A. Acceso a listado de productos en QR.              | P2        | Kervin      | 🟢 **Completada**| 4/11/2024      | 19/11/2024          |       |
 | 28  | 6-B. Botón de “consulta al mozo”.                      | P2        | Santiago    | 🟢 **Completada**| 11/11/2024     | 19/11/2024          |       |
 | 29  | 6-C. Notificación de consulta a todos los mozos.       | P2        | Fabiola     | 🟢 **Completada**| 4/11/2024      | 19/11/2024          |       |
@@ -228,7 +228,7 @@ Se marcaran en negrita aquellas tareas que hayan tenido un cambio de una semana 
 | 65  | Juego para obtener un 20% de descuento.                | P3        | Kervin      | 🟢 **Completada**| 26/10/2024     | 1/11/2024           |       |
 | 66  | Sonidos al iniciar sesión y cerrar sesión              | P4        |             | 🔴 No iniciada   |                |                     |       |
 
-##  Entrega: Pre entrega hasta 19/11/2024
+##  Entrega: hasta 23/11/2024
 
 | N° | 📋 Tareas                                           | 🔝 Prioridad | 👤 Propietario | 📊 Estado     | 📅 Fecha de inicio | 📅 Fecha de finalización | 📌 Notas                                                     |
 |----|-----------------------------------------------------|--------------|----------------|---------------|--------------------|--------------------------|-------------------------------------------------------------|
@@ -236,13 +236,13 @@ Se marcaran en negrita aquellas tareas que hayan tenido un cambio de una semana 
 | 2  | Crear la página de inicio de sesión                 | P0           | Fabiola        | 🟢 Completada | 26/10/2024         | 27/10/2024               |                                                             |
 | 3  | Crear icono                                         | P0           | Kervin         | 🟢 Completada | 26/10/2024         | 27/10/2024               |                                                             |
 | 4  | Crear Splash dinámico y estático                    | P0           | Fabiola        | 🟢 Completada | 26/10/2024         | 27/10/2024               |                                                             |
-| 5  | Crear loader                                        | P0           | Fabiola        | 🟢 Completada|   | 26/10/2024         |                          |        |
+| 5  | Crear loader                                        | P0           | Fabiola        | 🟢 **Completada** | 26/10/2024     |  19/11/2024               |                                                             |
 | 6  | Crear base de datos y autenticación en Firebase     | P0           | Santiago       | 🟢 Completada | 26/10/2024         | 26/10/2024               |                                                             |
 | 7  | Implementar la funcionalidad de Inicio de sesión    | P0           | Fabiola        | 🟢 Completada | 26/10/2024         | 11/07/2024               |                                                             |
 | 8  | Crear sistema de roles y permisos                   | P0           | Santiago       | 🟢 Completada | 26/10/2024         | 11/02/2024               |                                                             |
-| 9  | Diseñar QRs usados                                  | P0           | Santiago       | 🟢 Completada|  | 26/10/2024         | 26/10/2024               |           |
+| 9  | Diseñar QRs usados                                  | P0           | Santiago       | 🟢 **Completada** | 26/10/2024       | 26/10/2024               |                                                             |
 | 10 | Implementar servicio de QR                          | P0           | Kervin         | 🟢 Completada | 26/10/2024         | 2/11/2024                |                                                             |
-| 11 | Implementar servicio de push notification           | P0           | Fabiola        | 🟢 Completada|   | 26/10/2024         |                          |                                                             |
+| 11 | Implementar servicio de push notification           | P0           | Fabiola        | 🟢 **Completada** | 26/10/2024       |    19/11/2024           |                                                             |
 | 12 | Implementar servicio de correo automático           | P0           | Kervin         | 🟢 Completada | 26/10/2024         | 5/11/2024                |                                                             |
 | 13 | Crear sistema de altas                              | P1           | Santiago       | 🟢 Completada | 26/10/2024         | 27/10/2024               |                                                             |
 | 14 | Alta de dueño / supervisor                          | P1           | Santiago       | 🟢 Completada | 26/10/2024         | 27/10/2024               |                                                             |
@@ -250,14 +250,14 @@ Se marcaran en negrita aquellas tareas que hayan tenido un cambio de una semana 
 | 16 | Alta de clientes                                    | P1           | Santiago       | 🟢 Completada | 26/10/2024         | 11/11/2024               |                                                             |
 | 17 | Alta de mesa                                        | P1           | Kervin         | 🟢 Completada | 26/10/2024         | 2/11/2024                |                                                             |
 | 18 | Alta de productos                                   | P1           | Fabiola        | 🟢 Completada | 26/10/2024         | 2/11/2024                |                                                             |
-| 19 | QR de ingreso al local                              | P1           | Fabiola        | 🟢 Completada | 4/11/2024          | 6/11/2024                |                                 |
-| 20 | QR de la mesa                                       | P1           | Kervin         | 🟢 Completada|   | 4/11/2024          |  19/11/2024                        |                                                             |
-| 21 | QR de propina                                       | P1           | Santiago       | 🟢 Completada|   | 4/11/2024          |                          |                                           |
+| 19 | QR de ingreso al local                              | P1           | Fabiola        | 🟢 Completada | 4/11/2024          | 6/11/2024                |                                                             |
+| 20 | QR de la mesa                                       | P1           | Kervin         | 🟢 **Completada** | 4/11/2024         | 19/11/2024               |                                                             |
+| 21 | QR de propina                                       | P1           | Santiago       | 🟢 **Completada** | 4/11/2024         |    19/11/2024              |                                                             |
 | 22 | Encuesta cliente                                    | P2           | Fabiola        | 🟢 Completada | 4/11/2024          | 10/11/2024               |                                                             |
-| 23 | Encuesta empleado                                   | P2           | Kervin         | 🟢 Completada|   | 4/11/2024          |                          |                                                             |
-| 24 | Encuesta supervisor                                 | P4           | Santiago       | 🔴 No iniciada | 4/11/2024          |                          |                                                             |
-| 25 | Agregar un nuevo cliente registrado                 | P2           | Santiago       | 🟢 Completada|   | 27/10/2024         |                          | L                                 |
-| 26 | Ingresar al local                                   | P2           | Fabiola        | 🟢 Completada|  | 4/11/2024          |                          |                              |
+| 23 | Encuesta empleado                                   | P2           | Kervin         | 🟢 **Completada** | 4/11/2024         |   19/11/2024             |                                                             |
+| 24 | Encuesta supervisor                                 | P4           | Santiago       | 🔴 No iniciada |                      |                          |                                                             |
+| 25 | Agregar un nuevo cliente registrado                 | P2           | Santiago       | 🟢 **Completada** | 27/10/2024        |  19/11/2024                |                                                             |
+| 26 | Ingresar al local                                   | P2           | Fabiola        | 🟢 Completada| 4/11/2024          |  19/11/2024                    |                              |
 | 27  | 6-A. Acceso a listado de productos en QR.              | P2        | Kervin      | 🟢 Completada| 4/11/2024      | 19/11/2024          |       |
 | 28  | 6-B. Botón de “consulta al mozo”.                      | P2        | Santiago    | 🟢 Completada| 11/11/2024     | 19/11/2024          |       |
 | 29  | 6-C. Notificación de consulta a todos los mozos.       | P2        | Fabiola     | 🟢 Completada| 4/11/2024      | 19/11/2024          |       |
