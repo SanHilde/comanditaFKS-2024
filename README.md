@@ -320,10 +320,10 @@ Se marcaran en negrita aquellas tareas que hayan tenido un cambio de una semana 
 ![Registrarse](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Registrarse.JPG)
 
 ### **Creación de Cliente**
-![Alta cliente](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Alta%20cliente.JPG) viejo
+![Alta cliente](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Alta%20cliente.JPG) 
 
 ### **Creación de Supervisor/Dueño**
-![Alta admin](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Alta%20admin.JPG) viejo
+![Alta admin](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Alta%20admin.JPG) 
 
 ### **Creación de Empleado**
 
@@ -335,10 +335,10 @@ Se marcaran en negrita aquellas tareas que hayan tenido un cambio de una semana 
 ![Alta anónimo](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Alta%20anonimo.JPG)
 
 ### **Creacion de producto**
-![Alta producto](link)
+![Alta producto](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/altaPlato.png)
 
 ### **Creacion de mesa**
-![Alta mesa](link)
+![Alta mesa](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/altamesa.png)
 
 ### **Aprobacion de Cliente**
 
@@ -370,18 +370,20 @@ Primero inicio, como aparece cuando se ingresa a la app, luego el ingreso, cuand
 ![Sala de chat](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Chat.JPG)
 
 ### **Detalle de pedido**
-![Detalle](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Resumen.JPG) viejo
+![Detalle](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Resumen.JPG) 
 
 ### **Cliente Encuestas**
-![Resultados-encuestas](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Encuesta-cliente.JPG) viejo
-![Resultados-detalles](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Resultados-encuestas-detalles.JPG) viejo
+![Resultados-encuestas](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Encuesta-cliente.JPG) 
+![Resultados-detalles](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Resultados-encuestas-detalles.JPG) 
 
 ### **Estadísticas**
-![Estadisticas](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Resultados-encuestas.JPG) viejo
+![Estadisticas](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/juegodificil.png) 
 
 ### **Juegos**
-![Niveles](link)
-![Juegos](link)
+![Niveles](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/menu-juego.png)
+![Juegos-facil](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/juego-facil.png)
+![Juegos-dificil](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/juegodificil.png)
+![Juegos-medio](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/juego-medio.png)
 
 ## Autores
 
