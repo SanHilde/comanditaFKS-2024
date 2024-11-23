@@ -21,7 +21,9 @@
     </p>
 
     <div *ngIf="stepActual > 0 && estadoDelPedido">
-      <p id="estadoDelPedido">Estado del pedido : {{ estadoDelPedido }}</p>
+      <p id="estadoDelPedido">
+        Estado del pedido : {{ obtenerMensajeEstadoDelPedido() }}
+      </p>
       <!-- <iframe
         *ngIf="estadoDelPedido === 'Pendiente'"
         src="./../../../assets/gif/Pendiente.gif"
@@ -73,7 +75,9 @@
     </button>
 
     <button
-      *ngIf="stepActual === 3 && !pedido.confirmarRecepcion"
+      *ngIf="
+        stepActual === 3 && !pedido.confirmarRecepcion && !confirmoRecepcion
+      "
       class="botonPrincipal"
       (click)="confirmarRecepcionDelPedido()"
     >
@@ -82,7 +86,10 @@
 
     <button
       *ngIf="
-        stepActual === 4 && pedido.confirmarRecepcion && !pedido.pidioLaCuenta
+        stepActual === 4 &&
+        pedido.confirmarRecepcion &&
+        !pedido.pidioLaCuenta &&
+        !pidioLaCuenta
       "
       class="botonPrincipal"
       (click)="pedirCuenta()"

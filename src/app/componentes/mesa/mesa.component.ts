@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router,NavigationEnd, NavigationStart } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+  NavigationEnd,
+  NavigationStart,
+} from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { Mesa } from 'src/app/interfaces/mesa.interface';
@@ -25,7 +30,9 @@ export class MesaComponent implements OnInit {
   pedido!: Ventas;
   stepActual = 0;
   estadoDelPedido: 'Pendiente' | 'En proceso' | 'Listo' | undefined;
-  bandera=false;
+  bandera = false;
+  confirmoRecepcion = false;
+  pidioLaCuenta = false;
 
   constructor(
     public authService: AuthService,
@@ -53,20 +60,19 @@ export class MesaComponent implements OnInit {
       this.spinner.hide();
     });
 
-        this.router.events
+    this.router.events
       .pipe(
         filter((event: any) => event instanceof NavigationEnd),
         pairwise()
       )
       .subscribe(([previous, current]: [NavigationEnd, NavigationEnd]) => {
-        if ( previous.url === `/encuestasClientes/${this.idMesa}`) {
+        if (previous.url === `/encuestasClientes/${this.idMesa}`) {
           this.buscarPedidoActual();
           // this.pedido;
           console.log('La ruta anterior antes de /home fue:', previous.url);
           // Lógica adicional aquí si es necesario
         }
       });
-
 
     // if(this.idMesa=="" || mesaEncontrada){
     //   this.spinner.hide();
@@ -81,7 +87,7 @@ export class MesaComponent implements OnInit {
         this.router.navigate(['/menu-juego']);
         break;
       case 'completarEncuesta':
-        this.router.navigate(['/encuestasClientes', this.idMesa]);        
+        this.router.navigate(['/encuestasClientes', this.idMesa]);
         break;
       case 'resultadosEncuestas':
         this.router.navigate(['/resultadosEncuestas', this.idMesa]);
@@ -234,6 +240,7 @@ export class MesaComponent implements OnInit {
         this.toastService.openSuccessToast(
           'Gracias por confirmar que recibiste el pedido. ¡Esperamos disfrutes de la comida!'
         );
+        this.confirmoRecepcion = true;
       }
     });
   }
@@ -241,6 +248,7 @@ export class MesaComponent implements OnInit {
   pedirCuenta() {
     const pedidoModificado = { ...this.pedido, pidioLaCuenta: true };
     this.modificarVenta(pedidoModificado);
+    this.pidioLaCuenta = true;
     this.toastService.openSuccessToast(
       'Espere unos minutos, ya le traemos la cuenta. ¡Gracias!'
     );
@@ -259,5 +267,18 @@ export class MesaComponent implements OnInit {
           this.spinner.hide();
         }
       );
+  }
+
+  obtenerMensajeEstadoDelPedido() {
+    if (!this.pedido) return '';
+    if (
+      this.pedido.estadoBartender === 'listo' &&
+      this.pedido.estadoCocinero === 'listo' &&
+      this.pedido.seEntregoElPedido
+    ) {
+      return 'Entregado';
+    } else {
+      return this.estadoDelPedido;
+    }
   }
 }
