@@ -1,23 +1,31 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Registrar Producto</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content class="container">
-  <form [formGroup]="productoForm" (ngSubmit)="onSubmit()" class="contenedorCompleto">
+<div class="container">
+  <h1>Crear {{ titulo }}</h1>
+  <form [formGroup]="productoForm" (ngSubmit)="onSubmit()">
+    <!-- Nombre del Producto -->
     <ion-item>
       <ion-label position="stacked">Nombre del Producto:</ion-label>
       <br>
       <ion-input formControlName="nombre" required></ion-input>
     </ion-item>
+    <ion-item
+      *ngIf="productoForm.get('nombre')?.invalid && productoForm.get('nombre')?.touched"
+    >
+      <ion-label color="danger">Este campo es obligatorio</ion-label>
+    </ion-item>
 
+    <!-- Descripción -->
     <ion-item>
       <ion-label position="stacked">Descripción:</ion-label>
       <br>
       <ion-textarea formControlName="descripcion" required></ion-textarea>
     </ion-item>
+    <ion-item
+      *ngIf="productoForm.get('descripcion')?.invalid && productoForm.get('descripcion')?.touched"
+    >
+      <ion-label color="danger">Este campo es obligatorio</ion-label>
+    </ion-item>
 
+    <!-- Tiempo de Elaboración -->
     <ion-item>
       <ion-label position="stacked">Tiempo de Elaboración (minutos):</ion-label>
       <br>
@@ -27,41 +35,59 @@
         required
       ></ion-input>
     </ion-item>
+    <ion-item
+      *ngIf="productoForm.get('tiempoElaboracion')?.invalid && productoForm.get('tiempoElaboracion')?.touched"
+    >
+      <ion-label color="danger">Este campo es obligatorio</ion-label>
+    </ion-item>
 
+    <!-- Precio -->
     <ion-item>
       <ion-label position="stacked">Precio:</ion-label>
       <br>
       <ion-input formControlName="precio" type="number" required></ion-input>
     </ion-item>
-
-    <ion-item>
-      <ion-label position="stacked">Categoría:</ion-label>
-      <p>{{ productoForm.get('categoria')?.value }}</p>
+    <ion-item
+      *ngIf="productoForm.get('precio')?.invalid && productoForm.get('precio')?.touched"
+    >
+      <ion-label color="danger">Este campo es obligatorio</ion-label>
     </ion-item>
 
+    <!-- Campo 'esPostre' solo para la categoría 'Cocinero' -->
     <ion-item *ngIf="productoForm.controls['categoria'].value === 'Cocinero'">
-      <ion-label>¿La comida es un postre?</ion-label>
-      <ion-checkbox formControlName="esPostre"></ion-checkbox>
+      <!-- <ion-label position="stacked">¿La comida es un postre?</ion-label> -->
+
+      <ion-checkbox label-placement="start" label="" formControlName="esPostre">
+        ¿La comida es un postre?
+      </ion-checkbox>
     </ion-item>
 
-    <ion-button expand="full" (click)="tomarFoto()" class="botonPrincipal">
+    <!-- Capturar Foto -->
+    <button type="button" (click)="tomarFoto()" class="botonPrincipal">
       Capturar Foto
-    </ion-button>
+    </button>
 
-    <ion-button expand="full" type="submit" class="botonPrincipal">
+    <!-- Botón de Enviar -->
+    <button
+      type="submit"
+      class="botonPrincipal"
+      [disabled]="productoForm.invalid"
+    >
       Registrar Producto
-    </ion-button>
+    </button>
   </form>
 
+  <!-- Mostrar las fotos capturadas -->
+  <h3 *ngIf="fotos.length > 0">Fotos del Producto</h3>
   <div *ngIf="fotos.length > 0" class="img-container">
-    <h3>Fotos del Producto:</h3>
     <div *ngFor="let foto of fotos">
       <img [src]="foto" alt="Foto del producto" />
     </div>
   </div>
 
+  <!-- Mostrar el código QR si existe -->
+  <h3 *ngIf="codigoQR">Código QR del Producto:</h3>
   <div *ngIf="codigoQR" class="qr-container">
-    <h3>Código QR del Producto:</h3>
     <img [src]="codigoQR" alt="Código QR del producto" />
   </div>
-</ion-content>
+</div>

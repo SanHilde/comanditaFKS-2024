@@ -1,15 +1,11 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Registrar Mesa</ion-title>
-  </ion-toolbar>
-</ion-header>
 
-<ion-content class="container">
+<div class="container">
+  <h1>Registrar mesa</h1>
   <form [formGroup]="mesaForm" (ngSubmit)="onSubmit()">
     <!-- Campos del formulario -->
     <ion-item>
       <ion-label position="stacked">Número de Mesa:</ion-label>
-      <ion-select formControlName="numero" required>
+      <ion-select formControlName="numero" required placeholder="Asigne un número de mesa">
         <ion-select-option value="1">Mesa 1</ion-select-option>
         <ion-select-option value="2">Mesa 2</ion-select-option>
         <ion-select-option value="3">Mesa 3</ion-select-option>
@@ -23,14 +19,14 @@
     </ion-item>
 
     <ion-item>
-      <ion-label position="stacked">Cantidad de Comensales:</ion-label>
+      <ion-label position="stacked" placeholder="Seleccione la cantidad de personas para la mesa">Cantidad de Comensales:</ion-label>
       <ion-select formControlName="cantidadComensales" required>
         <ion-select-option *ngFor="let cantidad of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" [value]="cantidad">{{ cantidad }}</ion-select-option>
       </ion-select>
     </ion-item>
 
     <ion-item>
-      <ion-label position="stacked">Tipo de Mesa:</ion-label>
+      <ion-label position="stacked" placeholder="Seleccione el tipo de mesa">Tipo de Mesa:</ion-label>
       <ion-select formControlName="tipo" required>
         <ion-select-option value="VIP">VIP</ion-select-option>
         <ion-select-option value="Discapacitados">Discapacitados</ion-select-option>
@@ -39,15 +35,15 @@
     </ion-item>
 
     <ion-item>
-      <ion-label position="stacked">Fecha de Creación:</ion-label>
+      <ion-label position="stacked" placeholder="Seleccione la fecha de creación">Fecha de Creación:</ion-label>
       <ion-input formControlName="fechaCreacion" type="date"></ion-input>
     </ion-item>
 
     <!-- Botón para capturar la foto -->
-    <ion-button expand="full" (click)="tomarFoto()" class="botonPrincipal">Capturar Foto</ion-button>
+    <button (click)="tomarFoto()" class="botonPrincipal">Capturar Foto</button>
 
     <!-- Botón para enviar el formulario -->
-    <ion-button expand="full" type="submit" class="botonPrincipal">Crear Mesa</ion-button>
+    <button  type="submit" class="botonPrincipal">Crear Mesa</button>
   </form>
 
   <!-- Mostrar el código QR generado -->
@@ -61,4 +57,4 @@
     <h3>Foto:</h3>
     <img [src]="fotoUrl" alt="Foto de la mesa" />
   </div>
-</ion-content>
+</div>
