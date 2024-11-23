@@ -90,7 +90,7 @@ export class LoginComponent {
         this.form.controls['email'].setValue('');
         this.form.controls['password'].setValue('');
         const tipoUsuario = this.authService.tipoUsuario;
-        console.log(tipoUsuario)
+        console.log(tipoUsuario);
         switch (tipoUsuario) {
           case 'Dueño':
           case 'Supervisor':
@@ -137,16 +137,24 @@ export class LoginComponent {
   }
 
   ingresoAnonimo() {
-    this.authService.usuarioLogeado= {
-      id: `Usuario Anónimo Juan`,
+    // this.authService.usuarioLogeado= {
+    //   id: Usuario Anónimo Juan,
+    //   tipoUsuario: 'Anónimo',
+    //   aprobado: 'anónimo',
+    //   nombre: 'Juan',
+    //   foto: 'https://firebasestorage.googleapis.com/v0/b/comanda-597db.appspot.com/o/Fotos%20de%20perfil%20anonimas%2FJuan-FotoDePerfil?alt=media&token=e1f51d01-225d-41b8-8f2e-54dfb308daaa',
+    // };
+    this.authService.usuarioLogeado = {
+      id: 'Usuario Anónimo Chao',
       tipoUsuario: 'Anónimo',
       aprobado: 'anónimo',
-      nombre: 'Juan',
-      foto: 'https://firebasestorage.googleapis.com/v0/b/comanda-597db.appspot.com/o/Fotos%20de%20perfil%20anonimas%2FJuan-FotoDePerfil?alt=media&token=e1f51d01-225d-41b8-8f2e-54dfb308daaa',
+      nombre: 'Chao',
+      foto: 'https://firebasestorage.googleapis.com/v0/b/comanda-597db.appspot.com/o/Fotos%20de%20perfil%20anonimas%2FChao-FotoDePerfil?alt=media&token=ae722630-cc4f-4e99-b21b-12006fa1c72f',
     };
-    this.authService.tipoUsuario ='Anónimo'
+    this.authService.tipoUsuario = 'Anónimo';
     this.router.navigateByUrl('home');
   }
+
   handleQuickAccess(email: string, password: string) {
     this.errorMessage = '';
     this.form.controls['email'].setValue(email);

@@ -34,7 +34,9 @@
       <p style="color: green">-${{ descuentoCalculado }}</p>
     </div>
     <div class="listaFila">
-      <p>Propina: {{ obtenerMensajePropina() }} ({{ propina }}%)</p>
+      <p>
+        Propina: {{ obtenerMensajePropina() }} ({{ VentaPago?.propina ?? 0 }}%)
+      </p>
       <p style="color: red">+${{ totalPropinaCalculada }}</p>
     </div>
   </div>
@@ -46,10 +48,6 @@
 
   <button *ngIf="producto" class="botonPrincipal" (click)="pagar()">
     <ion-icon name="cash-outline"></ion-icon>&nbsp;Abrir pago
-  </button>
-  <button *ngIf="producto" class="botonPrincipal" (click)="escanearQr()">
-    <ion-icon name="qr-code-outline" class="iconScan"></ion-icon>&nbsp; Escanear
-    QR para ingresar propina
   </button>
   <p *ngIf="!producto">Error, no hay detalle cargado</p>
 </div>

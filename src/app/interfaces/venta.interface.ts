@@ -17,4 +17,5 @@ export interface Ventas {
   pidioLaCuenta?: boolean;
   tieneLaCuenta?: boolean;
   mozoValidoPago?: boolean;
+  propina?: number;
 }

@@ -33,6 +33,8 @@ export class MesaComponent implements OnInit {
   bandera = false;
   confirmoRecepcion = false;
   pidioLaCuenta = false;
+  yaPago = false;
+  mostrarCompletarEncuesta = true;
 
   constructor(
     public authService: AuthService,
@@ -67,7 +69,8 @@ export class MesaComponent implements OnInit {
       )
       .subscribe(([previous, current]: [NavigationEnd, NavigationEnd]) => {
         if (previous.url === `/encuestasClientes/${this.idMesa}`) {
-          this.buscarPedidoActual();
+          this.mostrarCompletarEncuesta = false;
+          //this.buscarPedidoActual();
           // this.pedido;
           console.log('La ruta anterior antes de /home fue:', previous.url);
           // Lógica adicional aquí si es necesario
@@ -93,6 +96,7 @@ export class MesaComponent implements OnInit {
         this.router.navigate(['/resultadosEncuestas', this.idMesa]);
         break;
       case 'pagarCuenta':
+        this.yaPago = true;
         this.router.navigate(['/detalleDeLaCuenta']);
         break;
     }
@@ -204,13 +208,28 @@ export class MesaComponent implements OnInit {
   }
 
   async escanearQr() {
-    // this.buscarPedidoActual();
     this.fotosService
       .scan()
       .then((resultado: string) => {
         if (!this.mesa) return;
         if (resultado === this.mesa.qrid) {
           this.buscarPedidoActual();
+        } else if (resultado == 'PROPINA') {
+          this.mostrarAlertaPropina();
+          return;
+        } else if (resultado == 'INGRESO') {
+          if (
+            !this.mesa.idCliente ||
+            this.mesa.idCliente !== this.authService.usuarioLogeado?.id
+          ) {
+            this.router.navigate(['/ingreso']);
+          } else {
+            this.toastService.openErrorToast(
+              `Error. Ya tienes una mesa asignada`,
+              'bottom'
+            );
+          }
+          return;
         } else if (this.mesa.numero) {
           this.toastService.openErrorToast(
             `Error. Esta mesa no está asignada a ti. Tu mesa es la número ${this.mesa.numero}`,
@@ -236,30 +255,38 @@ export class MesaComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         const pedidoModificado = { ...this.pedido, confirmarRecepcion: true };
-        this.modificarVenta(pedidoModificado);
-        this.toastService.openSuccessToast(
-          'Gracias por confirmar que recibiste el pedido. ¡Esperamos disfrutes de la comida!'
-        );
-        this.confirmoRecepcion = true;
+        this.datosService
+          .modificarDato(this.pedido.id, 'Ventas', pedidoModificado)
+          .then(
+            () => {
+              this.toastService.openSuccessToast(
+                'Gracias por confirmar que recibiste el pedido. ¡Esperamos disfrutes de la comida!'
+              );
+              this.confirmoRecepcion = true;
+              this.spinner.hide();
+            },
+            (error) => {
+              console.error('Error al actualizar el la venta:', error);
+              this.spinner.hide();
+            }
+          );
       }
     });
   }
 
   pedirCuenta() {
-    const pedidoModificado = { ...this.pedido, pidioLaCuenta: true };
-    this.modificarVenta(pedidoModificado);
-    this.pidioLaCuenta = true;
-    this.toastService.openSuccessToast(
-      'Espere unos minutos, ya le traemos la cuenta. ¡Gracias!'
-    );
-  }
-
-  modificarVenta(ventaModificada: Ventas) {
+    if (!this.pedido) return;
     this.spinner.show();
+    const pedidoModificado = { ...this.pedido, pidioLaCuenta: true };
+
     this.datosService
-      .modificarDato(this.pedido.id, 'Ventas', ventaModificada)
+      .modificarDato(this.pedido.id, 'Ventas', pedidoModificado)
       .then(
         () => {
+          this.pidioLaCuenta = true;
+          this.toastService.openSuccessToast(
+            'Espere unos minutos, ya le traemos la cuenta. ¡Gracias!'
+          );
           this.spinner.hide();
         },
         (error) => {
@@ -280,5 +307,96 @@ export class MesaComponent implements OnInit {
     } else {
       return this.estadoDelPedido;
     }
+  }
+
+  // escanearQrPropina() {
+  //   this.fotosService
+  //     .scan()
+  //     .then((resultado: string) => {
+  //       this.toastService.openSuccessToast(`${resultado}`, 'bottom');
+  //       if ('PROPINA' == resultado) {
+  //         this.mostrarAlertaPropina();
+  //       } else {
+  //         this.toastService.openErrorToast(
+  //           `Error. Este no es el QR para dar propina`,
+  //           'bottom'
+  //         );
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error al escanear el código QR:', error);
+  //     });
+  // }
+
+  mostrarAlertaPropina() {
+    Swal.fire({
+      title: 'Elija el nivel de satisfacción',
+      input: 'select',
+      inputOptions: {
+        Excelente: 'Excelente (20%)',
+        'Muy Bueno': 'Muy bueno (15%)',
+        Bueno: 'Bueno (10%)',
+        Regular: 'Regular (5%)',
+        Malo: 'Malo (0%)',
+      },
+      inputPlaceholder: 'Seleccione una opción',
+      showCancelButton: true,
+      heightAuto: false,
+      confirmButtonText: 'Aceptar',
+      cancelButtonText: 'Cancelar',
+      inputValidator: (value) => {
+        if (!value) {
+          return '¡Debe seleccionar una opción!';
+        }
+        return;
+      },
+    }).then((result) => {
+      this.spinner.show();
+      if (result.isConfirmed) {
+        const nivel = result.value;
+        let propina = 0;
+        switch (nivel) {
+          case 'Excelente':
+            propina = 20;
+            break;
+          case 'Muy Bueno':
+            propina = 15;
+            break;
+          case 'Bueno':
+            propina = 10;
+            break;
+          case 'Regular':
+            propina = 5;
+            break;
+          case 'Malo':
+            propina = 0;
+            break;
+        }
+        const ventaModificada: Ventas = {
+          ...this.pedido,
+          propina: propina,
+          pidioLaCuenta: true,
+        };
+
+        this.datosService
+          .modificarDato(this.pedido.id, 'Ventas', ventaModificada)
+          .then(
+            () => {
+              this.toastService.openSuccessToast(
+                '¡Muchas gracias por su propina!'
+              );
+              this.spinner.hide();
+            },
+            (error) => {
+              console.error(
+                'Error al actualizar el estado de la venta:',
+                error
+              );
+              this.spinner.hide();
+            }
+          );
+        Swal.close();
+      }
+    });
   }
 }

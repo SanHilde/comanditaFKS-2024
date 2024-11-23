@@ -21,6 +21,9 @@
     </p>
 
     <div *ngIf="stepActual > 0 && estadoDelPedido">
+      <p id="propina" *ngIf="pedido.pidioLaCuenta || pidioLaCuenta">
+        Puedes escanear el QR de propina para seleccionar cuanto deseas dejar
+      </p>
       <p id="estadoDelPedido">
         Estado del pedido : {{ obtenerMensajeEstadoDelPedido() }}
       </p>
@@ -59,7 +62,12 @@
     </button>
 
     <button
-      *ngIf="stepActual > 1 && stepActual < 6 && !pedido.completoEncuesta"
+      *ngIf="
+        stepActual > 1 &&
+        stepActual < 6 &&
+        !pedido.completoEncuesta &&
+        mostrarCompletarEncuesta
+      "
       class="botonPrincipal"
       (click)="navegarA('completarEncuesta')"
     >
@@ -98,7 +106,9 @@
     </button>
 
     <button
-      *ngIf="stepActual === 5 && pedido.tieneLaCuenta && !pedido.pago"
+      *ngIf="
+        stepActual === 5 && pedido.tieneLaCuenta && !pedido.pago && !yaPago
+      "
       class="botonPrincipal"
       (click)="navegarA('pagarCuenta')"
     >

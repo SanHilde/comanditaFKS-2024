@@ -11,9 +11,6 @@ import { Descuento } from 'src/app/interfaces/descuentos.interface';
 import { UsuarioInterface } from 'src/app/interfaces/usuario.interface';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastService } from 'src/app/services/toast.service';
-import { FotosService } from 'src/app/services/fotos.service';
-import Swal from 'sweetalert2';
-
 @Component({
   selector: 'app-detalle-de-cuenta',
   templateUrl: './detalle-de-cuenta.component.html',
@@ -30,7 +27,6 @@ export class DetalleDeCuentaComponent implements OnInit {
   public VentaPago: Ventas | undefined;
   public totalPago: number = 0;
   public producto: Producto[] = [];
-  public propina = 0;
   public totalPropinaCalculada = 0;
   public totalPagoMasPropina = 0;
   public desplegarVentanaDePago: boolean = false;
@@ -44,7 +40,6 @@ export class DetalleDeCuentaComponent implements OnInit {
     private toastService: ToastService,
     private datosService: DatosServiceService,
     private AuthService: AuthService,
-    private fotosServices: FotosService,
     private Router: Router
   ) {}
 
@@ -142,7 +137,8 @@ export class DetalleDeCuentaComponent implements OnInit {
         break;
     }
     const pagoConDescuento = this.totalPago - this.descuentoCalculado;
-    this.totalPropinaCalculada = pagoConDescuento * this.propina;
+    const propina = this.VentaPago?.propina ? this.VentaPago.propina / 100 : 0;
+    this.totalPropinaCalculada = pagoConDescuento * propina;
     this.totalPagoMasPropina = pagoConDescuento + this.totalPropinaCalculada;
   }
 
@@ -219,75 +215,9 @@ export class DetalleDeCuentaComponent implements OnInit {
     }
   }
 
-  escanearQr() {
-    this.fotosServices
-      .scan()
-      .then((resultado: string) => {
-        this.toastService.openSuccessToast(`${resultado}`, 'bottom');
-        if ('PROPINA' == resultado) {
-          this.mostrarAlertaPropina();
-        } else {
-          this.toastService.openErrorToast(
-            `Error. Este no es el QR para dar propina`,
-            'bottom'
-          );
-        }
-      })
-      .catch((error) => {
-        console.error('Error al escanear el código QR:', error);
-      });
-  }
-
-  mostrarAlertaPropina() {
-    Swal.fire({
-      title: 'Elija el nivel de satisfacción',
-      input: 'select',
-      inputOptions: {
-        Excelente: '20%',
-        'Muy Bueno': '15%',
-        Bueno: '10%',
-        Regular: '5%',
-        Malo: '0%',
-      },
-      inputPlaceholder: 'Seleccione una opción',
-      showCancelButton: true,
-      heightAuto: false,
-      confirmButtonText: 'Aceptar',
-      cancelButtonText: 'Cancelar',
-      inputValidator: (value) => {
-        if (!value) {
-          return '¡Debe seleccionar una opción!';
-        }
-        return;
-      },
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const nivel = result.value;
-        switch (nivel) {
-          case 'Excelente':
-            this.propina = 20;
-            break;
-          case 'Muy Bueno':
-            this.propina = 15;
-            break;
-          case 'Bueno':
-            this.propina = 10;
-            break;
-          case 'Regular':
-            this.propina = 5;
-            break;
-          case 'Malo':
-            this.propina = 0;
-            break;
-        }
-        this.totalPagoMasPropina = this.totalPago + this.propina;
-        Swal.close();
-      }
-    });
-  }
-
   obtenerMensajePropina() {
-    switch (this.propina) {
+    if (!this.VentaPago?.propina) return 'Malo';
+    switch (this.VentaPago?.propina) {
       case 0:
         return 'Malo';
       case 5:

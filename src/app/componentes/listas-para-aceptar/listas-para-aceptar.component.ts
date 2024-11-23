@@ -4,8 +4,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+import { Mesa } from 'src/app/interfaces/mesa.interface';
 import { Ventas } from 'src/app/interfaces/venta.interface';
 import { DatosServiceService } from 'src/app/services/datos/datos-service.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-listas-para-aceptar',
@@ -20,12 +22,14 @@ export class ListasParaAceptarComponent implements OnInit {
   titulo: string = '';
   estaAbiertoElModal: boolean = false;
   pedidoSeleccionado: Ventas | null = null;
+  mesa: Mesa | undefined;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private datosService: DatosServiceService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit() {
@@ -180,7 +184,32 @@ export class ListasParaAceptarComponent implements OnInit {
     this.datosService
       .modificarDato(pedidoActual.id, 'Ventas', pedidoModificado)
       .then(
-        () => {
+        async () => {
+          if (this.tipoTraido === 'pagos') {
+            // Se libera la mesa si confirma el pago
+            const mesas = await this.datosService.ObtenerDatosAsync('Mesa');
+            const mesaDelUsuario = mesas.find(
+              (mesa: Mesa) => mesa.numero === pedidoActual.mesaNumero
+            );
+
+            if (mesaDelUsuario) {
+              const mesaLiberada: Mesa = {
+                ...mesaDelUsuario,
+                idCliente: '',
+                estado: 'Disponible',
+                listoPago: true,
+              };
+
+              this.datosService.modificarDato(
+                mesaDelUsuario.id,
+                'Mesa',
+                mesaLiberada
+              );
+            }
+            this.toastService.openSuccessToast(
+              'Se confirmó el pago/Mesa liberada.'
+            );
+          }
           // Recargar la lista actualizada después de modificar el pedido
           this.cargarListaDePedidos();
           this.spinner.hide();
