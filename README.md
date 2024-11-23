@@ -354,14 +354,19 @@ Primero inicio, como aparece cuando se ingresa a la app, luego el ingreso, cuand
 
 ### **Mozo Home**
 ![Home-mozo](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Home-mozo.JPG)
-![Home-lista](link)
+![Home-lista](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Mozo-confirmaciones.JPG)
+![Home-lista-vacia](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Mozo-confirmaciones-vacia.JPG)
 
 ### **Metre**
 ![Home-maitre](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Home-maitre.JPG)
 ![Aprobar-listaDeEspera](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Maitre-listadeespera.JPG)
 
 ### **Cliente armado de Pedido**
-![Menu](link)
+![Menu](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Menu)
+
+### **Bartender y cocinero**
+![Pedido](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Bartender-aceptar.JPG)
+![Home](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Home-bartender.JPG)
 
 ### **Sala de chat**
 ![Sala de chat](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Sala-de-chat.JPG)
@@ -375,15 +380,15 @@ Primero inicio, como aparece cuando se ingresa a la app, luego el ingreso, cuand
 ### **Cliente Encuestas**
 ![Resultados-encuestas](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Encuesta-cliente.JPG) 
 ![Resultados-detalles](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/Resultados-encuestas-detalles.JPG) 
-
+<!-- 
 ### **Estadísticas**
-![Estadisticas](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/juegodificil.png) 
+![Estadisticas](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/juegodificil.png)  -->
 
 ### **Juegos**
-![Niveles](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/menu-juego.png)
-![Juegos-facil](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/juego-facil.png)
-![Juegos-dificil](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/juegodificil.png)
-![Juegos-medio](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/juego-medio.png)
+![Juego](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/juego-nivel.JPG)
+![Niveles](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/juego-dificultad.JPG)
+<!-- ![Juegos-dificil](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/juegodificil.png)
+![Juegos-medio](https://github.com/SanHilde/comanditaFKS-2024/blob/main/src/assets/capturas/juego-medio.png) -->
 
 ## Autores
 
